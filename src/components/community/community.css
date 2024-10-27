@@ -1,0 +1,35 @@
+.dark-card-border {
+  width: 90%;
+  max-width: 1030px;
+  gap: 0px;
+
+  margin: auto;
+
+  background: radial-gradient(
+        93.63% 549.7% at 2.46% 8.98%,
+        rgba(98, 118, 135, 0.95) 0%,
+        rgba(24, 44, 69, 0.665) 100%
+      )
+      padding-box,
+    /*this is your grey background*/
+      linear-gradient(to right, #ffffff, transparent) border-box;
+
+  color: #313149;
+  padding: 70px;
+  border: 1px solid transparent;
+  border-radius: 80px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  box-shadow: 0px 4px 6.5px 0px #09111b33;
+
+  box-shadow: 0px 4px 4px 0px #182c4533;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+  .dark-card-border {
+    margin: 50px auto;
+    padding: 50px 25px;
+  }
+}

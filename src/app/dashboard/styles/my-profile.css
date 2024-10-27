@@ -1,0 +1,42 @@
+.shadow-text {
+  text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000,
+    1px 1px 0 #000000, 0px 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.shadow-text2 {
+  text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000,
+    1px 1px 0 #000000, 0px 0px 0px rgba(0, 0, 0, 0.5);
+}
+
+.yellow-button {
+  background: linear-gradient(to bottom, #f2e63d, #f2ae30, #e7a50c);
+}
+
+.profile-card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.5), white);
+  border: #efefef 1px solid;
+  border-radius: 10px 0px 0px 0px;
+}
+
+.profile-card-black {
+  background: linear-gradient(to bottom, transparent, #182c45aa, #182c45);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(3px);
+  border-top-style: none;
+  border-right-style: none;
+  border-color: #627687F2;
+  border-width: 1px;
+}
+
+.transparent-bg {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(3px);
+  border-color: #efefef;
+  border-right-style: none;
+  border-top-style: none;
+  border-width: 1px;
+  border-radius: 10px 0px 0px 0px;
+}

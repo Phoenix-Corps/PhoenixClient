@@ -1,0 +1,134 @@
+.bg {
+  background-image: url("../public/images/background1.webp");
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-bottom: 0;
+  top: 0;
+  left: 0;
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-bottom: 100px;
+}
+
+.footer {
+  background-image: url("../public/images/footer.png");
+  width: 100%;
+  height: 187px;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-top: -120px;
+  justify-content: center;
+  align-items: center;
+  padding-top: 99px;
+}
+
+/* .footer {
+  background-image: url("../../../public/images/Footer.png");
+  width: 100%;
+  height: 541px;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-top: -100px;
+  justify-content: center;
+  align-items: center;
+  padding-top: 99px;
+} */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main {
+  min-height: 100vh;
+  padding: 4rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.title a {
+  color: #0d76fc;
+  text-decoration: none;
+}
+
+.title a:hover,
+.title a:focus,
+.title a:active {
+  text-decoration: underline;
+}
+
+.title {
+  margin: 3rem 0;
+  line-height: 1;
+  font-size: 2.5rem;
+}
+
+.title,
+.description {
+  text-align: center;
+}
+
+.description {
+  margin: 0 0 2rem;
+  line-height: 1.5;
+  font-size: 1.5rem;
+}
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 800px;
+}
+
+.card {
+  margin: 1rem;
+  padding: 1.5rem;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  max-width: 350px;
+}
+
+.card:hover,
+.card:focus,
+.card:active {
+  color: #0d76fc;
+  border-color: #0d76fc;
+}
+
+.card h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .grid {
+    width: 100%;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,1457 @@
+export const launchpadABI = [
+    {
+        "inputs": [
+            {
+                "internalType": "contract IERC20",
+                "name": "_wrappedCoin",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "target",
+                "type": "address"
+            }
+        ],
+        "name": "AddressEmptyCode",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            }
+        ],
+        "name": "AddressInsufficientBalance",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "AlreadyRegisteredReferral",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "BuyAmountZero",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "BuyerIsBlacklisted",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "ContractDoesntSupportRequiredInterface",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "FailedInnerCall",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "FeeTooHigh",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "InvalidPaymentToken",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "InvalidPlugins",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "InvalidPool",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "InvalidPoolRound",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "InvalidReferralCode",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "InvalidRoundParams",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "InvalidRoundTime",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "NotAllowedToConfigRound",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "owner",
+                "type": "address"
+            }
+        ],
+        "name": "OwnableInvalidOwner",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            }
+        ],
+        "name": "OwnableUnauthorizedAccount",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "PoolClosed",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "PoolNotWithWrappedCoin",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "PoolStillActive",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "PreviousRoundNotApproved",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "ReferralCodeAlreadyInUse",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "RoundAlreadyApproved",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "RoundNotActive",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "RoundNotOver",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "RoundSoldOut",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+            }
+        ],
+        "name": "SafeERC20FailedOperation",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "SellerIsBlacklisted",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "TokenTaxed",
+        "type": "error"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "pid",
+                "type": "uint256"
+            }
+        ],
+        "name": "AddPool",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "pid",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "round",
+                "type": "uint256"
+            }
+        ],
+        "name": "AddPoolRound",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "pid",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "round",
+                "type": "uint256"
+            }
+        ],
+        "name": "AdvanceRound",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "pid",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "round",
+                "type": "uint256"
+            }
+        ],
+        "name": "ApproveRound",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "user",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "bool",
+                "name": "blacklist",
+                "type": "bool"
+            }
+        ],
+        "name": "Blacklist",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "pid",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "buyer",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "seller",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "Buy",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "pid",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "user",
+                "type": "address"
+            }
+        ],
+        "name": "ClaimPayment",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "pid",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "round",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "goal",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "voucherPrice",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint32",
+                "name": "roundStart",
+                "type": "uint32"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint32",
+                "name": "roundEnd",
+                "type": "uint32"
+            }
+        ],
+        "name": "ConfigPoolRound",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "previousOwner",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "OwnershipTransferred",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "pid",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "contract IERC20",
+                "name": "token",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "ProvideTokens",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "pid",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "user",
+                "type": "address"
+            }
+        ],
+        "name": "RedeemVouchers",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "contract IERC20",
+                "name": "token",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "bool",
+                "name": "allow",
+                "type": "bool"
+            }
+        ],
+        "name": "RegisterPaymentToken",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "user",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "code",
+                "type": "string"
+            }
+        ],
+        "name": "RegisterUserForReferral",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "pid",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "round",
+                "type": "uint256"
+            }
+        ],
+        "name": "RemovePoolRound",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "pid",
+                "type": "uint256"
+            }
+        ],
+        "name": "Rollback",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "wallet",
+                "type": "address"
+            }
+        ],
+        "name": "SetFeeWallet",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "contract IPriceOracle",
+                "name": "oracle",
+                "type": "address"
+            }
+        ],
+        "name": "SetOracle",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "contract IPaymentPlugin",
+                "name": "plugin",
+                "type": "address"
+            }
+        ],
+        "name": "SetPaymentPlugin",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "contract IVoucherPlugin",
+                "name": "plugin",
+                "type": "address"
+            }
+        ],
+        "name": "SetVoucherPlugin",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "HEX",
+        "outputs": [
+            {
+                "internalType": "bytes",
+                "name": "",
+                "type": "bytes"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "MAX_PROTOCOL_FEE",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "PERCENT_FACTOR",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "VOUCHER_POINT_PRECISION",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "contract IERC20",
+                "name": "_paymentToken",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_launchpadFeePercent",
+                "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "_projectWallet",
+                "type": "address"
+            },
+            {
+                "internalType": "contract ILaunchpadPlugin",
+                "name": "_launchpadPlugin",
+                "type": "address"
+            }
+        ],
+        "name": "addPool",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_pid",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_goal",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_voucherPrice",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint32",
+                "name": "_roundStart",
+                "type": "uint32"
+            },
+            {
+                "internalType": "uint32",
+                "name": "_roundEnd",
+                "type": "uint32"
+            }
+        ],
+        "name": "addPoolRound",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_pid",
+                "type": "uint256"
+            }
+        ],
+        "name": "advanceRound",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_pid",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_round",
+                "type": "uint256"
+            }
+        ],
+        "name": "approveRound",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "blacklist",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_pid",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_referralCode",
+                "type": "string"
+            }
+        ],
+        "name": "buy",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_pid",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_referralCode",
+                "type": "string"
+            }
+        ],
+        "name": "buyWithCoin",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_pid",
+                "type": "uint256"
+            }
+        ],
+        "name": "claimPayment",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_pid",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_round",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_goal",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_voucherPrice",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint32",
+                "name": "_roundStart",
+                "type": "uint32"
+            },
+            {
+                "internalType": "uint32",
+                "name": "_roundEnd",
+                "type": "uint32"
+            }
+        ],
+        "name": "configPoolRound",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "contract IERC20",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "feeBalance",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "feeWallet",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_pid",
+                "type": "uint256"
+            }
+        ],
+        "name": "getPoolInfo",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "contract IERC20",
+                        "name": "paymentToken",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "launchpadFeePercent",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "projectWallet",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "contract ILaunchpadPlugin",
+                        "name": "launchpadPlugin",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "contract IPaymentPlugin",
+                        "name": "paymentPlugin",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "contract IVoucherPlugin",
+                        "name": "voucherPlugin",
+                        "type": "address"
+                    },
+                    {
+                        "components": [
+                            {
+                                "internalType": "uint256",
+                                "name": "goal",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "voucherPrice",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint32",
+                                "name": "roundStart",
+                                "type": "uint32"
+                            },
+                            {
+                                "internalType": "uint32",
+                                "name": "roundEnd",
+                                "type": "uint32"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "available",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "collectedProtocolFees",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "funding",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "bool",
+                                "name": "approved",
+                                "type": "bool"
+                            }
+                        ],
+                        "internalType": "struct ILaunchpad.RoundInfo[]",
+                        "name": "rounds",
+                        "type": "tuple[]"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "currentRound",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "fundingBalance",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "totalPayments",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "closed",
+                        "type": "bool"
+                    }
+                ],
+                "internalType": "struct ILaunchpad.PoolInfo",
+                "name": "",
+                "type": "tuple"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_pid",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_round",
+                "type": "uint256"
+            }
+        ],
+        "name": "getRoundInfo",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "uint256",
+                        "name": "goal",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "voucherPrice",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint32",
+                        "name": "roundStart",
+                        "type": "uint32"
+                    },
+                    {
+                        "internalType": "uint32",
+                        "name": "roundEnd",
+                        "type": "uint32"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "available",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "collectedProtocolFees",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "funding",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "approved",
+                        "type": "bool"
+                    }
+                ],
+                "internalType": "struct ILaunchpad.RoundInfo",
+                "name": "",
+                "type": "tuple"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "oracle",
+        "outputs": [
+            {
+                "internalType": "contract IPriceOracle",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "paymentPlugin",
+        "outputs": [
+            {
+                "internalType": "contract IPaymentPlugin",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "poolCount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "poolInfo",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+            },
+            {
+                "internalType": "contract IERC20",
+                "name": "paymentToken",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "launchpadFeePercent",
+                "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "projectWallet",
+                "type": "address"
+            },
+            {
+                "internalType": "contract ILaunchpadPlugin",
+                "name": "launchpadPlugin",
+                "type": "address"
+            },
+            {
+                "internalType": "contract IPaymentPlugin",
+                "name": "paymentPlugin",
+                "type": "address"
+            },
+            {
+                "internalType": "contract IVoucherPlugin",
+                "name": "voucherPlugin",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "currentRound",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "fundingBalance",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "totalPayments",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bool",
+                "name": "closed",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_pid",
+                "type": "uint256"
+            },
+            {
+                "internalType": "contract IERC20",
+                "name": "_token",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "provideTokens",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_pid",
+                "type": "uint256"
+            }
+        ],
+        "name": "redeemVouchers",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "name": "referralUser",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "registerForReferral",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "_code",
+                "type": "string"
+            }
+        ],
+        "name": "registerForReferralWithCode",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "contract IERC20",
+                "name": "_token",
+                "type": "address"
+            },
+            {
+                "internalType": "bool",
+                "name": "_allowed",
+                "type": "bool"
+            }
+        ],
+        "name": "registerPaymentToken",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            }
+        ],
+        "name": "registerUserForReferral",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "contract IERC20",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "registeredPaymentToken",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_pid",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_round",
+                "type": "uint256"
+            }
+        ],
+        "name": "removePoolRound",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "renounceOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_pid",
+                "type": "uint256"
+            }
+        ],
+        "name": "rollback",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            },
+            {
+                "internalType": "bool",
+                "name": "_blacklist",
+                "type": "bool"
+            }
+        ],
+        "name": "setBlacklisted",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_wallet",
+                "type": "address"
+            }
+        ],
+        "name": "setFeeWallet",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "contract IPriceOracle",
+                "name": "_oracle",
+                "type": "address"
+            }
+        ],
+        "name": "setOracle",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "contract IPaymentPlugin",
+                "name": "_plugin",
+                "type": "address"
+            }
+        ],
+        "name": "setPaymentPlugin",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "contract IVoucherPlugin",
+                "name": "_plugin",
+                "type": "address"
+            }
+        ],
+        "name": "setVoucherPlugin",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "userReferral",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "voucherPlugin",
+        "outputs": [
+            {
+                "internalType": "contract IVoucherPlugin",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "wrappedCoin",
+        "outputs": [
+            {
+                "internalType": "contract IERC20",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "stateMutability": "payable",
+        "type": "receive"
+    }
+] as const

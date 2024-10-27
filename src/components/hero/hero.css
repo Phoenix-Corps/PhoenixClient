@@ -1,0 +1,79 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-top: 27px;
+  align-items: center;
+}
+
+.signin-button-container {
+  display: inline-block;
+  width: 100px;
+  height: 36px;
+  padding: 4px;
+  gap: 10px;
+  border-radius: 100px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(242, 230, 61, 0.3) 0%,
+    rgba(242, 174, 48, 0.3) 52.5%,
+    rgba(231, 73, 12, 0.3) 100%
+  );
+}
+
+.signin-button {
+  width: 92px;
+  height: 28px;
+  padding: 6px 16px 6px 16px;
+  gap: 4px;
+  border-radius: 100px;
+
+  background: linear-gradient(
+    180deg,
+    #f2e63d 0%,
+    #f2ae30 69.27%,
+    #e7490c 131.94%
+  );
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.signin-button-text {
+  font-family: __Noto_Serif_cc0b7e;
+  font-size: 12px;
+  font-weight: 700 !important;
+  line-height: 16.34px;
+  text-align: left;
+  background: -webkit-linear-gradient(
+    270deg,
+    #000000 0%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+  .hero-image {
+    padding-top: 100px;
+  }
+
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 25px;
+    align-items: center;
+  }
+
+  .signin-button-container {
+    margin-top: 25px;
+  }
+}
