@@ -12,7 +12,7 @@ import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
 import Head from "next/head";
 import { formatAddress } from "@/app/dashboard/utils/formatAddress";
 import { useAccount } from "wagmi";
-import PFP from "@/app/dashboard/public/my-profile/pfp.png";
+import PFP from "@/app/dashboard/public/my-profile/PFP.png";
 import { useState } from "react";
 
 const Home: NextPage = () => {
