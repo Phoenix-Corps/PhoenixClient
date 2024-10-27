@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack(config) {
+    // Add the @svgr/webpack loader for SVGs
     config.module.rules.push({
       test: /\.svg$/,
       use: [
@@ -12,6 +13,10 @@ const nextConfig = {
         },
       ],
     });
+
+    // Add specific modules to externals
+    config.externals = config.externals || [];
+    config.externals.push('encoding' /* add any other modules that might be causing the error */);
 
     return config;
   },
