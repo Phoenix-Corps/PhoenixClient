@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import EngFlag from "@/app/(presale)/buy/public/Eng-flag.png";
+import EngFlag from "@/app/(presale)/buy/public/eng-flag.png";
 import PhoenixLOGO from "@/app/(presale)/buy/public/phoenix-logo.png";
 
 const Header = () => {
