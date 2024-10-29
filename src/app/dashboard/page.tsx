@@ -21,13 +21,15 @@ const Home: NextPage = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [referralCode, setReferralCode] = useState<string | null>(null);
-
+  const [isCopied, setIsCopied] = useState(false);
+  
   const handleCopyReferralCode = (textForCopy: string) => {
     if (textForCopy) {
       navigator.clipboard
         .writeText(textForCopy as string)
         .then(() => {
           setSuccessMessage("Referral code copied to clipboard!");
+          setIsCopied(true);
         })
         .catch(err => {
           console.error("Failed to copy: ", err);
@@ -128,7 +130,7 @@ const Home: NextPage = () => {
                 }}
               >
                 <div className="profile-card  w-full py-7 lg:h-[206px] flex flex-col lg:flex-row lg:justify-between gap-y-4 items-center justify-center rounded-tl-[40px] lg:rounded-tl-[80px] shadow-xl mt-8 md:mt-16 lg:mt-24 px-[56px]">
-                  <div className="flex flex-col md:flex-row items-center gap-x-3">
+                  <div className="flex flex-col items-center gap-x-3 md:flex-row">
                     <h1 className="shadow-text2 font-bold  text-[#0d283a] text-3xl md:text-4xl lg:text-[54px] font-noto-serif uppercase leading-10 lg:leading-[60px]">
                       32
                     </h1>
@@ -136,7 +138,7 @@ const Home: NextPage = () => {
                       Projects
                     </p>
                   </div>
-                  <div className="flex flex-col md:flex-row items-center gap-x-3">
+                  <div className="flex flex-col items-center gap-x-3 md:flex-row ">
                     <h1 className="shadow-text2 font-bold text-[#0d283a] text-3xl md:text-4xl lg:text-[54px] font-noto-serif uppercase leading-10 lg:leading-[60px]">
                       $3,540
                     </h1>
@@ -144,7 +146,7 @@ const Home: NextPage = () => {
                       Total sale
                     </p>
                   </div>
-                  <div className="flex flex-col md:flex-row items-center gap-x-3">
+                  <div className="flex flex-col  items-center gap-x-3 md:flex-row">
                     <h1 className="shadow-text2 font-bold text-[rgb(13,40,58)] text-3xl md:text-4xl lg:text-[54px] font-noto-serif uppercase leading-10 lg:leading-[60px]">
                       $10,972
                     </h1>
@@ -191,6 +193,14 @@ const Home: NextPage = () => {
                       >
                         <COPY_ICON />
                       </button>
+                      {isCopied && (
+                        <p
+                          className="added-fade-out"
+                          onAnimationEnd={() => setIsCopied(false)}
+                        >
+                          Copied!
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="mt-2 lg:mt-5">
