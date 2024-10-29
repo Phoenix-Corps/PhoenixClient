@@ -1,0 +1,227 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=K2D:wght@400;500;700&display=swap");
+
+.background-image {
+  background: rgba(127, 169, 237, 1);
+}
+
+.header-wrapper {
+  padding: 18px 34px 0;
+  justify-content: space-between;
+}
+
+.sign-in-color {
+  padding: 6px 26px;
+  border-radius: 100px;
+  background: rgba(40, 55, 150, 1);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 1);
+  font-family: "Source Sans Pro";
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 15.08px;
+  text-align: left;
+}
+
+.border-flag {
+  width: 27px;
+  height: 27px;
+  border: 1px #ffffff solid;
+  object-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(24, 44, 69, 0.13);
+}
+
+.eng-flag-image {
+  object-fit: cover;
+  width: 19px;
+  height: 19px;
+  border-radius: 35px;
+  border: 1px;
+  object-position: center;
+}
+
+.voucher-wrapper {
+gap:124px;
+  font-family: "K2D";
+  display: flex;
+  justify-content: center;
+  background: radial-gradient(
+    43.79% 91.34% at 23.97% -2.71%,
+    rgba(29, 74, 205, 0.5) 0%,
+    rgba(29, 74, 205, 0.17) 100%
+  );
+  flex-wrap: wrap;
+  border-radius: 15px;
+  border: 1.5px;
+}
+.voucher-text-in-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  margin-left: 35px;
+  margin-bottom: 27px;
+  gap: 16px;
+  color: rgba(255, 255, 255, 1);
+}
+.voucher-text-number {
+  font-size: 49px;
+}
+.currency-and-text {
+  flex-direction: column;
+  display: flex;
+  gap: 7px;
+}
+.voucher-text-text {
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 22px;
+}
+.change-rate-text {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 13px;
+}
+.voucher-text-input-wrapper {
+  margin-top: 36px;
+  margin-left: 54px;
+  max-width: 390px;
+}
+.buy-heading-text {
+  font-size: 51.16px;
+  font-weight: 800;
+  line-height: 44px;
+  text-align: left;
+}
+.buy-main-text {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 17.4px;
+  margin-top: 30px;
+  margin-bottom: 35px;
+}
+.buy-input-main {
+  position: relative;
+  
+  height: 61px;
+  color: rgba(255, 255, 255, 1);
+
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 27.3px;
+
+  opacity: 54%;
+  padding: 17px 20px;
+  background: radial-gradient(
+    93.63% 549.7% at 2.46% 8.98%,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(196, 216, 234, 0.2) 100%
+  );
+  border: 2px solid rgba(255, 255, 255, 1);
+  border-radius: 8px; /* Optional: add rounding to match input style */
+}
+.buy-wrapper-main{
+    display: inline-block;
+    height: 61px;
+}
+.curr-drop-wrapper {
+  margin-right: 16px;
+  position: absolute;
+  right: 0;
+  top: 2px;
+  height: calc(100% - 4px);
+  display: flex;
+  align-items: center;
+  border-left: 0.86px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+.drop-down-wrapper {
+  background-color: rgba(106, 142, 228, 1);
+  height: 350px;
+  width: 140px;
+  position: absolute;
+  right: 0;
+  display: flex;
+  height: auto;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgba(124, 161, 209, 0.44);
+  border-radius: 8px;
+  margin-top: 6px;
+  cursor: pointer;
+  box-shadow: 0px 13px 54.5px 0px rgba(12, 43, 82, 0.36);
+}
+.drop-down-wrapper > div {
+  width: 100%;
+}
+.drop-item:hover {
+  background-color: rgba(124, 161, 209, 0.44);
+}
+.buy-button {
+  margin-top: 30px;
+  max-width: 390px;
+
+  width: 100%;
+  height: 60px;
+  background: linear-gradient(84.77deg, #fffa6d 20.9%, #ffd061 79.73%);
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 29.56px;
+  color: rgba(40, 55, 150, 1);
+  font-size: 22.74px;
+  font-weight: 800;
+  line-height: 29.56px;
+}
+.buy-button:hover {
+  background: linear-gradient(84.77deg, #fffa6d 20.9%, #ffd061 79.73%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
+  background-blend-mode: overlay; /* Optional: to blend the gradients as needed */
+}
+.code-input {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: center;
+  margin-top: 51px;
+}
+
+.text-under-code {
+  margin-top: 18px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 19.5px;
+  text-align: center;
+  opacity: 60%;
+  max-width: 542px;
+}
+
+.buy-footer-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 29px;
+  margin-bottom: 28px;
+}
+.buy-icon-wrapper {
+  width: 30px;
+  height: 30px;
+  background:radial-gradient(
+    93.63% 549.7% at 2.46% 8.98%,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(196, 216, 234, 0.2) 100%
+  
+  );
+  border-radius: 14.9px;
+  border: 0.32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
