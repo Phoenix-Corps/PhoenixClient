@@ -20,22 +20,22 @@ const Home: NextPage = () => {
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [referralCode, setReferralCode] = useState<string | null>(null);
-  const [isCopied, setIsCopied] = useState(false);
+
+  const myCode="XXXXXX";
   
-  const handleCopyReferralCode = (textForCopy: string) => {
-    if (textForCopy) {
-      navigator.clipboard
-        .writeText(textForCopy as string)
-        .then(() => {
-          setSuccessMessage("Referral code copied to clipboard!");
-          setIsCopied(true);
-        })
-        .catch(err => {
-          console.error("Failed to copy: ", err);
-          setErrorMessage("Failed to copy referral code.");
-        });
-    }
+  const [isCopied, setIsCopied] = useState(false);
+  const [isCodeCopied, setIsCodeCopied] = useState(false);
+
+  const handleCopyReferralCode = (code: string) => {
+    navigator.clipboard.writeText(code).then(() => {
+      setIsCopied(true);
+    });
+  };
+
+  const handleCopyCode = (code: string) => {
+    navigator.clipboard.writeText(code).then(() => {
+      setIsCodeCopied(true);
+    });
   };
 
   return (
@@ -87,42 +87,15 @@ const Home: NextPage = () => {
                 </div>
               </div>
               {/* Edit Profile */}
-              <div className="profile-card-black bg-dark-card-grad pb-5 rounded-b-[40px] md:rounded-b-[60px] h-fit lg:rounded-b-[80px] shadow-xl px-[56px] mt-24 md:mt-32 lg:mt-36 font-noto-serif relative">
-                <div className="absolute flex -top-16 left-1/2 transform -translate-x-1/2 w-full h-[96px] md:w-[120px] md:h-[120px] lg:w-[140px] lg:h-[140px]">
-                  <div className="divider lg:hidden block " />
-                  <Image
-                    src={PFP}
-                    alt=""
-                    width={140}
-                    height={140}
-                    className="rounded-full object-contain"
-                  />
-                  <div className="divider rotate-180 lg:hidden block" />
-                </div>
-                <div className="pt-8 md:pt-24 lg:pt-32">
-                  <div className="lg:flex">
-                    <div className="divider hidden lg:block " />
-                    <h1 className="shadow-text text-white text-center text-[28px] md:text-[36px] lg:text-[42px] font-bold font-noto-serif uppercase">
-                      Rezene Idris
-                    </h1>
-
-                    <div className="divider lg:rotate-180 hidden lg:block" />
-                  </div>
-                  <div className="flex flex-col gap-5 justify-center items-center pt-4">
-                    <button className="yellow-button flex items-center gap-1 justify-center text-[#182C45] rounded-full text-sm p-2 lg:text-[18px] md:h-[45px] w-[189px] border-[4px] border-[#F2E63D] uppercase font-bold">
-                      xp earned <VECTOR_1 alt="Vector Icon" />
-                    </button>
-                    <button
-                      // onClick={toggleEditModal}
-                      className="flex items-center justify-center bg-[#182C4566] text-white rounded-full text-sm p-2 lg:text-[18px] md:h-[45px] w-[189px] border border-white uppercase font-bold"
-                    >
-                      edit profile
-                    </button>
-                  </div>
+              <div className="profile-card-black bg-dark-card-grad pb-5 rounded-b-[40px] md:rounded-b-[60px] h-fit lg:rounded-b-[80px] shadow-xl px-[56px] font-noto-serif relative">
+                <div className="flex flex-col gap-5 justify-center items-center pt-4">
+                  <button className="yellow-button flex items-center gap-1 justify-center text-[#182C45] rounded-full text-sm p-2 lg:text-[18px] md:h-[45px] w-[189px] border-[4px] border-[#F2E63D] uppercase font-bold">
+                    xp earned <VECTOR_1 alt="Vector Icon" />
+                  </button>
                 </div>
               </div>
               {/* Numbers */}
-              <div
+              {/* <div
                 style={{
                   margin: "auto",
                   display: "flex",
@@ -155,7 +128,7 @@ const Home: NextPage = () => {
                     </p>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* Profile info */}
               <div className="lg:max-w-[609px] mx-auto profile-card rounded-tl-[40px] lg:rounded-tl-[80px] shadow-xl mt-8 md:mt-16 lg:mt-24 p-4 lg:py-12">
@@ -167,14 +140,6 @@ const Home: NextPage = () => {
                   {/* <Image src={PROFILE_INFO_LINE} alt="" /> */}
                 </div>
                 <div className="max-w-[377px] mx-auto">
-                  <div>
-                    <p className="text-[#09111B] text-center lg:text-left text-lg lg:text-[22px] font-source-sans-pro">
-                      Date of recruitment
-                    </p>
-                    <h2 className="text-[#0d283a] text-center lg:text-left text-3xl lg:text-[42px] font-bold font-noto-serif leading-[50px] shadow-text2">
-                      05.10.2024
-                    </h2>
-                  </div>
                   <div className="mt-2 lg:mt-5">
                     <p className="text-[#09111B] text-center lg:text-left text-lg lg:text-[22px] font-source-sans-pro">
                       Wallet address
@@ -203,42 +168,30 @@ const Home: NextPage = () => {
                       )}
                     </div>
                   </div>
-                  <div className="mt-2 lg:mt-5">
-                    <p className="text-[#09111B] text-center lg:text-left text-lg lg:text-[22px] font-source-sans-pro">
-                      Email address
-                    </p>
-                    <h2 className="text-[#0d283a] text-center lg:text-left text-3xl lg:text-[42px] font-bold font-noto-serif leading-[50px] shadow-text2">
-                      has@domain.com
-                    </h2>
+                  <p className="text-[#09111B] text-[22px] font-source-sans-pro">
+                    My code
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <>
+                      <h2 className="text-[#0d283a] text-[42px] font-bold font-noto-serif leading-[50px] shadow-text2 uppercase">
+                       {myCode}
+                      </h2>
+                      <button onClick={() => handleCopyCode(myCode)}>
+                        <COPY_ICON />
+                      </button>
+                      {isCodeCopied && (
+                        <p
+                          className="added-fade-out"
+                          onAnimationEnd={() => setIsCodeCopied(false)}
+                        >
+                          Copied!
+                        </p>
+                      )}
+                    </>
                   </div>
                 </div>
               </div>
 
-              {/* Referral Code Section */}
-              <div className="lg:max-w-[609px] mx-auto transparent-bg h-auto min-h-[200px] flex flex-col gap-4 justify-center items-center rounded-tl-[40px] lg:rounded-tl-[80px] shadow-2xl mt-8 md:mt-16 lg:mt-24 p-6">
-                <p className="text-[#09111B] text-[22px] font-source-sans-pro">
-                  My code
-                </p>
-                <div className="flex items-center gap-2">
-                  <>
-                    <h2 className="text-[#0d283a] text-[42px] font-bold font-noto-serif leading-[50px] shadow-text2 uppercase">
-                      XXXXXX
-                    </h2>
-                    <button onClick={() => handleCopyReferralCode("XXXXXX")}>
-                      <COPY_ICON />
-                    </button>
-                  </>
-                </div>
-                {/* {successMessage && (
-                  <div
-                    className="mt-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded relative"
-                    role="alert"
-                  >
-                    <strong className="font-bold">Success: </strong>
-                    <span className="block sm:inline">{successMessage}</span>
-                  </div>
-                )} */}
-              </div>
               <div className="lg:max-w-[609px] mx-auto transparent-bg rounded-tl-[40px] lg:rounded-tl-[80px] shadow-2xl mt-8 md:mt-16 lg:mt-24 p-8 md:p-12 lg:p-[56px]">
                 <h2 className="text-[#09111B] text-[28px] font-medium font-noto-serif leading-[50px] shadow-text2 uppercase">
                   Bio
