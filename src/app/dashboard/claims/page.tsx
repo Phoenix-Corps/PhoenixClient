@@ -67,8 +67,7 @@ const Claims = () => {
     });
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
-
+    <div className="p-4">
       {!isConnected ? (
         <div className="text-center items-center flex flex-col justify-center">
           <p className="mb-4  text-white">Connect your wallet to continue</p>
@@ -106,20 +105,7 @@ const Claims = () => {
             ) : null}
           </div>
 
-          {isLoading ? (
-            <div>Loading...</div>
-          ) : error ? (
-            <div>Error loading claims data.</div>
-          ) : paymentsByPool && paymentsByPool.length > 0 ? (
-            paymentsByPool.map(payment => (
-              //@ts-ignore
-              <ClaimsTable key={payment.poolId} payment={payment} />
-            ))
-          ) : (
-            <div className="table-gradient-container p-8 rounded-tl-[40px] md:p-12 md:rounded-tl-[60px] lg:p-14 lg:rounded-tl-[80px] overflow-x-auto">
-              <p className="text-center w-full">No data available</p>
-            </div>
-          )}
+          <ClaimsTable />
         </div>
       )}
     </div>
