@@ -1,14 +1,11 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { formatUnits } from "viem";
+import { data } from "@/app/dashboard/claims/mockData";
 import ETH from "@/app/dashboard/public/My-claims/ETH.svg";
 import BNB from "@/app/dashboard/public/My-claims/BNB.svg";
 import BSC from "@/app/dashboard/public/My-claims/BSC.svg";
 import BTC from "@/app/dashboard/public/My-claims/BTC.svg";
 import USDT from "@/app/dashboard/public/My-claims/USDT.svg";
-
-
-
-
 
 const ClaimsTable: React.FC = () => {
   // const { poolId, claimablePayment, totalPayment, claimedPayment } = payment;
@@ -17,63 +14,35 @@ const ClaimsTable: React.FC = () => {
     //@ts-ignore
     return Number(formatUnits(amount.result, 9));
   };
-  interface Amount {
-    icon: any;
-    value: string;
-  }
 
-  const data: {
-    project: string;
-    amounts: Amount[];
-    status: string;
-    statusColor: string;
-  }[] = [
-    {
-      project: "Simple Connect",
-      amounts: [
-        { icon: ["ETH", "USDT"], value: "0.9 ETH" },
-        { icon: ["USDT", "BNB"], value: "1728 USDT ETH" },
-        { icon: "BNB", value: "6,73836 BNB" },
-        { icon: ["USDT", "ETH"], value: "2378 USDT BSC" }
-      ],
-      status: "PENDING",
-      statusColor: "red"
-    },
-    {
-      project: "Long Project Name",
-      amounts: [
-        { icon: ["ETH", "USDT"], value: "0.9 ETH" },
-        { icon: ["USDT", "BNB"], value: "1728 USDT ETH" },
-        { icon: "BNB", value: "6,73836 BNB" },
-        { icon: ["USDT", "ETH"], value: "2378 USDT BSC" }
-      ],
-      status: "CLAIMABLE",
-      statusColor: "yellow"
-    },
-    {
-      project: "Maven Surge",
-      amounts: [
-        { icon: ["ETH", "USDT"], value: "0.9 ETH" },
-        { icon: ["USDT", "BNB"], value: "1728 USDT ETH" },
-        { icon: "BNB", value: "6,73836 BNB" },
-        { icon: ["USDT", "ETH"], value: "2378 USDT BSC" }
-      ],
-      status: "CLAIMED",
-      statusColor: "green"
-    }
-  ];
   const iconMap = {
-    ETH: <ETH className="w-5 h-5" />,
-    BNB: <BNB className="w-5 h-5" />,
-    BSC: <BSC className="w-5 h-5" />,
-    BTC: <BTC className="w-5 h-5" />,
-    USDT: <USDT className="w-5 h-5" />
+    ETH: <ETH />,
+    BNB: <BNB />,
+    BSC: <BSC />,
+    USDT: <USDT />
+  };
+  const totalPages = 8;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const goToPage = (page: any) => {
+    setCurrentPage(page);
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
   };
 
   return (
     <>
       <div className="table-gradient-container p-8 mt-8 rounded-tl-[40px] md:p-12 md:rounded-tl-[60px] lg:p-14 lg:rounded-tl-[80px] overflow-x-auto">
-      
         <table className="w-full table-auto border-collapse text-lg font-sans border-spacing-y-2 whitespace-nowrap">
           <thead>
             <tr>
@@ -117,78 +86,37 @@ const ClaimsTable: React.FC = () => {
             ))}
           </tbody>
         </table>
-        {/* <table className="w-full table-auto border-collapse text-lg font-sans border-spacing-y-2 whitespace-nowrap">
-          <thead className="text-left">
-            <tr>
-              <th className="text-[14px] md:text-base lg:text-lg">Project</th>
-              <th className="text-[14px] md:text-base lg:text-lg">Amount</th>
-              <th className="text-[14px] md:text-base lg:text-lg">Status</th>
-            </tr>
-          </thead>
-          <tbody className="space-x-2">
-            <tr className="h-[80px]">
-              <td className="pr-5 font-semibold text-[14px] md:text-base lg:text-lg">
-                Simple Connect
-              </td>
-              <td className="flex pr-5 text-[14px] md:text-base lg:text-lg">
-                
-                <ETH /> 0.9 ETH <USDT />
-                <ETH /> 1728 USDT ETC <BNB /> 6,73836 BNB <USDT />
-                <BNB /> 1728 USDT ETC
-              </td>
-              <td className="text-[14px] md:text-base lg:text-lg">
-                {Number(payment.claimablePayment) > 0 ? (
-                  <div className={"btn-yellow-grad-container"}>
-                    <button className={"btn-yellow-grad px-10"}>
-                      <span className={"btn-yellow-grad-text"}>Claimable</span>
-                    </button>
-                  </div>
-                ) : (
-                  <div className={"btn-red-grad-container"}>
-                    <button className={"btn-red-grad px-10"}>
-                      <span className={"btn-red-grad-text"}>Pending</span>
-                    </button>
-                  </div>
-                )}
-              </td>
-            </tr>
-
-            <tr className="h-[80px]">
-              <td className="pr-5 font-semibold text-[14px] md:text-base lg:text-lg">
-                Long Project name
-              </td>
-              <td className="flex pr-5 text-[14px] md:text-base lg:text-lg">
-                <ETH /> 0.9 ETH <USDT />
-                <ETH /> 1728 USDT ETC <BNB /> 6,73836 BNB <USDT />
-                <BNB /> 1728 USDT ETC
-              </td>
-              <td className="text-[14px] md:text-base lg:text-lg">
-                <div className={"btn-green-grad-container"}>
-                  <button className={"btn-green-grad px-10"}>
-                    <span className={"btn-green-grad-text"}>Claimed</span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr className="h-[80px]">
-              <td className="pr-5 font-semibold text-[14px] md:text-base lg:text-lg">
-                Maven Surge
-              </td>
-              <td className="flex pr-5 text-[14px] md:text-base lg:text-lg">
-                <ETH /> 0.9 ETH <USDT />
-                <ETH /> 1728 USDT ETC <BNB /> 6,73836 BNB <USDT />
-                <BNB /> 1728 USDT ETC
-              </td>
-              <td className="text-[14px] md:text-base lg:text-lg">
-                <div className={"btn-yellow-grad-container"}>
-                  <button className={"btn-yellow-grad px-10"}>
-                    <span className={"btn-yellow-grad-text"}>Claimable</span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table> */}
+      </div>
+      <div className="flex justify-center">
+        <div className="inline-flex items-center bg-gray-100 rounded-full p-2 shadow-md m-3">
+          <button
+            className="text-gray-500 hover:bg-gray-300 p-2 rounded-full disabled:text-gray-300"
+            onClick={goToPreviousPage}
+            disabled={currentPage === 1}
+          >
+            &#x276E;
+          </button>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              className={`w-10 h-10 mx-1 flex items-center justify-center rounded-full transition-colors duration-200 ${
+                currentPage === index + 1
+                  ? "bg-indigo-700 text-white"
+                  : "bg-transparent text-gray-800 hover:bg-gray-200"
+              }`}
+              onClick={() => goToPage(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button
+            className="text-gray-500 hover:bg-gray-300 p-2 rounded-full disabled:text-gray-300"
+            onClick={goToNextPage}
+            disabled={currentPage === totalPages}
+          >
+            &#x276F;
+          </button>
+        </div>
       </div>
     </>
   );
