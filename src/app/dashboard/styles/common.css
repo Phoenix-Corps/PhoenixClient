@@ -36,3 +36,12 @@
   margin-top: -80px;
 }
 
+.added-fade-out {
+  opacity: 1;
+  animation: fadeOut 1s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}

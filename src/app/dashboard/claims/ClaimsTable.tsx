@@ -28,7 +28,7 @@ const ClaimsTable: FC<ClaimsTableProps> = ({ payment }) => {
         <table className="w-full table-auto border-collapse text-lg font-sans border-spacing-y-2 whitespace-nowrap">
           <thead className="text-left">
             <tr>
-              <th className="text-[14px] md:text-base lg:text-lg">Type</th>
+              <th className="text-[14px] md:text-base lg:text-lg">Project</th>
               <th className="text-[14px] md:text-base lg:text-lg">Amount</th>
               <th className="text-[14px] md:text-base lg:text-lg">Status</th>
             </tr>
@@ -58,7 +58,7 @@ const ClaimsTable: FC<ClaimsTableProps> = ({ payment }) => {
               </td>
             </tr>
 
-            {/* <tr className="h-[80px]">
+            <tr className="h-[80px]">
               <td className="pr-5 font-semibold text-[14px] md:text-base lg:text-lg">
                 Claimed Payment
               </td>
@@ -72,7 +72,7 @@ const ClaimsTable: FC<ClaimsTableProps> = ({ payment }) => {
                   </button>
                 </div>
               </td>
-            </tr> */}
+            </tr>
           </tbody>
         </table>
       </div>
