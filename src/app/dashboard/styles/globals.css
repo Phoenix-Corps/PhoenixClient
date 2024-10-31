@@ -33,13 +33,13 @@ a {
   font-family: "SourceSansPro";
   font-style: normal;
   font-weight: 400;
-  src: url("../../../../public/dashboard/SourceSansPro-Regular.ttf") format("truetype");
+  src: url("../../../../public/dashboard/SourceSansPro-Regular.ttf")
+    format("truetype");
 }
 
 .background-image {
   background-image: url("../../../../public/dashboard/shinobi-bg.png");
-  /* width: 1440px; */
-  height: 4190px;
+
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -72,7 +72,6 @@ a {
   background-size: auto 137px, cover;
   background-repeat: no-repeat, no-repeat;
   background-position: right bottom, center;
-  margin-top: -120px;
 }
 
 @import url("@/app/dashboard/styles/common.css");
@@ -88,8 +87,8 @@ a {
 
 /* @import url("../styles/my-profile.css"); */
 
-@media (max-width: 600px) {
+
   .background-image {
-    height: 2500px;
+    min-height: 100vh;
   }
-}
+

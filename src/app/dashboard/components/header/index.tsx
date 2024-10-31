@@ -32,8 +32,8 @@ const Header = () => {
     <header
       className={
         isCollapsed
-          ? `header top-0 z-10 sticky transition-all px-4 md:px-20 w-full flex flex-col items-start pt-[30px] overflow-y-auto py-6 rounded-bl-[100px] shadow-2xl`
-          : `w-full px-4 md:px-20 h-[110px] lg:h-[165px] flex flex-col items-center pt-[30px] overflow-hidden py-6`
+          ? `header fixed top-0 z-10 transition-all px-4 md:px-20 w-full flex flex-col items-start pt-[30px] overflow-y-auto py-6 rounded-bl-[100px] shadow-2xl`
+          : `w-full absolute top-0 z-10 px-4 md:px-20 h-[110px] lg:h-[165px] flex flex-col items-center pt-[30px] overflow-hidden py-6`
       }
     >
       <div className="flex w-full justify-between cursor-pointer bg-white/0">
