@@ -101,6 +101,7 @@ export const getUserInfo = async (provider: ethers.providers.Provider, address: 
     currentRank: {
       name: rankToNameMapping[userTierInfo.rank],
       paymentPercent: currentRank.paymentPercent.toNumber(),
+      requiredXP: currentRank.requiredXP.toNumber()
     }
   };
   if (userTierInfo.rank + 1 < userRanks.length) {
