@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import "./projects.css";
-import { PresaleData } from "@/services/mockData";
-import { getActivePresales } from "@/services/walletService";
+import { useEthersProvider } from "@/services/useEthersProvider";
+import { getPoolList, getUserInfo } from "@/services/walletService";
 
 interface Project {
   name: string;
@@ -91,23 +91,29 @@ const ProjectCard: React.FC<Project> = ({
 };
 
 const ProjectsSection: React.FC = () => {
-  const [presales, setPresales] = useState<PresaleData[]>([]);
+  const [presales, setPresales] = useState<[]>([]);
+
+  const provider = useEthersProvider();
+
   useEffect(() => {
     const fetchPresales = async () => {
-      const response = await getActivePresales("asd");
-      setPresales(response.result!);
+      if (provider) {
+        await getPoolList(provider);
+        await getUserInfo(provider, "0x4F97363aCb08f6F027dC8bb93b7Feb49Ba1cF744");
+      }
     };
 
     fetchPresales();
   }, []);
+
   return (
     <section className="projects-section">
       <h2 className="title text-yellow-r">Active & Upcoming</h2>
       <div className="divider" />
       <div className="projects-grid">
-        {presales.map((project, index) => (
-          <ProjectCard key={index} {...project} />
-        ))}
+        {/* {presales.map((project, index) => (
+          // <ProjectCard key={index} {...project} />
+        ))} */}
       </div>
     </section>
   );
