@@ -15,7 +15,7 @@ const Claims = () => {
   const { user } = useAuth();
   const [isExpanded, setExpand] = useState(false);
 
-  const poolIds = [0]; // Hardcoded for now, will be dynamic in the future
+  const poolIds = [0,1,2]; // Hardcoded for now, will be dynamic in the future
 
   //@TODO fetch claim data from supabase
 
@@ -92,16 +92,16 @@ const Claims = () => {
               <ARROW className="rotate-90 fill-white/90" />
             </button>
             {isExpanded ? (
-              <>
+              <div className="absolute left-0 top-12 flex w-full flex-col gap-0.5 z-10">
                 {poolIds.map(poolId => (
                   <span
                     key={poolId}
-                    className="bg-[#182C4589] py-2 px-5 tracking-wide font-noto-serif uppercase text-white/90"
+                    className="bg-[#182C4589] w-full py-2 px-5 tracking-wide font-noto-serif uppercase text-white/90"
                   >
                     Sale {poolId}
                   </span>
                 ))}
-              </>
+              </div>
             ) : null}
           </div>
 
