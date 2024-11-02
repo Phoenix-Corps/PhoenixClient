@@ -1,3 +1,4 @@
+// context/BlockchainContext.tsx
 import {
   createContext,
   useContext,
@@ -6,6 +7,7 @@ import {
   ReactNode
 } from "react";
 import { getPoolInfo, getPoolList, PoolInfo } from "@/services/walletService";
+import { useEthersProvider } from "@/services/useEthersProvider";
 
 export interface BlockchainContextType {
   poolInfo: PoolInfo[];
@@ -21,6 +23,7 @@ const BlockchainContext = createContext<BlockchainContextType | undefined>(
 export const BlockchainProvider: React.FC<{ children: ReactNode }> = ({
   children
 }) => {
+  const provider = useEthersProvider();
   const [poolInfoMap, setPoolInfoMap] = useState<Map<string, PoolInfo>>(
     new Map()
   );
@@ -28,14 +31,20 @@ export const BlockchainProvider: React.FC<{ children: ReactNode }> = ({
 
   const fetchPoolInfoById = useCallback(
     async (id: string): Promise<PoolInfo | undefined> => {
+      if (!provider) {
+        console.error("Provider is not available");
+        return undefined;
+      }
+
       const cachedPoolInfo = poolInfoMap.get(id);
       if (cachedPoolInfo) {
+        console.log("CACHE HIT", cachedPoolInfo);
         return cachedPoolInfo;
       }
 
       setLoading(true);
       try {
-        const data = await getPoolInfo(id); // TODO: provider?
+        const data = await getPoolInfo(provider, parseInt(id));
         setPoolInfoMap(prevMap => new Map(prevMap).set(id, data));
         return data;
       } catch (error) {
@@ -45,18 +54,27 @@ export const BlockchainProvider: React.FC<{ children: ReactNode }> = ({
         setLoading(false);
       }
     },
-    [poolInfoMap]
+    [poolInfoMap, provider]
   );
 
   const fetchAllPoolInfo = useCallback(async (): Promise<PoolInfo[]> => {
+    if (!provider) {
+      console.error("Provider is not available");
+      return [];
+    }
+
+    // TODO: probably need better condition for cache checking
+    if (poolInfoMap.size > 0) {
+      console.log("CACHE HIT FOR ALL POOLS");
+      return Array.from(poolInfoMap.values());
+    }
+
     const allPoolInfo: PoolInfo[] = [];
     setLoading(true);
     try {
-      const data = await getPoolList(); // TODO: provider?
+      const data = await getPoolList(provider);
       data.forEach(pool => {
-        setPoolInfoMap(prevMap =>
-          new Map(prevMap).set(pool.id.toString(), pool)
-        );
+        setPoolInfoMap(prevMap => new Map(prevMap).set(String(pool.id), pool));
         allPoolInfo.push(pool);
       });
       return allPoolInfo;
@@ -66,7 +84,7 @@ export const BlockchainProvider: React.FC<{ children: ReactNode }> = ({
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [provider, poolInfoMap]);
 
   return (
     <BlockchainContext.Provider

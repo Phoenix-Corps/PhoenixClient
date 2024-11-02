@@ -1,88 +1,54 @@
 "use client";
 
+import { useBlockchainContext } from "@/context/BlockchainContext";
+import { PoolInfo } from "@/services/walletService";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import "./projects.css";
-import { useEthersProvider } from "@/services/useEthersProvider";
-import { getPoolList, getUserInfo } from "@/services/walletService";
 
-interface Project {
-  name: string;
-  logo: string;
-  roundEnding?: string;
-  round?: number;
-  roundPrice?: number;
-  totalRaised?: string;
-  status: "Active" | "Upcoming" | "Ended";
-  presaleLink: string;
-}
-
-const ProjectCard: React.FC<Project> = ({
-  name,
-  logo,
-  roundEnding,
-  round,
-  roundPrice,
-  totalRaised,
-  status,
-  presaleLink
+const ProjectCard: React.FC<PoolInfo> = ({
+  id,
+  projectInfo,
+  currentRound,
+  token
 }) => {
   const renderButton = () => {
-    switch (status) {
-      case "Active":
-        return (
-          <Link href={presaleLink} className="project-action active">
-            BUY NOW
-          </Link>
-        );
-      case "Upcoming":
-        return (
-          <button className="project-action upcoming" disabled>
-            SOON
-          </button>
-        );
-      case "Ended":
-        return (
-          <button className="project-action ended" disabled>
-            ENDED
-          </button>
-        );
-      default:
-        return null;
-    }
+    // TODO: statuses
+    return (
+      <Link href={`/buy?poolId=${id}`} className="project-action active">
+        BUY NOW
+      </Link>
+    );
   };
 
   return (
-    <div className="project-card">
+    // TODO: round infos
+    <div className="project-card w-[300px]">
       <div className="project-header">
         <Image
-          src={logo}
-          alt={name}
+          src={token.logo}
+          alt={token.symbol}
           width={40}
           height={40}
           className="project-logo"
         />
         <div className="project-title">
-          <h3 className="project-name">{name}</h3>
-          {roundEnding && (
-            <p className="round-ending">ROUND ENDING IN {roundEnding}</p>
-          )}
-          {status === "Ended" && <p className="round-ending ended">Ended</p>}
+          <h3 className="project-name">{projectInfo.name}</h3>
         </div>
       </div>
       <div className="project-details">
         <div className="detail-row">
           <span>ROUND</span>
-          <span>{round || "--"}</span>
+          <span>{"--"}</span>
         </div>
         <div className="detail-row">
           <span>ROUND PRICE</span>
-          <span>{roundPrice ? `$${roundPrice}` : "--"}</span>
+          <span>{"--"}</span>
         </div>
         <div className="detail-row">
           <span>TOTAL RAISED</span>
-          <span>{totalRaised || "--"}</span>
+          <span>{"--"}</span>
         </div>
       </div>
       {renderButton()}
@@ -91,29 +57,31 @@ const ProjectCard: React.FC<Project> = ({
 };
 
 const ProjectsSection: React.FC = () => {
-  const [presales, setPresales] = useState<[]>([]);
-
-  const provider = useEthersProvider();
+  const { fetchAllPoolInfo } = useBlockchainContext();
+  const [projects, setProjects] = useState<PoolInfo[]>([]);
 
   useEffect(() => {
-    const fetchPresales = async () => {
-      if (provider) {
-        await getPoolList(provider);
-        await getUserInfo(provider, "0x4F97363aCb08f6F027dC8bb93b7Feb49Ba1cF744");
-      }
-    };
-
-    fetchPresales();
+    fetchAllPoolInfo()
+      .then(poolData => {
+        setProjects(poolData);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }, []);
 
   return (
-    <section className="projects-section">
+    <section className="projects-section flex flex-col">
       <h2 className="title text-yellow-r">Active & Upcoming</h2>
       <div className="divider" />
-      <div className="projects-grid">
-        {/* {presales.map((project, index) => (
-          // <ProjectCard key={index} {...project} />
-        ))} */}
+      <div className="flex justify-center space-x-4">
+        {projects.length ? (
+          projects.map((project, index) => (
+            <ProjectCard key={index} {...project} />
+          ))
+        ) : (
+          <div className="text-center text-white p-8">LOADING PROJECTS...</div>
+        )}
       </div>
     </section>
   );

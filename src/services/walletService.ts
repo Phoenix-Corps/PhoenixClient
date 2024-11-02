@@ -6,17 +6,25 @@ import paymentPluginAbi from "../contracts/ABIs/PaymentPlugin.json";
 
 import rankToNameMapping from "../config/rankToNameMapping.json";
 import poolToProjectMapping from "../config/poolToProjectMapping.json";
+import tokenMapping from "../config/tokenMapping.json";
 import { RoundInfo } from "@/types/types";
 
 interface ProjectInfo {
   name: string;
+  description: string;
+  logo: string;
+}
+
+interface TokenInfo {
+  name: string;
+  symbol: string;
   logo: string;
 }
 
 // TODO: use same type everywhere
 export interface PoolInfo {
   id: number;
-  token: string;
+  token: TokenInfo;
   projectInfo: ProjectInfo;
   currentRound: {
     roundStart: number;
@@ -59,7 +67,7 @@ export const getPoolInfo = async (
   const poolInfo = {
     id: poolId,
     projectInfo: poolToProjectMapping[poolId],
-    token: pool.paymentToken,
+    token: tokenMapping[pool.paymentToken], // TODO: fix ts error
     currentRound: {
       roundStart: currentRound.roundStart,
       roundEnd: currentRound.roundEnd,
@@ -89,7 +97,7 @@ export const getPoolList = async (provider: ethers.providers.Provider) => {
     const poolInfo = {
       id: poolId,
       projectInfo: poolToProjectMapping[poolId],
-      token: pool.paymentToken,
+      token: tokenMapping[pool.paymentToken], // TODO: fix ts error
       currentRound: {
         roundStart: currentRound.roundStart,
         roundEnd: currentRound.roundEnd,
