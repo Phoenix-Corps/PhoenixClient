@@ -59,7 +59,17 @@ export const getPoolInfo = async (provider: ethers.providers.Provider, poolId: n
   return poolInfo;
 }
 
+let poolList: PoolInfo[] | undefined;
+
 export const getPoolList = async (provider: ethers.providers.Provider) => {
+  if (!poolList) {
+    poolList = await fetchPoolList(provider);
+  }
+
+  return poolList;
+}
+
+export const fetchPoolList = async (provider: ethers.providers.Provider) => {
   const launchpadContract = new ethers.Contract(contracts.launchpad, launchpadAbi, provider);
   const poolCount = poolToProjectMapping.length;
   const poolConfigList: PoolInfo[] = [];
@@ -83,7 +93,17 @@ export const getPoolList = async (provider: ethers.providers.Provider) => {
   return poolConfigList;
 }
 
+let userInfo: UserInfo | undefined;
+
 export const getUserInfo = async (provider: ethers.providers.Provider, address: string) => {
+  if (!userInfo) {
+    userInfo = await fetchUserInfo(provider, address);
+  }
+
+  return userInfo;
+}
+
+const fetchUserInfo = async (provider: ethers.providers.Provider, address: string) => {
   const launchpadContract = new ethers.Contract(contracts.launchpad, launchpadAbi, provider);
   const referral = await launchpadContract.userReferral(address);
 
@@ -113,7 +133,7 @@ export const getUserInfo = async (provider: ethers.providers.Provider, address: 
     };
   }
 
-  result;
+  return result;
 }
 
 export const getUserClaimInfo = async (provider: ethers.providers.Provider, address: string) => {
