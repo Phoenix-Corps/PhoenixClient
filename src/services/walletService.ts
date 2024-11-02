@@ -40,16 +40,35 @@ interface UserInfo {
   nextRank?: Rank;
 };
 
+export const getPoolInfo = async (provider: ethers.providers.Provider, poolId: number) => {
+  const launchpadContract = new ethers.Contract(contracts.launchpad, launchpadAbi, provider);
+  const { pool, rounds } = await launchpadContract.getPoolInfoWithRounds(poolId);
+  const currentRound = rounds.find((round: RoundInfo) => round.roundEnd < Date.now());
+  const poolInfo = {
+    id: poolId,
+    projectInfo: poolToProjectMapping[poolId],
+    token: pool.paymentToken,
+    currentRound: {
+      roundStart: currentRound.roundStart,
+      roundEnd: currentRound.roundEnd,
+      voucherPrice: currentRound.voucherPrice,
+      goal: currentRound.goal,
+      available: currentRound.available,
+    }
+  }
+  return poolInfo;
+}
+
 export const getPoolList = async (provider: ethers.providers.Provider) => {
   const launchpadContract = new ethers.Contract(contracts.launchpad, launchpadAbi, provider);
   const poolCount = poolToProjectMapping.length;
   const poolConfigList: PoolInfo[] = [];
-  for (let i = 0; i < poolCount; i++) {
-    const { pool, rounds } = await launchpadContract.getPoolInfoWithRounds(i);
+  for (let poolId = 0; poolId < poolCount; poolId++) {
+    const { pool, rounds } = await launchpadContract.getPoolInfoWithRounds(poolId);
     const currentRound = rounds.find((round: RoundInfo) => round.roundEnd < Date.now());
     const poolInfo = {
-      id: i,
-      projectInfo: poolToProjectMapping[i],
+      id: poolId,
+      projectInfo: poolToProjectMapping[poolId],
       token: pool.paymentToken,
       currentRound: {
         roundStart: currentRound.roundStart,
