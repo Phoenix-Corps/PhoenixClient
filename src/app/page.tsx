@@ -25,7 +25,7 @@ export default function Home() {
 
         <CollaborationSection />
 
-        <div className="paper-container max-w-[100%]">
+        <div className="paper-container max-w-[100%] mt-10">
           <h2 className="paper"> WHITEPAPERS</h2>
           <div className="button-group">
             <span className="button-container">
@@ -51,7 +51,7 @@ export default function Home() {
           </div>
         </div>
 
-        <section className="become-phoenix-card">
+        <section className="become-phoenix-card mt-10 w-[1000px]">
           <div
             className="representative-card-inner"
             style={{ marginBottom: 20, marginRight: 20 }}
@@ -103,7 +103,7 @@ export default function Home() {
           </p>
         </section>
 
-        <div className="slider-wrapper">
+        <div className="slider-wrapper mt-10">
           <h2
             className="subtitle text-black"
             style={{ margin: "auto", textAlign: "center" }}

@@ -2,20 +2,29 @@ import { ethers } from "ethers";
 
 import contracts from "../contracts/contracts.json";
 import launchpadAbi from "../contracts/ABIs/Launchpad.json";
-import paymentPluginAbi from "../contracts/ABIs/PaymentPlugin.json"
+import paymentPluginAbi from "../contracts/ABIs/PaymentPlugin.json";
 
 import rankToNameMapping from "../config/rankToNameMapping.json";
 import poolToProjectMapping from "../config/poolToProjectMapping.json";
-import { RoundInfo } from "@/app/(presale)/buy/types/types";
+import tokenMapping from "../config/tokenMapping.json";
+import { RoundInfo } from "@/types/types";
 
 interface ProjectInfo {
   name: string;
+  description: string;
   logo: string;
 }
 
-interface PoolInfo {
+interface TokenInfo {
+  name: string;
+  symbol: string;
+  logo: string;
+}
+
+// TODO: use same type everywhere
+export interface PoolInfo {
   id: number;
-  token: string;
+  token: TokenInfo;
   projectInfo: ProjectInfo;
   currentRound: {
     roundStart: number;
@@ -23,14 +32,14 @@ interface PoolInfo {
     voucherPrice: number;
     goal: number;
     available: number;
-  }
-};
+  };
+}
 
 interface Rank {
-  name: string,
-  paymentPercent: number,
+  name: string;
+  paymentPercent: number;
   requiredXP?: number;
-};
+}
 
 interface UserInfo {
   address: string;
@@ -38,60 +47,90 @@ interface UserInfo {
   currentXP: number;
   currentRank: Rank;
   nextRank?: Rank;
-};
+}
 
-export const getPoolInfo = async (provider: ethers.providers.Provider, poolId: number) => {
-  const launchpadContract = new ethers.Contract(contracts.launchpad, launchpadAbi, provider);
-  const { pool, rounds } = await launchpadContract.getPoolInfoWithRounds(poolId);
-  const currentRound = rounds.find((round: RoundInfo) => round.roundEnd < Date.now());
+export const getPoolInfo = async (
+  provider: ethers.providers.Provider,
+  poolId: number
+) => {
+  const launchpadContract = new ethers.Contract(
+    contracts.launchpad,
+    launchpadAbi,
+    provider
+  );
+  const { pool, rounds } = await launchpadContract.getPoolInfoWithRounds(
+    poolId
+  );
+  const currentRound = rounds.find(
+    (round: RoundInfo) => round.roundEnd < Date.now()
+  );
   const poolInfo = {
     id: poolId,
     projectInfo: poolToProjectMapping[poolId],
-    token: pool.paymentToken,
+    token: tokenMapping[pool.paymentToken], // TODO: fix ts error
     currentRound: {
       roundStart: currentRound.roundStart,
       roundEnd: currentRound.roundEnd,
       voucherPrice: currentRound.voucherPrice,
       goal: currentRound.goal,
-      available: currentRound.available,
+      available: currentRound.available
     }
-  }
+  };
   return poolInfo;
-}
+};
 
 export const getPoolList = async (provider: ethers.providers.Provider) => {
-  const launchpadContract = new ethers.Contract(contracts.launchpad, launchpadAbi, provider);
+  const launchpadContract = new ethers.Contract(
+    contracts.launchpad,
+    launchpadAbi,
+    provider
+  );
   const poolCount = poolToProjectMapping.length;
   const poolConfigList: PoolInfo[] = [];
   for (let poolId = 0; poolId < poolCount; poolId++) {
-    const { pool, rounds } = await launchpadContract.getPoolInfoWithRounds(poolId);
-    const currentRound = rounds.find((round: RoundInfo) => round.roundEnd < Date.now());
+    const { pool, rounds } = await launchpadContract.getPoolInfoWithRounds(
+      poolId
+    );
+    const currentRound = rounds.find(
+      (round: RoundInfo) => round.roundEnd < Date.now()
+    );
     const poolInfo = {
       id: poolId,
       projectInfo: poolToProjectMapping[poolId],
-      token: pool.paymentToken,
+      token: tokenMapping[pool.paymentToken], // TODO: fix ts error
       currentRound: {
         roundStart: currentRound.roundStart,
         roundEnd: currentRound.roundEnd,
         voucherPrice: currentRound.voucherPrice,
         goal: currentRound.goal,
-        available: currentRound.available,
+        available: currentRound.available
       }
-    }
+    };
     poolConfigList.push(poolInfo);
   }
   return poolConfigList;
-}
+};
 
-export const getUserInfo = async (provider: ethers.providers.Provider, address: string) => {
-  const launchpadContract = new ethers.Contract(contracts.launchpad, launchpadAbi, provider);
+export const getUserInfo = async (
+  provider: ethers.providers.Provider,
+  address: string
+) => {
+  const launchpadContract = new ethers.Contract(
+    contracts.launchpad,
+    launchpadAbi,
+    provider
+  );
   const referral = await launchpadContract.userReferral(address);
 
-  const paymentPluginContract = new ethers.Contract(contracts.paymentPlugin, paymentPluginAbi, provider);
+  const paymentPluginContract = new ethers.Contract(
+    contracts.paymentPlugin,
+    paymentPluginAbi,
+    provider
+  );
   const ranks = await paymentPluginContract.getTiers();
   const userTierInfo = await paymentPluginContract.userTierInfo(address);
   const isTeamUser = userTierInfo.team;
-  const userRanks = (isTeamUser ? ranks.team : ranks.solo);
+  const userRanks = isTeamUser ? ranks.team : ranks.solo;
   const currentRank = userRanks[userTierInfo.rank];
 
   const result: UserInfo = {
@@ -109,42 +148,55 @@ export const getUserInfo = async (provider: ethers.providers.Provider, address: 
     result.nextRank = {
       name: rankToNameMapping[userTierInfo.rank + 1],
       paymentPercent: nextRank.paymentPercent.toNumber(),
-      requiredXP: nextRank.requiredXP.toNumber(),
+      requiredXP: nextRank.requiredXP.toNumber()
     };
   }
 
   result;
-}
+};
 
-export const getUserClaimInfo = async (provider: ethers.providers.Provider, address: string) => {
+export const getUserClaimInfo = async (
+  provider: ethers.providers.Provider,
+  address: string
+) => {
   return [
     {
       totalPayment: 0,
       claimedPayment: 0,
-      claimable: 100,
+      claimable: 100
     },
     {
       totalPayment: 200,
       claimedPayment: 200,
-      claimable: 0,
+      claimable: 0
     },
     {
       totalPayment: 300,
       claimedPayment: 0,
-      claimable: 0,
-    },
-  ]
-}
+      claimable: 0
+    }
+  ];
+};
 
-export const getVoucherBalance = async (provider: ethers.providers.Provider, address: string, pool: number) => {
+export const getVoucherBalance = async (
+  provider: ethers.providers.Provider,
+  address: string,
+  pool: number
+) => {
   return 0;
-}
+};
 
-export const claim = async (signer: ethers.providers.JsonRpcSigner, address: string, id: number) => {
+export const claim = async (
+  signer: ethers.providers.JsonRpcSigner,
+  address: string,
+  id: number
+) => {
   return;
-}
+};
 
-export const upgradeRank = async (signer: ethers.providers.JsonRpcSigner, address: string) => {
+export const upgradeRank = async (
+  signer: ethers.providers.JsonRpcSigner,
+  address: string
+) => {
   return;
-}
-
+};

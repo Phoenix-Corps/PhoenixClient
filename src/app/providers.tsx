@@ -7,8 +7,8 @@ import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
 import { sepolia } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-// import { AuthProvider } from "./(auth)/auth/AuthContext";
 import { AuthProvider } from "@/app/dashboard/auth/AuthContext";
+import { BlockchainProvider } from "@/context/BlockchainContext";
 
 const config = getDefaultConfig({
   appName: "Phoenix Shinobi",
@@ -22,11 +22,13 @@ const queryClient = new QueryClient();
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>
-          <AuthProvider>{children}</AuthProvider>
-        </RainbowKitProvider>
-      </QueryClientProvider>
+      <BlockchainProvider>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </BlockchainProvider>
     </WagmiProvider>
   );
 }

@@ -1,6 +1,6 @@
 const CommunitySection = () => {
   return (
-    <section className="dark-card-border">
+    <section className="dark-card-border mt-10 w-[1000px]">
       <h2 className="subtitle" style={{ maxWidth: "502px" }}>
         The <span className="text-yellow">power</span> of true and fair
         community fundraising
@@ -13,7 +13,7 @@ const CommunitySection = () => {
           marginLeft: "unset",
           alignSelf: "flex-end",
           marginTop: "17px",
-          fontWeight: 300,
+          fontWeight: 300
         }}
       >
         <span className="text-bold noto-serif">Phoenix</span> empowers it's army
