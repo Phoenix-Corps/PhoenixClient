@@ -86,28 +86,34 @@ export const getPoolList = async (provider: ethers.providers.Provider) => {
     provider
   );
   const poolCount = poolToProjectMapping.length;
-  const poolConfigList: PoolInfo[] = [];
-  for (let poolId = 0; poolId < poolCount; poolId++) {
-    const { pool, rounds } = await launchpadContract.getPoolInfoWithRounds(
-      poolId
-    );
-    const currentRound = rounds.find(
-      (round: RoundInfo) => round.roundEnd < Date.now()
-    );
-    const poolInfo = {
-      id: poolId,
-      projectInfo: poolToProjectMapping[poolId],
-      token: tokenMapping[pool.paymentToken], // TODO: fix ts error
-      currentRound: {
-        roundStart: currentRound.roundStart,
-        roundEnd: currentRound.roundEnd,
-        voucherPrice: currentRound.voucherPrice,
-        goal: currentRound.goal,
-        available: currentRound.available
-      }
-    };
-    poolConfigList.push(poolInfo);
-  }
+
+  const poolPromises = Array.from({ length: poolCount }, (_, poolId) =>
+    launchpadContract.getPoolInfoWithRounds(poolId)
+  );
+
+  const poolsData = await Promise.all(poolPromises);
+
+  const poolConfigList: PoolInfo[] = poolsData.map(
+    ({ pool, rounds }, poolId) => {
+      const currentRound = rounds.find(
+        (round: RoundInfo) => round.roundEnd < Date.now()
+      );
+
+      return {
+        id: poolId,
+        projectInfo: poolToProjectMapping[poolId],
+        token: tokenMapping[pool.paymentToken], // TODO: fix ts error
+        currentRound: {
+          roundStart: currentRound.roundStart,
+          roundEnd: currentRound.roundEnd,
+          voucherPrice: currentRound.voucherPrice,
+          goal: currentRound.goal,
+          available: currentRound.available
+        }
+      };
+    }
+  );
+
   return poolConfigList;
 };
 
@@ -120,15 +126,19 @@ export const getUserInfo = async (
     launchpadAbi,
     provider
   );
-  const referral = await launchpadContract.userReferral(address);
 
   const paymentPluginContract = new ethers.Contract(
     contracts.paymentPlugin,
     paymentPluginAbi,
     provider
   );
-  const ranks = await paymentPluginContract.getTiers();
-  const userTierInfo = await paymentPluginContract.userTierInfo(address);
+
+  const [ranks, userTierInfo, referral] = await Promise.all([
+    paymentPluginContract.getTiers(),
+    paymentPluginContract.userTierInfo(address),
+    launchpadContract.userReferral(address)
+  ]);
+
   const isTeamUser = userTierInfo.team;
   const userRanks = isTeamUser ? ranks.team : ranks.solo;
   const currentRank = userRanks[userTierInfo.rank];
