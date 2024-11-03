@@ -9,5 +9,5 @@ export default function ClaimsLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="w-full mx-auto background-image"> {children}</div>;
+  return <div className="w-full mx-auto background-image">{children} </div>;
 }

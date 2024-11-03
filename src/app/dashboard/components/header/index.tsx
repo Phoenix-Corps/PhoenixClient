@@ -37,7 +37,7 @@ const Header = () => {
       }
     >
       <div className="flex w-full justify-between cursor-pointer bg-white/0">
-        <Link href={"https://phoenixcorps.io"}>
+        <Link href={"/"}>
           <Image
             src={phoenixLogo}
             alt=""

@@ -7,20 +7,22 @@ import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import PhoenixLOGO from "@/app/dashboard/public/my-profile/Phoenix logo.png";
 import ShinobiLogo from "@/app/dashboard/public/images/headerLogo.png";
-import VECTOR_1 from "@/app/dashboard/public/my-profile/Vector 1.svg";
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
 import Head from "next/head";
 import { formatAddress } from "@/app/dashboard/utils/formatAddress";
 import { useAccount } from "wagmi";
 import PFP from "./public/my-profile/PFP.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useEthersProvider } from "@/services/useEthersProvider";
+import { getUserInfo } from "@/services/walletService";
+import { providers } from "ethers";
+import XPearned from "./components/xpEarned"
 
 const Home: NextPage = () => {
   const { address, isConnected } = useAccount();
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
   const myCode = "XXXXXX";
 
   const [isCopied, setIsCopied] = useState(false);
@@ -89,48 +91,8 @@ const Home: NextPage = () => {
                 </div>
               </div>
               {/* Edit Profile */}
-              <div className="profile-card-black bg-dark-card-grad pb-5 rounded-b-[40px] md:rounded-b-[60px] h-fit lg:rounded-b-[80px] shadow-xl px-[56px] font-noto-serif relative">
-                <div className="flex flex-col gap-5 justify-center items-center pt-4">
-                  <button className="yellow-button flex items-center gap-1 justify-center text-[#182C45] rounded-full text-sm p-2 lg:text-[18px] md:h-[45px] w-[189px] border-[4px] border-[#F2E63D] uppercase font-bold">
-                    xp earned <VECTOR_1 alt="Vector Icon" />
-                  </button>
-                </div>
-              </div>
+              <XPearned />
               {/* Numbers */}
-              {/* <div
-                style={{
-                  margin: "auto",
-                  display: "flex",
-                  justifyContent: "center"
-                }}
-              >
-                <div className="profile-card  w-full py-7 lg:h-[206px] flex flex-col lg:flex-row lg:justify-between gap-y-4 items-center justify-center rounded-tl-[40px] lg:rounded-tl-[80px] shadow-xl mt-8 md:mt-16 lg:mt-24 px-[56px]">
-                  <div className="flex flex-col items-center gap-x-3 md:flex-row">
-                    <h1 className="shadow-text2 font-bold  text-[#0d283a] text-3xl md:text-4xl lg:text-[54px] font-noto-serif uppercase leading-10 lg:leading-[60px]">
-                      32
-                    </h1>
-                    <p className="text-[#09111B] text-xl lg:text-[22px] font-source-sans-pro">
-                      Projects
-                    </p>
-                  </div>
-                  <div className="flex flex-col items-center gap-x-3 md:flex-row ">
-                    <h1 className="shadow-text2 font-bold text-[#0d283a] text-3xl md:text-4xl lg:text-[54px] font-noto-serif uppercase leading-10 lg:leading-[60px]">
-                      $3,540
-                    </h1>
-                    <p className="text-[#09111B] text-xl lg:text-[22px] font-source-sans-pro">
-                      Total sale
-                    </p>
-                  </div>
-                  <div className="flex flex-col  items-center gap-x-3 md:flex-row">
-                    <h1 className="shadow-text2 font-bold text-[rgb(13,40,58)] text-3xl md:text-4xl lg:text-[54px] font-noto-serif uppercase leading-10 lg:leading-[60px]">
-                      $10,972
-                    </h1>
-                    <p className="text-[#09111B] text-xl lg:text-[22px] font-source-sans-pro">
-                      My earnings
-                    </p>
-                  </div>
-                </div>
-              </div> */}
 
               {/* Profile info */}
               <div className="lg:max-w-[609px] mx-auto profile-card rounded-tl-[40px] lg:rounded-tl-[80px] shadow-xl mt-8 md:mt-16 lg:mt-24 p-4 lg:py-12">

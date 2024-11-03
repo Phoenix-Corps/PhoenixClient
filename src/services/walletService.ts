@@ -76,6 +76,7 @@ export const getPoolInfo = async (
       available: currentRound.available
     }
   };
+  console.log(poolInfo);
   return poolInfo;
 };
 
@@ -113,7 +114,6 @@ export const getPoolList = async (provider: ethers.providers.Provider) => {
       };
     }
   );
-
   return poolConfigList;
 };
 
@@ -141,16 +141,19 @@ export const getUserInfo = async (
 
   const isTeamUser = userTierInfo.team;
   const userRanks = isTeamUser ? ranks.team : ranks.solo;
+
   const currentRank = userRanks[userTierInfo.rank];
 
   const result: UserInfo = {
     address: address,
     referralCode: referral,
-    currentXP: userTierInfo.currentXP.toNumber(),
+    currentXP: 120,
+    // currentXP: userTierInfo.currentXP.toNumber(),
     currentRank: {
       name: rankToNameMapping[userTierInfo.rank],
       paymentPercent: currentRank.paymentPercent.toNumber(),
-      requiredXP: currentRank.requiredXP.toNumber()
+      requiredXP: 100
+      // requiredXP: currentRank.requiredXP.toNumber()
     }
   };
   if (userTierInfo.rank + 1 < userRanks.length) {
@@ -158,11 +161,12 @@ export const getUserInfo = async (
     result.nextRank = {
       name: rankToNameMapping[userTierInfo.rank + 1],
       paymentPercent: nextRank.paymentPercent.toNumber(),
-      requiredXP: nextRank.requiredXP.toNumber()
+      requiredXP: 200
+      // requiredXP: nextRank.requiredXP.toNumber()
     };
   }
 
-  result;
+  return result;
 };
 
 export const getUserClaimInfo = async (

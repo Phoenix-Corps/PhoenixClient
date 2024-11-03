@@ -61,6 +61,7 @@ const ProjectsSection: React.FC = () => {
   const [projects, setProjects] = useState<PoolInfo[]>([]);
 
   useEffect(() => {
+    
     fetchAllPoolInfo()
       .then(poolData => {
         setProjects(poolData);
