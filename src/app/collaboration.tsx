@@ -1,8 +1,6 @@
-import Image from "next/image";
-
 export default function CollaborationSection() {
   return (
-    <section>
+    <section className="mt-10">
       <h1
         className="title text-yellow-r max-w-[90%]"
         style={{
@@ -20,7 +18,7 @@ export default function CollaborationSection() {
         to build and operate your project
       </h1>
 
-      <div className="dark-card max-w-[75%]">
+      <div className="dark-card w-[1000px]">
         <div className="divider" style={{ marginTop: -1 }} />
 
         <div

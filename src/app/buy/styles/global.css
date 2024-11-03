@@ -48,7 +48,7 @@
 }
 
 .voucher-wrapper {
-gap:124px;
+  gap: 124px;
   font-family: "K2D";
   display: flex;
   justify-content: center;
@@ -108,7 +108,7 @@ gap:124px;
 }
 .buy-input-main {
   position: relative;
-  
+
   height: 61px;
   color: rgba(255, 255, 255, 1);
 
@@ -126,9 +126,9 @@ gap:124px;
   border: 2px solid rgba(255, 255, 255, 1);
   border-radius: 8px; /* Optional: add rounding to match input style */
 }
-.buy-wrapper-main{
-    display: inline-block;
-    height: 61px;
+.buy-wrapper-main {
+  display: inline-block;
+  height: 61px;
 }
 .curr-drop-wrapper {
   margin-right: 16px;
@@ -213,11 +213,10 @@ gap:124px;
 .buy-icon-wrapper {
   width: 30px;
   height: 30px;
-  background:radial-gradient(
+  background: radial-gradient(
     93.63% 549.7% at 2.46% 8.98%,
     rgba(255, 255, 255, 0.08) 0%,
     rgba(196, 216, 234, 0.2) 100%
-  
   );
   border-radius: 14.9px;
   border: 0.32px;

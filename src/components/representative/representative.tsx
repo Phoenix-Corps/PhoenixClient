@@ -3,23 +3,28 @@ import REPRESENTATIVE from "../../../public/images/representative.png";
 
 export default function RepresentativeSection() {
   return (
-    <section className="representative-card">
+    <section className="representative-card mt-10 w-[1000px]">
       <div
         className="representative-card-inner"
         style={{
           display: "flex",
           flexDirection: "column",
-          marginRight: "0px",
+          marginRight: "0px"
         }}
       >
         <h2 className="subtitle-phoenix-r">
           Benefits for Phoenix'{" "}
           <span className="representative-title">representatives</span>
         </h2>
-      
+
         <Image
           src={REPRESENTATIVE}
-          style={{ width: "100%", maxWidth: "314px", alignSelf: "flex-end", marginLeft: 100 }}
+          style={{
+            width: "100%",
+            maxWidth: "314px",
+            alignSelf: "flex-end",
+            marginLeft: 100
+          }}
           alt="representative"
         />
       </div>

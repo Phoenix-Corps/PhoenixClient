@@ -1,3 +1,0 @@
-export const TOKEN_ADDRESS = "0x9e05CC88D9E01A716B3aA2F1c4DA535df429d350";
-export const TOKEN_DECIMALS = 9;
-export const TOKEN_SYMBOL = "USDT";

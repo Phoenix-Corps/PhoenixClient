@@ -1,7 +1,7 @@
-import "@/app/(presale)/buy/buypage/styles/global.css";
-import Header from "@/app/(presale)/buy/buypage/components/header";
-import "@/app/(presale)/buy/buypage/styles/global.css";
-import Footer from "@/app/(presale)/buy/buypage/components/footer";
+import "@/app/buy/styles/globals.css";
+import "@/app/buy/styles/global.css";
+import Header from "@/app/buy/components/header";
+import Footer from "@/app/buy/components/footer";
 export default function RootLayout({
   children
 }: Readonly<{
