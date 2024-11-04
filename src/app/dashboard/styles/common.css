@@ -17,8 +17,7 @@
 }
 
 .background-image {
-  width: 1440px;
-  height: 3768px;
+  
   background-image: url("../public/common/shinobi-bg.png");
   background-size: cover;
   background-repeat: no-repeat;
@@ -33,7 +32,7 @@
   background-size: auto 137px, cover;
   background-repeat: no-repeat, no-repeat;
   background-position: right bottom, center;
-  margin-top: -80px;
+  
 }
 
 .added-fade-out {

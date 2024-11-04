@@ -32,6 +32,7 @@ const BuyPage = (props: Props) => {
   );
 
   useEffect(() => {
+    
     const poolIdValue = searchParams.get("poolId");
     const codeValue = searchParams.get("code");
 

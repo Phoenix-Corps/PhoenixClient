@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: false,
   images: {
     domains: ["cryptologos.cc"] // TODO: probably set domain for own CDN
   },

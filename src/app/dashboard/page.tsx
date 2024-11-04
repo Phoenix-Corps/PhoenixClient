@@ -7,22 +7,24 @@ import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import PhoenixLOGO from "@/app/dashboard/public/my-profile/Phoenix logo.png";
 import ShinobiLogo from "@/app/dashboard/public/images/headerLogo.png";
-import VECTOR_1 from "@/app/dashboard/public/my-profile/Vector 1.svg";
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
 import Head from "next/head";
 import { formatAddress } from "@/app/dashboard/utils/formatAddress";
 import { useAccount } from "wagmi";
 import PFP from "./public/my-profile/PFP.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useEthersProvider } from "@/services/useEthersProvider";
+import { getUserInfo } from "@/services/walletService";
+import { providers } from "ethers";
+import XPearned from "./components/xpEarned"
 
 const Home: NextPage = () => {
   const { address, isConnected } = useAccount();
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const myCode = "XXXXXX";
 
-  const myCode="XXXXXX";
-  
   const [isCopied, setIsCopied] = useState(false);
   const [isCodeCopied, setIsCodeCopied] = useState(false);
 
@@ -39,11 +41,13 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+    <div className="flex flex-col items-center justify-center p-4">
       {!isConnected ? (
         <div className="text-center items-center flex flex-col justify-center">
           <p className="mb-4  text-white">Connect your wallet to continue</p>
-          <ConnectButton />
+          <div className="z-20">
+            <ConnectButton />
+          </div>
         </div>
       ) : (
         <>
@@ -52,7 +56,7 @@ const Home: NextPage = () => {
           </Head>
 
           {/* body */}
-          <div className="mt-10 md:mt-20 lg:mt-36 px-4 md:px-24">
+          <div className="mt-28 md:mt-20 lg:mt-36 px-4 md:px-24">
             <h1 className="shadow-text text-white text-center text-3xl md:text-5xl lg:text-[54px] font-bold font-noto-serif uppercase">
               My profile
             </h1>
@@ -87,48 +91,8 @@ const Home: NextPage = () => {
                 </div>
               </div>
               {/* Edit Profile */}
-              <div className="profile-card-black bg-dark-card-grad pb-5 rounded-b-[40px] md:rounded-b-[60px] h-fit lg:rounded-b-[80px] shadow-xl px-[56px] font-noto-serif relative">
-                <div className="flex flex-col gap-5 justify-center items-center pt-4">
-                  <button className="yellow-button flex items-center gap-1 justify-center text-[#182C45] rounded-full text-sm p-2 lg:text-[18px] md:h-[45px] w-[189px] border-[4px] border-[#F2E63D] uppercase font-bold">
-                    xp earned <VECTOR_1 alt="Vector Icon" />
-                  </button>
-                </div>
-              </div>
+              <XPearned />
               {/* Numbers */}
-              {/* <div
-                style={{
-                  margin: "auto",
-                  display: "flex",
-                  justifyContent: "center"
-                }}
-              >
-                <div className="profile-card  w-full py-7 lg:h-[206px] flex flex-col lg:flex-row lg:justify-between gap-y-4 items-center justify-center rounded-tl-[40px] lg:rounded-tl-[80px] shadow-xl mt-8 md:mt-16 lg:mt-24 px-[56px]">
-                  <div className="flex flex-col items-center gap-x-3 md:flex-row">
-                    <h1 className="shadow-text2 font-bold  text-[#0d283a] text-3xl md:text-4xl lg:text-[54px] font-noto-serif uppercase leading-10 lg:leading-[60px]">
-                      32
-                    </h1>
-                    <p className="text-[#09111B] text-xl lg:text-[22px] font-source-sans-pro">
-                      Projects
-                    </p>
-                  </div>
-                  <div className="flex flex-col items-center gap-x-3 md:flex-row ">
-                    <h1 className="shadow-text2 font-bold text-[#0d283a] text-3xl md:text-4xl lg:text-[54px] font-noto-serif uppercase leading-10 lg:leading-[60px]">
-                      $3,540
-                    </h1>
-                    <p className="text-[#09111B] text-xl lg:text-[22px] font-source-sans-pro">
-                      Total sale
-                    </p>
-                  </div>
-                  <div className="flex flex-col  items-center gap-x-3 md:flex-row">
-                    <h1 className="shadow-text2 font-bold text-[rgb(13,40,58)] text-3xl md:text-4xl lg:text-[54px] font-noto-serif uppercase leading-10 lg:leading-[60px]">
-                      $10,972
-                    </h1>
-                    <p className="text-[#09111B] text-xl lg:text-[22px] font-source-sans-pro">
-                      My earnings
-                    </p>
-                  </div>
-                </div>
-              </div> */}
 
               {/* Profile info */}
               <div className="lg:max-w-[609px] mx-auto profile-card rounded-tl-[40px] lg:rounded-tl-[80px] shadow-xl mt-8 md:mt-16 lg:mt-24 p-4 lg:py-12">
@@ -139,74 +103,64 @@ const Home: NextPage = () => {
                 <div className="flex justify-center py-3">
                   {/* <Image src={PROFILE_INFO_LINE} alt="" /> */}
                 </div>
-                <div className="max-w-[377px] mx-auto">
+                <div className="max-w-[377px] mx-auto flex flex-col">
                   <div className="mt-2 lg:mt-5">
-                    <p className="text-[#09111B] text-center lg:text-left text-lg lg:text-[22px] font-source-sans-pro">
+                    <p className="text-[#09111B] text-center text-lg lg:text-[22px] font-source-sans-pro">
                       Wallet address
                     </p>
-                    <div className="flex items-center justify-center lg:justify-start gap-2">
-                      <h2 className="text-[#0d283a] text-center lg:text-left text-3xl lg:text-[42px] font-bold font-noto-serif leading-[50px] shadow-text2 truncate">
+
+                    <div className="flex justify-center gap-1">
+                      <h2 className="text-[#0d283a] text-3xl lg:text-[42px] font-bold font-noto-serif leading-[50px] shadow-text2 truncate">
                         {formatAddress(
                           address ||
                             "0x0000000000000000000000000000000000000000"
                         )}
                       </h2>
-                      <button
-                        onClick={() =>
-                          handleCopyReferralCode(address as string)
-                        }
-                      >
+                      <div className="relative flex items-center">
+                        <button
+                          onClick={() =>
+                            handleCopyReferralCode(address as string)
+                          }
+                        >
+                          <COPY_ICON />
+                        </button>
+                        {isCopied && (
+                          <p
+                            // className="flex added-fade-out absolute right-0 top-0"
+                            className="flex added-fade-out absolute -left-3 -top-4"
+                            onAnimationEnd={() => setIsCopied(false)}
+                          >
+                            Copied!
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <p className="flex justify-center gap-1">My code</p>
+                  <div className="flex items-center justify-center gap-2">
+                    <h2 className="text-[#0d283a] text-3xl lg:text-[42px] font-bold font-noto-serif leading-[50px] shadow-text2 truncate">
+                      {myCode}
+                    </h2>
+                    <div className="relative flex items-center">
+                      <button onClick={() => handleCopyCode(myCode)}>
                         <COPY_ICON />
                       </button>
-                      {isCopied && (
+                      {isCodeCopied && (
                         <p
-                          className="added-fade-out"
-                          onAnimationEnd={() => setIsCopied(false)}
+                          className="flex added-fade-out absolute -left-3 -top-6"
+                          onAnimationEnd={() => setIsCodeCopied(false)}
                         >
                           Copied!
                         </p>
                       )}
                     </div>
                   </div>
-                  <p className="text-[#09111B] text-[22px] font-source-sans-pro">
-                    My code
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <>
-                      <h2 className="text-[#0d283a] text-[42px] font-bold font-noto-serif leading-[50px] shadow-text2 uppercase">
-                       {myCode}
-                      </h2>
-                      <button onClick={() => handleCopyCode(myCode)}>
-                        <COPY_ICON />
-                      </button>
-                      {isCodeCopied && (
-                        <p
-                          className="added-fade-out"
-                          onAnimationEnd={() => setIsCodeCopied(false)}
-                        >
-                          Copied!
-                        </p>
-                      )}
-                    </>
-                  </div>
                 </div>
-              </div>
-
-              <div className="lg:max-w-[609px] mx-auto transparent-bg rounded-tl-[40px] lg:rounded-tl-[80px] shadow-2xl mt-8 md:mt-16 lg:mt-24 p-8 md:p-12 lg:p-[56px]">
-                <h2 className="text-[#09111B] text-[28px] font-medium font-noto-serif leading-[50px] shadow-text2 uppercase">
-                  Bio
-                </h2>
-                <p className="text-[#09111B] text-lg lg:text-[22px] font-source-sans-pro">
-                  Lorem ipsum dolor sit amet consectetur. Lacus nec tristique
-                  imperdiet nisl consequat. Ornare commodo massa fermentum
-                  porttitor ac nibh porttitor lacus.
-                </p>
               </div>
             </div>
           </div>
         </>
       )}
-      ;{isConnected && <ConnectButton />}
     </div>
   );
 };
