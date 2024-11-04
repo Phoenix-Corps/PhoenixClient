@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import contracts from "../contracts/contracts.json";
 import launchpadAbi from "../contracts/ABIs/Launchpad.json";
 import paymentPluginAbi from "../contracts/ABIs/PaymentPlugin.json";
+import voucherPluginAbi from "../contracts/ABIs/VoucherPlugin.json";
 
 import rankToNameMappingSolo from "../config/rankToNameMappingSolo.json";
 import rankToNameMappingTeam from "../config/rankToNameMappingTeam.json";
@@ -198,23 +199,51 @@ export const getUserClaimInfo = async (
 
 export const getVoucherBalance = async (
   provider: ethers.providers.Provider,
+  poolId: number,
   address: string,
-  pool: number
 ) => {
-  return 0;
+  const voucherContract = new ethers.Contract(
+    contracts.voucherPlugin,
+    voucherPluginAbi,
+    provider
+  );
+  const result = await voucherContract.getUserPoints(poolId, address);
+  return result;
 };
 
 export const claim = async (
   signer: ethers.providers.JsonRpcSigner,
-  address: string,
   id: number
 ) => {
-  return;
+  const launchpadContract = new ethers.Contract(
+    contracts.launchpad,
+    launchpadAbi,
+    signer
+  );
+  await launchpadContract.claimPayment(id);
 };
+
+export const buy = async (
+  signer: ethers.providers.JsonRpcSigner,
+  poolId: number,
+  amount: number,
+  referralCode: string,
+) => {
+  const launchpadContract = new ethers.Contract(
+    contracts.launchpad,
+    launchpadAbi,
+    signer
+  );
+  await launchpadContract.buy(poolId, amount, referralCode);
+}
 
 export const upgradeRank = async (
   signer: ethers.providers.JsonRpcSigner,
-  address: string
 ) => {
-  return;
+  const launchpadContract = new ethers.Contract(
+    contracts.launchpad,
+    launchpadAbi,
+    signer
+  );
+  await launchpadContract.levelUp();
 };
