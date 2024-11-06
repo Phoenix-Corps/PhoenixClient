@@ -16,7 +16,7 @@ export function clientToProvider(client: Client<Transport, Chain>) {
         ({ value }) => new providers.JsonRpcProvider(value?.url, network)
       )
     );
-  return new providers.JsonRpcProvider(transport.url, network);
+  return new providers.JsonRpcBatchProvider(transport.url, network);
 }
 
 /** Hook to convert a viem Client to an ethers.js Provider. */
