@@ -3,8 +3,10 @@ import { ethers } from "ethers";
 import contracts from "../contracts/contracts.json";
 import launchpadAbi from "../contracts/ABIs/Launchpad.json";
 import paymentPluginAbi from "../contracts/ABIs/PaymentPlugin.json";
+import voucherPluginAbi from "../contracts/ABIs/VoucherPlugin.json";
 
-import rankToNameMapping from "../config/rankToNameMapping.json";
+import rankToNameMappingSolo from "../config/rankToNameMappingSolo.json";
+import rankToNameMappingTeam from "../config/rankToNameMappingTeam.json";
 import poolToProjectMapping from "../config/poolToProjectMapping.json";
 import tokenMapping from "../config/tokenMapping.json";
 import { RoundInfo } from "@/types/types";
@@ -44,6 +46,7 @@ interface Rank {
 interface UserInfo {
   address: string;
   referralCode: string;
+  isTeamUser: boolean;
   currentXP: number;
   currentRank: Rank;
   nextRank?: Rank;
@@ -141,6 +144,7 @@ export const getUserInfo = async (
 
   const isTeamUser = userTierInfo.team;
   const userRanks = isTeamUser ? ranks.team : ranks.solo;
+  const rankMapping = isTeamUser ? rankToNameMappingTeam : rankToNameMappingSolo;
 
   const currentRank = userRanks[userTierInfo.rank];
 
@@ -148,9 +152,10 @@ export const getUserInfo = async (
     address: address,
     referralCode: referral,
     currentXP: 120,
+    isTeamUser,
     // currentXP: userTierInfo.currentXP.toNumber(),
     currentRank: {
-      name: rankToNameMapping[userTierInfo.rank],
+      name: rankMapping[userTierInfo.rank],
       paymentPercent: currentRank.paymentPercent.toNumber(),
       requiredXP: 100
       // requiredXP: currentRank.requiredXP.toNumber()
@@ -159,7 +164,7 @@ export const getUserInfo = async (
   if (userTierInfo.rank + 1 < userRanks.length) {
     const nextRank = userRanks[userTierInfo.rank];
     result.nextRank = {
-      name: rankToNameMapping[userTierInfo.rank + 1],
+      name: rankMapping[userTierInfo.rank + 1],
       paymentPercent: nextRank.paymentPercent.toNumber(),
       requiredXP: 200
       // requiredXP: nextRank.requiredXP.toNumber()
@@ -194,23 +199,51 @@ export const getUserClaimInfo = async (
 
 export const getVoucherBalance = async (
   provider: ethers.providers.Provider,
+  poolId: number,
   address: string,
-  pool: number
 ) => {
-  return 0;
+  const voucherContract = new ethers.Contract(
+    contracts.voucherPlugin,
+    voucherPluginAbi,
+    provider
+  );
+  const result = await voucherContract.getUserPoints(poolId, address);
+  return result;
 };
 
 export const claim = async (
   signer: ethers.providers.JsonRpcSigner,
-  address: string,
   id: number
 ) => {
-  return;
+  const launchpadContract = new ethers.Contract(
+    contracts.launchpad,
+    launchpadAbi,
+    signer
+  );
+  await launchpadContract.claimPayment(id);
 };
+
+export const buy = async (
+  signer: ethers.providers.JsonRpcSigner,
+  poolId: number,
+  amount: number,
+  referralCode: string,
+) => {
+  const launchpadContract = new ethers.Contract(
+    contracts.launchpad,
+    launchpadAbi,
+    signer
+  );
+  await launchpadContract.buy(poolId, amount, referralCode);
+}
 
 export const upgradeRank = async (
   signer: ethers.providers.JsonRpcSigner,
-  address: string
 ) => {
-  return;
+  const launchpadContract = new ethers.Contract(
+    contracts.launchpad,
+    launchpadAbi,
+    signer
+  );
+  await launchpadContract.levelUp();
 };

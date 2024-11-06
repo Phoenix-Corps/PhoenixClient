@@ -68,11 +68,11 @@ const ClaimsTable: React.FC = () => {
       const amount = projClaim.claimable;
       return { color: "yellow", text: "CLAIMABLE", amount };
     } else if (
-      projClaim.claimble == 0 &&
+      projClaim.claimable == 0 &&
       projClaim.totalPayment > projClaim.claimedPayment
     ) {
       const amount = projClaim.totalPayment - projClaim.claimedPayment;
-      return { color: "red", text: "PEDNING", amount };
+      return { color: "red", text: "PENDING", amount };
     } else {
       const amount = projClaim.totalPayment;
       return { color: "green", text: "CLAIMED", amount };
@@ -112,6 +112,7 @@ const ClaimsTable: React.FC = () => {
                           className="project-logo"
                         />
                       </span>
+                      <span>{row.token.symbol}</span>
                       <span>{getClaimInfo(claimTable[index]).amount}</span>
                     </div>
                   </td>
