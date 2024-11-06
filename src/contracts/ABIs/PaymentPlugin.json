@@ -1565,6 +1565,129 @@
         "type": "function"
     },
     {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            }
+        ],
+        "name": "untrustedGrantLevel",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_xp",
+                "type": "uint256"
+            }
+        ],
+        "name": "untrustedGrantXP",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "_recruiter",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_rank",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bool",
+                "name": "_registerReferralCode",
+                "type": "bool"
+            }
+        ],
+        "name": "untrustedRegisterRecruit",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_rank",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bool",
+                "name": "_registerReferralCode",
+                "type": "bool"
+            }
+        ],
+        "name": "untrustedRegisterSolo",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_rank",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bool",
+                "name": "_registerReferralCode",
+                "type": "bool"
+            }
+        ],
+        "name": "untrustedRegisterTeam",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_rank",
+                "type": "uint256"
+            }
+        ],
+        "name": "untrustedSetLevel",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
         "inputs": [],
         "name": "upfrontPaymentPercent",
         "outputs": [
