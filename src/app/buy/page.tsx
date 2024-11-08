@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
-import { useSearchParams } from "next/navigation";
 import { useBlockchainContext } from "@/context/BlockchainContext";
 import { PoolInfo } from "@/services/walletService";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import React, { useEffect, useMemo, useState } from "react";
+import { useAccount } from "wagmi";
+import ConnectButtonCustom from "./components/connectButtonCustom";
 
 type Props = {};
 
@@ -32,7 +32,6 @@ const BuyPage = (props: Props) => {
   );
 
   useEffect(() => {
-    
     const poolIdValue = searchParams.get("poolId");
     const codeValue = searchParams.get("code");
 
@@ -115,7 +114,7 @@ const BuyPage = (props: Props) => {
           ) : (
             <div className="text-center items-center flex flex-col justify-center">
               <p className="mb-4">Connect your wallet to continue</p>
-              <ConnectButton />
+              <ConnectButtonCustom />
             </div>
           )}
         </div>
