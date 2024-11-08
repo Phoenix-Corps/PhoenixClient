@@ -2,17 +2,6 @@
   font-family: sans-serif;
 }
 
-.bg {
-  background-image: url("../../public/images/BACKGROUND.webp");
-  background-position: top center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding-bottom: 0;
-  top: 0;
-  left: 0;
-  padding-bottom: 326px;
-}
-
 .button-group {
   position: absolute;
   display: flex;
