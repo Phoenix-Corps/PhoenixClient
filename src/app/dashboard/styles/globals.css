@@ -37,14 +37,33 @@ a {
     format("truetype");
 }
 
-.background-image {
+.solo-background{
   background-image: url("../../../../public/dashboard/shinobi-bg.png");
 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
+.army-background{
+  background-image: url("../../../../public/dashboard/army-bg.png");
 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.background-image-test {
+  background-image: url("../../../../public/dashboard/shinobi-bg.png");
+
+  width:  1024px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-size: contain; /* Prilagođava sliku da se cela vidi */
+  background-repeat: no-repeat; /* Sprečava ponavljanje slike */
+  background-position: center; 
+}
 .divider {
   width: 25%;
   height: 2px;

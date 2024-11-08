@@ -19,14 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <div>
-      {/* TODO: maybe put theme wrapper on home page */}
-      <Theme>
-        <div className="w-full mx-auto background-image ">
-          <Header />
-          {children}
-        </div>
-        <Footer />
-      </Theme>
+      <div className="w-full mx-auto  ">
+        <Header />
+        {children}
+      </div>
+      <Footer />
     </div>
   );
 }

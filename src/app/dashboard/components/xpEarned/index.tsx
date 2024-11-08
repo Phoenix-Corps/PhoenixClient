@@ -18,7 +18,7 @@ const XPearned: React.FC = () => {
           (userInfo.nextRank.requiredXP - userInfo.currentRank.requiredXP)) *
           100
       );
-      
+
       setXPearned(`${userInfo.currentXP} / ${userInfo.nextRank.requiredXP}`);
       if (
         userInfo.currentXP &&
@@ -57,7 +57,7 @@ const XPearned: React.FC = () => {
               className="h-full bg-green-500 text-white text-center font-bold"
               style={{ width: `${precentXp}%` }}
             >
-              {XPearned}
+              <div>{XPearned}</div>
             </div>
           </div>
           <button

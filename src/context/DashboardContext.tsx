@@ -16,10 +16,12 @@ import { useEthersProvider } from "@/services/useEthersProvider";
 import { useAccount } from "wagmi";
 export interface DashboardContextType {
   userInfo: UserInfo | null;
+  pageType: "solo" | "army";
   claimInfo: ClaimInfo[];
   walletAddress: string | undefined;
   fetchUserInfo: (address: string) => Promise<UserInfo | null>;
   fetchClaimInfo: (address: string) => Promise<ClaimInfo[] | []>;
+  changePageType: () => void;
   loadingDashboard: boolean;
 }
 
@@ -34,6 +36,15 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
   const [loadingDashboard, setLoadingDashboard] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [claimInfo, setClaimInfo] = useState<ClaimInfo[] | []>([]);
+  const [pageType, setPageType] = useState<"solo" | "army">("solo");
+
+  const changePageType = useCallback(() => {
+    if (pageType === "solo") {
+      setPageType("army");
+    } else {
+      setPageType("solo");
+    }
+  }, [pageType]);
 
   const fetchClaimInfo = useCallback(
     async (address: string): Promise<ClaimInfo[] | []> => {
@@ -97,6 +108,8 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
         claimInfo,
         loadingDashboard,
         userInfo,
+        pageType,
+        changePageType,
         fetchUserInfo,
         fetchClaimInfo
       }}

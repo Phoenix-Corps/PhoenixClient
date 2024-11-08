@@ -15,7 +15,7 @@ import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
 
 const Home: NextPage = () => {
   const { isConnected } = useAccount();
-  const { walletAddress, userInfo } = useDashboardContext();
+  const { walletAddress, userInfo, pageType } = useDashboardContext();
   const myCode = "XXXXXX";
 
   const [isCopied, setIsCopied] = useState(false);
@@ -34,7 +34,11 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
+    <div
+      className={`flex flex-col items-center justify-center p-4 ${
+        pageType === "solo" ? "solo-background" : "army-background"
+      }`}
+    >
       {!isConnected ? (
         <div className="text-center items-center flex flex-col justify-center">
           <p className="mb-4  text-white">Connect your wallet to continue</p>
@@ -49,10 +53,12 @@ const Home: NextPage = () => {
           </Head>
 
           {/* body */}
+
           <div className="mt-28 md:mt-20 lg:mt-36 px-4 md:px-24">
             <h1 className="shadow-text text-white text-center text-3xl md:text-5xl lg:text-[54px] font-bold font-noto-serif uppercase">
               My profile
             </h1>
+
             <div className="mx-auto mt-6 md:mt-9 lg:mt-12">
               {/* Profile Card */}
               <div className="profile-card py-4 h-[170px] lg:h-[251px] flex justify-between items-center px-6 rounded-tl-[50px] lg:rounded-tl-[80px] shadow-xl lg:px-[56px]">
@@ -72,7 +78,8 @@ const Home: NextPage = () => {
                   </div>
                   <p className="text-[#09111B] text-[14px] lg:text-[22px] font-source-sans-pro">
                     You are currently earning{" "}
-                    <span className="font-bold">{userInfo?.commission}%</span> in commissions
+                    <span className="font-bold">{userInfo?.commission}%</span>{" "}
+                    in commissions
                   </p>
                 </div>
                 <div className=" md:block">
