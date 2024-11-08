@@ -16,6 +16,7 @@
 
 .btn-yellow-grad {
   padding: 6px 16px 6px 16px;
+  
   gap: 0px;
   border-radius: 100px;
 
@@ -29,6 +30,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  
 }
 
 .btn-yellow-grad-text {
@@ -55,6 +57,7 @@
 }
 
 .btn-red-grad {
+  cursor: not-allowed;
   padding: 6px 16px 6px 16px;
   gap: 0px;
   border-radius: 100px;
@@ -85,6 +88,7 @@
 
 /* GREEN GRADEINT BUTTON */
 .btn-green-grad-container {
+  
   display: inline-block;
   padding: 4px;
   gap: 10px;
@@ -95,6 +99,7 @@
 }
 
 .btn-green-grad {
+  cursor: not-allowed;
   padding: 6px 16px 6px 16px;
   gap: 0px;
   border-radius: 100px;

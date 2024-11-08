@@ -1,3 +1,4 @@
+
 import { ethers } from "ethers";
 
 import contracts from "../contracts/contracts.json";
@@ -10,6 +11,7 @@ import rankToNameMappingTeam from "../config/rankToNameMappingTeam.json";
 import poolToProjectMapping from "../config/poolToProjectMapping.json";
 import tokenMapping from "../config/tokenMapping.json";
 import { RoundInfo } from "@/types/types";
+import exp from "constants";
 
 interface ProjectInfo {
   name: string;
@@ -43,13 +45,20 @@ interface Rank {
   requiredXP?: number;
 }
 
-interface UserInfo {
+export interface UserInfo {
   address: string;
   referralCode: string;
+  level:number
+  commission: number;
   isTeamUser: boolean;
   currentXP: number;
   currentRank: Rank;
   nextRank?: Rank;
+}
+export interface ClaimInfo {
+  totalPayment: number;
+  claimedPayment: number;
+  claimable: number;
 }
 
 export const getPoolInfo = async (
@@ -70,6 +79,7 @@ export const getPoolInfo = async (
   const poolInfo = {
     id: poolId,
     projectInfo: poolToProjectMapping[poolId],
+   
     token: tokenMapping[pool.paymentToken], // TODO: fix ts error
     currentRound: {
       roundStart: currentRound.roundStart,
@@ -135,7 +145,6 @@ export const getUserInfo = async (
     paymentPluginAbi,
     provider
   );
-
   const [ranks, userTierInfo, referral] = await Promise.all([
     paymentPluginContract.getTiers(),
     paymentPluginContract.userTierInfo(address),
@@ -147,30 +156,33 @@ export const getUserInfo = async (
   const rankMapping = isTeamUser ? rankToNameMappingTeam : rankToNameMappingSolo;
 
   const currentRank = userRanks[userTierInfo.rank];
-
+  console.log(currentRank);
+  // console.log(ranks.solo[0]);
   const result: UserInfo = {
     address: address,
     referralCode: referral,
+    level:userTierInfo.rank.toNumber()+1,
+    commission:3.5,
     currentXP: 120,
     isTeamUser,
     // currentXP: userTierInfo.currentXP.toNumber(),
     currentRank: {
-      name: rankMapping[userTierInfo.rank],
+      name: rankMapping[userTierInfo.rank.toNumber()],
       paymentPercent: currentRank.paymentPercent.toNumber(),
       requiredXP: 100
       // requiredXP: currentRank.requiredXP.toNumber()
     }
   };
   if (userTierInfo.rank + 1 < userRanks.length) {
-    const nextRank = userRanks[userTierInfo.rank];
+    const nextRank = userRanks[userTierInfo.rank.toNumber()];
     result.nextRank = {
-      name: rankMapping[userTierInfo.rank + 1],
+      name: rankMapping[userTierInfo.rank.toNumber() + 1],
       paymentPercent: nextRank.paymentPercent.toNumber(),
       requiredXP: 200
       // requiredXP: nextRank.requiredXP.toNumber()
     };
   }
-
+// console.log(result)
   return result;
 };
 

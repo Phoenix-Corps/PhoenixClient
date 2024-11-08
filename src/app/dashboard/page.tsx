@@ -1,28 +1,21 @@
-// Home.tsx
-
 "use client";
 
 import type { NextPage } from "next";
 import Image from "next/image";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import PhoenixLOGO from "@/app/dashboard/public/my-profile/Phoenix logo.png";
-import ShinobiLogo from "@/app/dashboard/public/images/headerLogo.png";
-import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
 import Head from "next/head";
+import { useState } from "react";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { formatAddress } from "@/app/dashboard/utils/formatAddress";
 import { useAccount } from "wagmi";
-import PFP from "./public/my-profile/PFP.png";
-import { useEffect, useState } from "react";
-import { useEthersProvider } from "@/services/useEthersProvider";
-import { getUserInfo } from "@/services/walletService";
-import { providers } from "ethers";
-import XPearned from "./components/xpEarned"
+
+import { useDashboardContext } from "@/context/DashboardContext";
+
+import XPearned from "./components/xpEarned";
+import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
 
 const Home: NextPage = () => {
-  const { address, isConnected } = useAccount();
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const { isConnected } = useAccount();
+  const { walletAddress, userInfo } = useDashboardContext();
   const myCode = "XXXXXX";
 
   const [isCopied, setIsCopied] = useState(false);
@@ -69,22 +62,26 @@ const Home: NextPage = () => {
                 <div className="flex flex-col gap-1.5">
                   <div>
                     <h3 className="text-[#12384F] header-text-bold text-[32px] font-bold font-source-sans-pro leading-[50px]">
-                      Lvl. 1
+                      Lvl. {userInfo?.level}
                     </h3>
                     <div className="flex gap-10 items-center">
                       <h2 className="shadow-text2 text-[#12384F] header-text-bold text-4xl lg:text-[54px] font-bold font-noto-serif uppercase">
-                        Shinobi
+                        {userInfo?.currentRank.name}
                       </h2>
                     </div>
                   </div>
                   <p className="text-[#09111B] text-[14px] lg:text-[22px] font-source-sans-pro">
                     You are currently earning{" "}
-                    <span className="font-bold">3.5%</span> in commissions
+                    <span className="font-bold">{userInfo?.commission}%</span> in commissions
                   </p>
                 </div>
                 <div className=" md:block">
                   <Image
-                    src={ShinobiLogo}
+                    src={`/Shinobi Alliance Ranks/Lvl-${
+                      userInfo && userInfo.level && userInfo?.level
+                    }.png`}
+                    width={100}
+                    height={100}
                     alt=""
                     className="md:block max-h-[140px] object-contain"
                   />
@@ -112,14 +109,14 @@ const Home: NextPage = () => {
                     <div className="flex justify-center gap-1">
                       <h2 className="text-[#0d283a] text-3xl lg:text-[42px] font-bold font-noto-serif leading-[50px] shadow-text2 truncate">
                         {formatAddress(
-                          address ||
+                          walletAddress ||
                             "0x0000000000000000000000000000000000000000"
                         )}
                       </h2>
                       <div className="relative flex items-center">
                         <button
                           onClick={() =>
-                            handleCopyReferralCode(address as string)
+                            handleCopyReferralCode(walletAddress as string)
                           }
                         >
                           <COPY_ICON />

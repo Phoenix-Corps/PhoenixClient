@@ -21,7 +21,7 @@ export default function RootLayout({
     <div>
       {/* TODO: maybe put theme wrapper on home page */}
       <Theme>
-        <div className="w-full mx-auto background-image">
+        <div className="w-full mx-auto background-image ">
           <Header />
           {children}
         </div>
