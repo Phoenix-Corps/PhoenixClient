@@ -10,20 +10,20 @@ import Image from "next/image";
 const Slider = () => {
   const [ref, slider] = useKeenSlider<HTMLDivElement>({
     slides: {
-      perView: 3,
+      perView: 3
     },
-    mode: "snap",
+    mode: "snap"
   });
   const [sliderRef, slider2] = useKeenSlider({
     breakpoints: {
       "(min-width: 400px)": {
-        slides: { perView: 1, spacing: 12, origin: "center" },
+        slides: { perView: 1, spacing: 12, origin: "center" }
       },
       "(min-width: 1000px)": {
-        slides: { perView: 3, spacing: 30 },
-      },
+        slides: { perView: 3, spacing: 30 }
+      }
     },
-    slides: { perView: 1 },
+    slides: { perView: 1 }
   });
   const handlePrev = () => {
     slider2.current?.prev();
@@ -34,7 +34,7 @@ const Slider = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative pb-40">
       <div ref={sliderRef} className="keen-slider pl-10 sm:pl-40">
         <div className="keen-slider__slide pb-2">
           <div className="slide-item slide-item1 mt-16">
