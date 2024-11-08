@@ -7,11 +7,13 @@ import phoenixLogo from "@/app/dashboard/public/images/phoenix-logo.png";
 import GRADIENT_LINE from "@/app/dashboard/public/my-profile/Line 1.png";
 import HeaderLogo from "@/app/dashboard/public/images/headerLogo.png";
 import { useDisconnect, useAccount } from "wagmi";
+import { useDashboardContext } from "@/context/DashboardContext";
 
 import { usePathname, useRouter } from "next/navigation";
 
 const Header = () => {
   const pathname = usePathname();
+  const { changePageType, pageType } = useDashboardContext();
   const { isConnected } = useAccount();
   const router = useRouter();
   const { disconnect } = useDisconnect();
@@ -53,7 +55,7 @@ const Header = () => {
               {!isCollapsed ? "Menu" : "X"}
             </button>
           ) : null}
-
+          <button onClick={() => changePageType()}>Switch Account</button>
           <Image
             src={HeaderLogo}
             alt=""
