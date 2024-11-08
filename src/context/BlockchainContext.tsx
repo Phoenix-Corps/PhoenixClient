@@ -1,13 +1,14 @@
 // context/BlockchainContext.tsx
+import poolToProjectMapping from "@/config/poolToProjectMapping.json";
+import { useEthersProvider } from "@/services/useEthersProvider";
+import { getPoolInfo, getPoolList, PoolInfo } from "@/services/walletService";
 import {
   createContext,
-  useContext,
-  useState,
+  ReactNode,
   useCallback,
-  ReactNode
+  useContext,
+  useState
 } from "react";
-import { getPoolInfo, getPoolList, PoolInfo } from "@/services/walletService";
-import { useEthersProvider } from "@/services/useEthersProvider";
 
 export interface BlockchainContextType {
   poolInfo: PoolInfo[];
@@ -63,8 +64,7 @@ export const BlockchainProvider: React.FC<{ children: ReactNode }> = ({
       return [];
     }
 
-    // TODO: probably need better condition for cache checking
-    if (poolInfoMap.size > 0) {
+    if (poolInfoMap.size === poolToProjectMapping.length) {
       console.log("CACHE HIT FOR ALL POOLS");
       return Array.from(poolInfoMap.values());
     }
