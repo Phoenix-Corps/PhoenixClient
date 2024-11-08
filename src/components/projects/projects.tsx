@@ -2,6 +2,7 @@
 
 import { useBlockchainContext } from "@/context/BlockchainContext";
 import { PoolInfo } from "@/services/walletService";
+import { BigNumber } from "ethers";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -13,6 +14,15 @@ const ProjectCard: React.FC<PoolInfo> = ({
   currentRound,
   token
 }) => {
+  const roundStartDate = new Date(currentRound.roundStart * 1000);
+  const roundEndDate = new Date(currentRound.roundEnd * 1000);
+  const available = BigNumber.from(currentRound.available);
+  const goal = BigNumber.from(currentRound.goal);
+
+  const percentage = goal.gt(0)
+    ? available.mul(10000).div(goal).toNumber() / 100
+    : 0;
+
   const renderButton = () => {
     // TODO: statuses
     return (
@@ -23,7 +33,6 @@ const ProjectCard: React.FC<PoolInfo> = ({
   };
 
   return (
-    // TODO: round infos
     <div className="project-card w-[300px]">
       <div className="project-header">
         <Image
@@ -37,18 +46,26 @@ const ProjectCard: React.FC<PoolInfo> = ({
           <h3 className="project-name">{projectInfo.name}</h3>
         </div>
       </div>
+      <div className="detail-row">
+        <span>ROUND</span>
+        <span>{id}</span>
+      </div>
       <div className="project-details">
         <div className="detail-row">
-          <span>ROUND</span>
-          <span>{"--"}</span>
+          <span>ROUND START</span>
+          <span>{roundStartDate.toDateString()}</span>
+        </div>
+        <div className="detail-row">
+          <span>ROUND END</span>
+          <span>{roundEndDate.toDateString()}</span>
         </div>
         <div className="detail-row">
           <span>ROUND PRICE</span>
-          <span>{"--"}</span>
+          <span>{BigNumber.from(currentRound.voucherPrice).toString()}</span>
         </div>
         <div className="detail-row">
           <span>TOTAL RAISED</span>
-          <span>{"--"}</span>
+          <span>{`${percentage.toFixed(2)}%`}</span>
         </div>
       </div>
       {renderButton()}
@@ -61,7 +78,6 @@ const ProjectsSection: React.FC = () => {
   const [projects, setProjects] = useState<PoolInfo[]>([]);
 
   useEffect(() => {
-    
     fetchAllPoolInfo()
       .then(poolData => {
         setProjects(poolData);

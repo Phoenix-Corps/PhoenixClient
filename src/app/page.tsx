@@ -1,4 +1,5 @@
 import Image from "next/image";
+import BACKGROUND_IMAGE from "@public/images/BACKGROUND.webp";
 import REPRESENTATIVE_IMAGE from "../../public/images/representative.png";
 import Slider from "../components/slider/slider";
 import Hero from "../components/hero/hero";
@@ -12,7 +13,16 @@ import ProjectsSection from "@/components/projects/projects";
 export default function Home() {
   return (
     <>
-      <div className="bg">
+      <div
+        className="relative bg-no-repeat bg-center min-h-screen"
+        style={{
+          backgroundImage: `url(${BACKGROUND_IMAGE.src})`,
+          backgroundSize: "100% 100%",
+          backgroundPosition: "center",
+          backgroundAttachment: "scroll",
+          backgroundRepeat: "no-repeat"
+        }}
+      >
         <Hero />
 
         <HeadingSection />

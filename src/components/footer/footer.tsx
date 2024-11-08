@@ -7,7 +7,7 @@ import Link from "next/link";
 const Footer = () => {
   return (
     <div className="footer">
-      <div className="social-wrapper">
+      <div className="social-wrapper mt-10">
         <a
           href="https://discord.gg/f8WQJyZGy8"
           target="_blank"
