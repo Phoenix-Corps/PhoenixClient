@@ -6,8 +6,8 @@ import { useDashboardContext } from "@/context/DashboardContext";
 const XPearned: React.FC = () => {
   const { userInfo, fetchUserInfo, walletAddress } = useDashboardContext();
 
-  const [XPearned, setXPearned] = useState<any>("");
-  const [precentXp, setPercentXp] = useState<any>("");
+  const [XPearned, setXPearned] = useState<string>("");
+  const [precentXp, setPercentXp] = useState<number | null>(null);
   const [isClickable, setIsClickable] = useState(false);
 
   useEffect(() => {

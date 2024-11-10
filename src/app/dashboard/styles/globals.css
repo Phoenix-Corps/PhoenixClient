@@ -37,24 +37,22 @@ a {
     format("truetype");
 }
 
-.solo-background{
+.solo-background {
   background-image: url("../../../../public/dashboard/shinobi-bg.png");
 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
-.army-background{
+.army-background {
   background-image: url("../../../../public/dashboard/army-bg.png");
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.army-background-path {
+  background-image: url("../../../../public/dashboard/army-bg.png");
 }
 .background-image-test {
   background-image: url("../../../../public/dashboard/shinobi-bg.png");
 
-  width:  1024px;
+  width: 1024px;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -62,7 +60,7 @@ a {
 
   background-size: contain; /* Prilagođava sliku da se cela vidi */
   background-repeat: no-repeat; /* Sprečava ponavljanje slike */
-  background-position: center; 
+  background-position: center;
 }
 .divider {
   width: 25%;
@@ -115,8 +113,7 @@ a {
 
 @import url("@/app/dashboard/claims/claims.css");
 
+
 @import url("@/app/dashboard/styles/edit-profile.css");
 @import url("@/app/dashboard/styles/signin.css");
 @import "@radix-ui/themes/styles.css";
-
-

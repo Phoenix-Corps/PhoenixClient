@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap");
+
+table {
+  font-family: "Source Sans Pro";
+}
+.recruit-button {
+  background: linear-gradient(
+    180deg,
+    rgb(242, 230, 61) 0%,
+    rgb(242, 174, 48) 52.5%,
+    rgb(231, 73, 12) 100%
+  );
+}

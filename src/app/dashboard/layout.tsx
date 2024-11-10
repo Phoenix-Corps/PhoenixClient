@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <div>
-      <div className="w-full mx-auto  ">
+      <div className="w-full mx-auto">
         <Header />
         {children}
       </div>
