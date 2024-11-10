@@ -161,7 +161,7 @@ export const getUserInfo = async (
   const result: UserInfo = {
     address: address,
     referralCode: referral,
-    level:userTierInfo.rank.toNumber()+1,
+    level:userTierInfo.rank.toNumber()+1, //since it is 0 based
     commission:3.5,
     currentXP: 120,
     isTeamUser,

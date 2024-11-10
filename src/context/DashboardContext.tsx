@@ -3,8 +3,7 @@ import {
   useContext,
   useState,
   useCallback,
-  ReactNode,
-  useEffect
+  ReactNode
 } from "react";
 import {
   getUserInfo,
@@ -12,8 +11,10 @@ import {
   getUserClaimInfo,
   ClaimInfo
 } from "@/services/walletService";
+
 import { useEthersProvider } from "@/services/useEthersProvider";
 import { useAccount } from "wagmi";
+
 export interface DashboardContextType {
   userInfo: UserInfo | null;
   pageType: "solo" | "army";
@@ -28,6 +29,7 @@ export interface DashboardContextType {
 const DashboardContext = createContext<DashboardContextType | undefined>(
   undefined
 );
+
 export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
   children
 }) => {
@@ -87,6 +89,7 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
       }
 
       setLoadingDashboard(true);
+
       try {
         const data = await getUserInfo(provider, address);
         console.log("NOT FROM CACHE", userInfo);

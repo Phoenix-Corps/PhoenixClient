@@ -55,7 +55,9 @@ const Header = () => {
               {!isCollapsed ? "Menu" : "X"}
             </button>
           ) : null}
+          <div className="bg-white">
           <button onClick={() => changePageType()}>Switch Account</button>
+          </div>
           <Image
             src={HeaderLogo}
             alt=""
@@ -82,6 +84,14 @@ const Header = () => {
             className="shadow-text text-white text-lg md:text-2xl lg:text-[36px] font-noto-serif uppercase cursor-pointer"
           >
             My Claims
+          </Link>
+        </li>
+        <li onClick={() => setCollapsed(false)}>
+          <Link
+            href={"/dashboard/division"}
+            className="shadow-text text-white text-lg md:text-2xl lg:text-[36px] font-noto-serif uppercase cursor-pointer"
+          >
+            My Division
           </Link>
         </li>
         <li

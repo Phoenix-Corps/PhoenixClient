@@ -10,7 +10,7 @@ import { useAccount } from "wagmi";
 
 import { useDashboardContext } from "@/context/DashboardContext";
 
-import XPearned from "./components/xpEarned";
+import XPearned from "./components/xp-earned";
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
 
 const Home: NextPage = () => {
@@ -35,12 +35,15 @@ const Home: NextPage = () => {
 
   return (
     <div
-      className={`flex flex-col items-center justify-center p-4 ${
+      className={`relative  min-h-screen p-4  bg-center bg-no-repeat  ${
         pageType === "solo" ? "solo-background" : "army-background"
       }`}
+      style={{
+        backgroundSize: "100% 100%"
+      }}
     >
       {!isConnected ? (
-        <div className="text-center items-center flex flex-col justify-center">
+        <div className="text-center items-center flex flex-col justify-center h-screen">
           <p className="mb-4  text-white">Connect your wallet to continue</p>
           <div className="z-20">
             <ConnectButton />
