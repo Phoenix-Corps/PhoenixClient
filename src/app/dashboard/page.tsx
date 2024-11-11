@@ -72,7 +72,7 @@ const Home: NextPage = () => {
                 <div className="flex flex-col gap-1.5">
                   <div>
                     <h3 className="text-[#12384F] header-text-bold text-[32px] font-bold font-source-sans-pro leading-[50px]">
-                      Lvl. {userInfo?.level}
+                        Lvl. {userInfo?.currentRank.level}
                     </h3>
                     <div className="flex gap-10 items-center">
                       <h2 className="shadow-text2 text-[#12384F] header-text-bold text-4xl lg:text-[54px] font-bold font-noto-serif uppercase">
@@ -82,14 +82,14 @@ const Home: NextPage = () => {
                   </div>
                   <p className="text-[#09111B] text-[14px] lg:text-[22px] font-source-sans-pro">
                     You are currently earning{" "}
-                    <span className="font-bold">{userInfo?.commission}%</span>{" "}
+                      <span className="font-bold">{userInfo?.currentRank.paymentPercent ?? 0}%</span>{" "}
                     in commissions
                   </p>
                 </div>
                 <div className=" md:block">
                   <Image
                     src={`/Shinobi Alliance Ranks/Lvl-${
-                      userInfo && userInfo.level && userInfo?.level
+                        userInfo && userInfo.currentRank.level
                     }.png`}
                     width={100}
                     height={100}
