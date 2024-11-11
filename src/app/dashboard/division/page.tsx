@@ -15,6 +15,7 @@ const Division = () => {
         pageType === "solo" ? "solo-background" : "army-background"
       }`}
       style={{
+        height: pageType === "solo" ? "3712px" : "3500px",
         backgroundSize: "100% 100%"
       }}
     >
