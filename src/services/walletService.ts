@@ -11,7 +11,8 @@ import rankToNameMappingTeam from "../config/rankToNameMappingTeam.json";
 import poolToProjectMapping from "../config/poolToProjectMapping.json";
 import tokenMapping from "../config/tokenMapping.json";
 import { RoundInfo } from "@/types/types";
-import exp from "constants";
+
+const paymentPercentDecimals = 10000000;
 
 interface ProjectInfo {
   name: string;
@@ -42,6 +43,7 @@ export interface PoolInfo {
 
 interface Rank {
   name: string;
+  level: number;
   paymentPercent: number;
   requiredXP?: number;
 }
@@ -89,7 +91,6 @@ export const getPoolInfo = async (
       available: currentRound.available
     }
   };
-  console.log(poolInfo);
   return poolInfo;
 };
 
@@ -164,15 +165,18 @@ export const getUserInfo = async (
     currentXP: userTierInfo.currentXP.toNumber(),
     currentRank: {
       name: rankMapping[userTierInfo.rank.toNumber()],
-      paymentPercent: currentRank.paymentPercent.toNumber(),
+      level: userTierInfo.rank.toNumber() + 1,
+      paymentPercent: currentRank.paymentPercent.toNumber() / paymentPercentDecimals,
       requiredXP: currentRank.requiredXP.toNumber()
     }
   };
   if (userTierInfo.rank + 1 < userRanks.length) {
-    const nextRank = userRanks[userTierInfo.rank.toNumber()];
+    const nextRankId = userTierInfo.rank.toNumber() + 1;
+    const nextRank = userRanks[nextRankId];
     result.nextRank = {
-      name: rankMapping[userTierInfo.rank.toNumber() + 1],
-      paymentPercent: nextRank.paymentPercent.toNumber(),
+      name: rankMapping[nextRankId],
+      level: nextRankId + 1,
+      paymentPercent: nextRank.paymentPercent.toNumber() / paymentPercentDecimals,
       requiredXP: nextRank.requiredXP.toNumber()
     };
   }
@@ -184,6 +188,25 @@ export const getUserClaimInfo = async (
   provider: ethers.providers.Provider,
   address: string
 ) => {
+
+  return [
+    {
+      claimable: 0,
+      claimedPayment: 100,
+      totalPayment: 200,
+    },
+    {
+      claimable: 0,
+      claimedPayment: 200,
+      totalPayment: 200,
+    },
+    {
+      claimable: 100,
+      claimedPayment: 0,
+      totalPayment: 0,
+    },
+  ];
+
   const paymentPluginContract = new ethers.Contract(
     contracts.paymentPlugin,
     paymentPluginAbi,

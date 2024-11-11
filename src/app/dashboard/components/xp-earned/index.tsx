@@ -11,7 +11,9 @@ const XPearned: React.FC = () => {
   const [isClickable, setIsClickable] = useState(false);
 
   useEffect(() => {
-    if (walletAddress) fetchUserInfo(walletAddress);
+    if (walletAddress) {
+      fetchUserInfo(walletAddress);
+    }
     if (userInfo?.currentRank?.requiredXP && userInfo?.nextRank?.requiredXP) {
       setPercentXp(
         ((userInfo.currentXP - userInfo.currentRank.requiredXP) /
