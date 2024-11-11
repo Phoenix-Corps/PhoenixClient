@@ -84,19 +84,35 @@ const ClaimsTable: React.FC = () => {
                         getClaimInfo(claimInfo[index]).color
                       }-grad-container`}
                     >
-                      <button
-                        className={`btn-${
-                          getClaimInfo(claimInfo[index]).color
-                        }-grad px-10`}
-                      >
+                      {getClaimInfo(claimInfo[index]).text === "CLAIMABLE" ? (
+                        <button
+                          className={`btn-${
+                            getClaimInfo(claimInfo[index]).color
+                          }-grad px-10`}
+                        >
+                          <span
+                            className={`btn-${
+                              getClaimInfo(claimInfo[index]).color
+                            }-grad-text`}
+                          >
+                            {getClaimInfo(claimInfo[index]).text}
+                          </span>
+                        </button>
+                      ) : (
                         <span
                           className={`btn-${
                             getClaimInfo(claimInfo[index]).color
-                          }-grad-text`}
+                          }-grad px-10`}
                         >
-                          {getClaimInfo(claimInfo[index]).text}
+                          <span
+                            className={`btn-${
+                              getClaimInfo(claimInfo[index]).color
+                            }-grad-text`}
+                          >
+                            {getClaimInfo(claimInfo[index]).text}
+                          </span>
                         </span>
-                      </button>
+                      )}
                     </div>
                   </td>
                 </tr>
