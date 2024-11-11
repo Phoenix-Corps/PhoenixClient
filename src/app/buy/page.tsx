@@ -147,8 +147,13 @@ const BuyPage = (props: Props) => {
                 )}
                 <div className="voucher-text-text">VOUCHERS</div>
               </div>
-              {/* TODO: add voucher price (in payment token) */}
-              <div className="change-rate-text">2 Vouchers = 1 USDC</div>
+              {currentPoolInfo ? (
+                <div className="change-rate-text z-10">{`${currentPoolInfo?.currentRound.voucherPrice} Vouchers = 1 ${currentPoolInfo?.token.name}`}</div>
+              ) : (
+                <div className="change-rate-text z-10">
+                  Loading conversion rate...
+                </div>
+              )}
             </div>
           )}
           <div className="voucher-phoenix-image"></div>
