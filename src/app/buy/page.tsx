@@ -1,19 +1,23 @@
 "use client";
 
 import { useBlockchainContext } from "@/context/BlockchainContext";
-import { PoolInfo } from "@/services/walletService";
+import { useEthersProvider } from "@/services/useEthersProvider";
+import { PoolInfo, getVoucherBalance } from "@/services/walletService";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { useAccount } from "wagmi";
 import ConnectButtonCustom from "./components/connectButtonCustom";
+import { BigNumber } from "ethers";
 
 type Props = {};
 
 const BuyPage = (props: Props) => {
   const [amount, setAmount] = useState<number | null>(null);
-  const { isConnected } = useAccount();
+  const [vouchersOwned, setVouchersOwned] = useState<BigNumber | null>(null);
+  const { isConnected, address } = useAccount();
   const searchParams = useSearchParams();
+  const provider = useEthersProvider();
 
   const { fetchPoolInfoById } = useBlockchainContext();
 
@@ -30,6 +34,19 @@ const BuyPage = (props: Props) => {
   const [currentPoolInfo, setCurrentPoolInfo] = useState<PoolInfo | undefined>(
     undefined
   );
+
+  useEffect(() => {
+    if (provider && address && poolId) {
+      getVoucherBalance(provider, parseInt(poolId), address)
+        .then(voucherBalanceResult => {
+          setVouchersOwned(BigNumber.from(voucherBalanceResult));
+        })
+        .catch(error => {
+          console.error(error);
+          setError("Error fetching voucher information.");
+        });
+    }
+  }, [poolId, address]);
 
   useEffect(() => {
     const poolIdValue = searchParams.get("poolId");
@@ -122,10 +139,16 @@ const BuyPage = (props: Props) => {
           {isConnected && (
             <div className="voucher-text-in-image">
               <div className="currency-and-text">
-                {/* TODO: get from walletService */}
-                <div className="voucher-text-number font-extrabold z-10">0</div>
+                {vouchersOwned ? (
+                  <div className="voucher-text-number font-extrabold z-10">
+                    {vouchersOwned.toString()}
+                  </div>
+                ) : (
+                  <div>Loading vouchers...</div>
+                )}
                 <div className="voucher-text-text">VOUCHERS</div>
               </div>
+              {/* TODO: add voucher price (in payment token) */}
               <div className="change-rate-text">2 Vouchers = 1 USDC</div>
             </div>
           )}
