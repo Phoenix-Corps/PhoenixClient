@@ -48,16 +48,17 @@
 /* RED GRADEINT BUTTON */
 .btn-red-grad-container {
   display: inline-block;
+  margin-left: 5px;
   padding: 4px;
   gap: 10px;
-  border-radius: 100px;
+  border-radius: 5px;
 
   background: linear-gradient(180deg, #ebaba69d 0%, #c1334186 100%);
   margin-top: -22px;
 }
 
 .btn-red-grad {
-  cursor: not-allowed;
+/*   
   padding: 6px 16px 6px 16px;
   gap: 0px;
   border-radius: 100px;
@@ -71,7 +72,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 }
 
 .btn-red-grad-text {
@@ -88,19 +89,17 @@
 
 /* GREEN GRADEINT BUTTON */
 .btn-green-grad-container {
-  
+  margin-left: 5px;
   display: inline-block;
   padding: 4px;
-  gap: 10px;
-  border-radius: 100px;
 
+  border-radius: 5px;
   background: linear-gradient(180deg, #bfe3aa85 0%, #2ea23a8f 100%);
-  margin-top: -22px;
 }
 
 .btn-green-grad {
-  cursor: not-allowed;
-  padding: 6px 16px 6px 16px;
+
+  /* padding: 6px 16px 6px 16px;
   gap: 0px;
   border-radius: 100px;
 
@@ -113,7 +112,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 }
 
 .btn-green-grad-text {
