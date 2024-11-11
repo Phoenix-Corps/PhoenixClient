@@ -31,6 +31,7 @@ export interface PoolInfo {
   token: TokenInfo;
   projectInfo: ProjectInfo;
   currentRound: {
+    id: number;
     roundStart: number;
     roundEnd: number;
     voucherPrice: number;
@@ -82,6 +83,7 @@ export const getPoolInfo = async (
    
     token: tokenMapping[pool.paymentToken], // TODO: fix ts error
     currentRound: {
+      id: (rounds.indexOf(currentRound) ?? 0) + 1,
       roundStart: currentRound.roundStart,
       roundEnd: currentRound.roundEnd,
       voucherPrice: currentRound.voucherPrice,
@@ -118,6 +120,7 @@ export const getPoolList = async (provider: ethers.providers.Provider) => {
         projectInfo: poolToProjectMapping[poolId],
         token: tokenMapping[pool.paymentToken], // TODO: fix ts error
         currentRound: {
+          id: (rounds.indexOf(currentRound) ?? 0) + 1,
           roundStart: currentRound.roundStart,
           roundEnd: currentRound.roundEnd,
           voucherPrice: currentRound.voucherPrice,

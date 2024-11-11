@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    domains: ["cryptologos.cc", "s2.coinmarketcap.com"] // TODO: probably set domain for own CDN
+    domains: ["cryptologos.cc", "s2.coinmarketcap.com", "img.freepik.com", "cdn-icons-png.flaticon.com"] // TODO: probably set domain for own CDN
   },
   webpack(config) {
     // Add the @svgr/webpack loader for SVGs
