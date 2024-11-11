@@ -110,8 +110,8 @@ const BuyPage = (props: Props) => {
                       <Image
                         src={currentPoolInfo.token.logo}
                         alt="Description of the image"
-                        width={40}
-                        height={40}
+                        width={30}
+                        height={30}
                         style={{ objectFit: "contain" }}
                       />
                     </>
@@ -148,7 +148,7 @@ const BuyPage = (props: Props) => {
                 <div className="voucher-text-text">VOUCHERS</div>
               </div>
               {currentPoolInfo ? (
-                <div className="change-rate-text z-10">{`${currentPoolInfo?.currentRound.voucherPrice} Vouchers = 1 ${currentPoolInfo?.token.name}`}</div>
+                <div className="change-rate-text z-10">{`1 Voucher = ${currentPoolInfo?.currentRound.voucherPrice} ${currentPoolInfo?.token.name}`}</div>
               ) : (
                 <div className="change-rate-text z-10">
                   Loading conversion rate...
