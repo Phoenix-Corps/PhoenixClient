@@ -104,6 +104,7 @@ a {
   border-right-style: none;
   border-color: #efefef;
   border-width: 1px;
+  color: black;
 }
 
 @import url("@/app/dashboard/styles/common.css");
