@@ -14,6 +14,7 @@ const ProjectCard: React.FC<PoolInfo> = ({
   currentRound,
   token
 }) => {
+  const roundId = currentRound.id;
   const roundStartDate = new Date(currentRound.roundStart * 1000);
   const roundEndDate = new Date(currentRound.roundEnd * 1000);
   const available = BigNumber.from(currentRound.available);
@@ -32,12 +33,18 @@ const ProjectCard: React.FC<PoolInfo> = ({
     );
   };
 
+  const getDateString = (date: Date) => {
+    const month = date.toLocaleString('default', { month: "short" });
+    const day = date.getDate();
+    return `${month} ${day}`;
+  }
+
   return (
     <div className="project-card w-[300px]">
       <div className="project-header">
         <Image
-          src={token.logo}
-          alt={token.symbol}
+          src={projectInfo.logo}
+          alt={projectInfo.logo}
           width={40}
           height={40}
           className="project-logo"
@@ -48,16 +55,16 @@ const ProjectCard: React.FC<PoolInfo> = ({
       </div>
       <div className="detail-row">
         <span>ROUND</span>
-        <span>{id}</span>
+        <span>{roundId}</span>
       </div>
       <div className="project-details">
         <div className="detail-row">
           <span>ROUND START</span>
-          <span>{roundStartDate.toDateString()}</span>
+          <span>{getDateString(roundStartDate)}</span>
         </div>
         <div className="detail-row">
           <span>ROUND END</span>
-          <span>{roundEndDate.toDateString()}</span>
+          <span>{getDateString(roundEndDate)}</span>
         </div>
         <div className="detail-row">
           <span>ROUND PRICE</span>
