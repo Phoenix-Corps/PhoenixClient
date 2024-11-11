@@ -3,12 +3,14 @@
     "address": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
     "name": "Matic",
     "symbol": "MATIC",
-    "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png"
+    "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png",
+    "decimals": 18
   },
   "0x357a5433FC8b4ec15B67703fB0128465b8F37E60": {
     "address": "0x357a5433FC8b4ec15B67703fB0128465b8F37E60",
     "name": "Mock USDC",
     "symbol": "mockUSDC",
-    "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png"
+    "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png",
+    "decimals": 6
   }
 }

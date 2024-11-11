@@ -17,11 +17,12 @@ const ProjectCard: React.FC<PoolInfo> = ({
   const roundId = currentRound.id;
   const roundStartDate = new Date(currentRound.roundStart * 1000);
   const roundEndDate = new Date(currentRound.roundEnd * 1000);
-  const available = BigNumber.from(currentRound.available);
-  const goal = BigNumber.from(currentRound.goal);
+  const available = currentRound.available;
+  const goal = currentRound.goal;
+  const raised = goal.sub(available);
 
   const percentage = goal.gt(0)
-    ? available.mul(10000).div(goal).toNumber() / 100
+    ? raised.div(goal).mul(100)
     : 0;
 
   const renderButton = () => {
@@ -68,7 +69,7 @@ const ProjectCard: React.FC<PoolInfo> = ({
         </div>
         <div className="detail-row">
           <span>ROUND PRICE</span>
-          <span>{BigNumber.from(currentRound.voucherPrice).toString()}</span>
+          <span>{currentRound.voucherPrice}</span>
         </div>
         <div className="detail-row">
           <span>TOTAL RAISED</span>

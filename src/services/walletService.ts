@@ -1,5 +1,6 @@
 
 import { ethers } from "ethers";
+import Decimal from "decimal.js";
 
 import contracts from "../contracts/contracts.json";
 import launchpadAbi from "../contracts/ABIs/Launchpad.json";
@@ -24,6 +25,7 @@ interface TokenInfo {
   name: string;
   symbol: string;
   logo: string;
+  decimals: number;
 }
 
 // TODO: use same type everywhere
@@ -35,9 +37,9 @@ export interface PoolInfo {
     id: number;
     roundStart: number;
     roundEnd: number;
-    voucherPrice: number;
-    goal: number;
-    available: number;
+    voucherPrice: string;
+    goal: Decimal;
+    available: Decimal;
   };
 }
 
@@ -66,18 +68,21 @@ const processPoolInfo = (pool: any, rounds: any[]) => {
   const currentRound = rounds.find(
     (round: RoundInfo) => round.roundEnd < Date.now()
   );
+  const token = (tokenMapping as { [key: string]: TokenInfo })[pool.paymentToken];
+  const orgPrice = (new Decimal(currentRound.voucherPrice.toString()));
+  const tokenDecimals = new Decimal(10).pow(new Decimal(token.decimals));
+  const price = orgPrice.div(tokenDecimals).toString();
   const poolInfo = {
     id: pool.id,
     projectInfo: poolToProjectMapping[pool.id],
-
-    token: (tokenMapping as { [key: string]: TokenInfo })[pool.paymentToken],
+    token: token,
     currentRound: {
       id: (rounds.indexOf(currentRound) ?? 0) + 1,
       roundStart: currentRound.roundStart,
       roundEnd: currentRound.roundEnd,
-      voucherPrice: currentRound.voucherPrice,
-      goal: currentRound.goal,
-      available: currentRound.available
+      voucherPrice: price,
+      goal: new Decimal(currentRound.goal.toString()),
+      available: new Decimal(currentRound.available.toString()),
     }
   };
 
