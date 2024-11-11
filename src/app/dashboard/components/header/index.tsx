@@ -8,6 +8,7 @@ import GRADIENT_LINE from "@/app/dashboard/public/my-profile/Line 1.png";
 import HeaderLogo from "@/app/dashboard/public/images/headerLogo.png";
 import { useDisconnect, useAccount } from "wagmi";
 import { useDashboardContext } from "@/context/DashboardContext";
+import DivisionGrpoup from "@/../public/dashboard/division-group.png";
 
 import { usePathname, useRouter } from "next/navigation";
 
@@ -21,6 +22,7 @@ const Header = () => {
 
   useEffect(() => {
     setCollapsed(false);
+    console.log(pathname);
   }, [pathname]);
   const disconnectWallet = async () => {
     try {
@@ -56,13 +58,23 @@ const Header = () => {
             </button>
           ) : null}
           <div className="bg-white">
-          <button onClick={() => changePageType()}>Switch Account</button>
+            <button onClick={() => changePageType()}>Switch Account</button>
           </div>
-          <Image
-            src={HeaderLogo}
-            alt=""
-            className="max-h-[75px] md:max-h-[100px] lg:max-h-[140px] object-contain w-fit"
-          />
+          {pathname === "/dashboard/division" ? (
+            <Image
+              src={DivisionGrpoup.src}
+              width={120}
+              height={140}
+              alt=""
+              className="max-h-[75px] md:max-h-[100px] lg:max-h-[140px] object-contain w-fit"
+            />
+          ) : (
+            <Image
+              src={HeaderLogo}
+              alt=""
+              className="max-h-[75px] md:max-h-[100px] lg:max-h-[140px] object-contain w-fit"
+            />
+          )}
         </div>
       </div>
 
@@ -86,14 +98,17 @@ const Header = () => {
             My Claims
           </Link>
         </li>
-        <li onClick={() => setCollapsed(false)}>
-          <Link
-            href={"/dashboard/division"}
-            className="shadow-text text-white text-lg md:text-2xl lg:text-[36px] font-noto-serif uppercase cursor-pointer"
-          >
-            My Division
-          </Link>
-        </li>
+        {pageType == "army" ? (
+          <li onClick={() => setCollapsed(false)}>
+            <Link
+              href={"/dashboard/division"}
+              className="shadow-text text-white text-lg md:text-2xl lg:text-[36px] font-noto-serif uppercase cursor-pointer"
+            >
+              My Division
+            </Link>
+          </li>
+        ) : null}
+
         <li
           onClick={disconnectWallet}
           className="shadow-text text-white text-lg md:text-2xl lg:text-[36px] font-noto-serif uppercase cursor-pointer"
