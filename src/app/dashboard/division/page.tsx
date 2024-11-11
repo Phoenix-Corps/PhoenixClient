@@ -1,11 +1,14 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import "./division.css";
 import { useDashboardContext } from "@/context/DashboardContext";
 import DivisionTable from "./DivisionTable";
+import RecruitMenu from "./RecruitMenu";
+
 const Division = () => {
   const { pageType } = useDashboardContext();
+  const [showRecruitMenu, setShowRecruitMenu] = useState(false);
   return (
     <div
       className={`relative  min-h-screen p-4  bg-center bg-no-repeat  ${
@@ -19,12 +22,19 @@ const Division = () => {
         <h1 className="shadow-text text-white text-center text-3xl md:text-5xl lg:text-[54px] font-bold font-noto-serif uppercase">
           My Division
         </h1>
-        <div className="flex justify-end">
-          {/* <button className="first-letter:bg-[#182C4580] recruit-button py-2 px-5 text-sm md:text-base lg:text-lg tracking-wide font-noto-serif uppercase text-white/90 flex justify-center items-center gap-x-3 transition-all rounded-3xl"> */}
-          <button className="recruit-button w-48 h-11 rounded-full">
-            <span className="uppercase size-4 font-bold">Recruit menu</span>
-          </button>
-        </div>
+        {!showRecruitMenu && (
+          <div className="flex justify-end">
+            <button
+              className="recruit-button w-48 h-11 rounded-full"
+              onClick={() => setShowRecruitMenu(true)}
+            >
+              <span className="uppercase size-4 font-bold">Recruit menu</span>
+            </button>
+          </div>
+        )}
+        {showRecruitMenu && (
+          <RecruitMenu onClose={() => setShowRecruitMenu(false)} />
+        )}
         <DivisionTable />
       </div>
     </div>
