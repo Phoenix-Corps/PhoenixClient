@@ -49,8 +49,6 @@ interface Rank {
 export interface UserInfo {
   address: string;
   referralCode: string;
-  level:number
-  commission: number;
   isTeamUser: boolean;
   currentXP: number;
   currentRank: Rank;
@@ -159,21 +157,15 @@ export const getUserInfo = async (
   const rankMapping = isTeamUser ? rankToNameMappingTeam : rankToNameMappingSolo;
 
   const currentRank = userRanks[userTierInfo.rank];
-  console.log(currentRank);
-  // console.log(ranks.solo[0]);
   const result: UserInfo = {
     address: address,
     referralCode: referral,
-    level:userTierInfo.rank.toNumber()+1, //since it is 0 based
-    commission:3.5,
-    currentXP: 120,
     isTeamUser,
-    // currentXP: userTierInfo.currentXP.toNumber(),
+    currentXP: userTierInfo.currentXP.toNumber(),
     currentRank: {
       name: rankMapping[userTierInfo.rank.toNumber()],
       paymentPercent: currentRank.paymentPercent.toNumber(),
-      requiredXP: 100
-      // requiredXP: currentRank.requiredXP.toNumber()
+      requiredXP: currentRank.requiredXP.toNumber()
     }
   };
   if (userTierInfo.rank + 1 < userRanks.length) {
@@ -181,8 +173,7 @@ export const getUserInfo = async (
     result.nextRank = {
       name: rankMapping[userTierInfo.rank.toNumber() + 1],
       paymentPercent: nextRank.paymentPercent.toNumber(),
-      requiredXP: 200
-      // requiredXP: nextRank.requiredXP.toNumber()
+      requiredXP: nextRank.requiredXP.toNumber()
     };
   }
 // console.log(result)
@@ -193,23 +184,33 @@ export const getUserClaimInfo = async (
   provider: ethers.providers.Provider,
   address: string
 ) => {
-  return [
-    {
-      totalPayment: 0,
-      claimedPayment: 0,
-      claimable: 100
-    },
-    {
-      totalPayment: 200,
-      claimedPayment: 200,
-      claimable: 0
-    },
-    {
-      totalPayment: 300,
-      claimedPayment: 0,
-      claimable: 0
-    }
-  ];
+  const paymentPluginContract = new ethers.Contract(
+    contracts.paymentPlugin,
+    paymentPluginAbi,
+    provider
+  );
+
+  let promiseList: Promise<BigInt>[] = [];
+  for (let poolId = 0; poolId < poolToProjectMapping.length; poolId++) {
+    promiseList = promiseList.concat([
+      paymentPluginContract.getClaimablePayment(poolId, address),
+      paymentPluginContract.getClaimedPayment(poolId, address),
+      paymentPluginContract.getTotalPayment(poolId, address)
+    ]);
+  }
+
+  const resultArray = await Promise.all(promiseList);
+
+  const results = [];
+  for (let poolId = 0; poolId < poolToProjectMapping.length; poolId++) {
+    results.push({
+      claimablePaiment: resultArray[3 * poolId],
+      claimedPaiment: resultArray[3 * poolId + 1],
+      totalPaiment: resultArray[3 * poolId + 2],
+    })
+  }
+
+  return results;
 };
 
 export const getVoucherBalance = async (
@@ -261,4 +262,23 @@ export const upgradeRank = async (
     signer
   );
   await launchpadContract.levelUp();
+};
+
+export const getDivision = async (
+  provider: ethers.providers.Provider,
+) => {
+  return [];
+};
+
+export const recruit = async (
+  recruit: string,
+  rank: number,
+  signer: ethers.providers.JsonRpcSigner,
+) => {
+  const paymentPluginContract = new ethers.Contract(
+    contracts.paymentPlugin,
+    paymentPluginAbi,
+    signer
+  );
+  await paymentPluginContract.registerRecruit(recruit, rank);
 };
