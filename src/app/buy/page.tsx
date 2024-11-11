@@ -110,11 +110,10 @@ const BuyPage = (props: Props) => {
                       <Image
                         src={currentPoolInfo.token.logo}
                         alt="Description of the image"
-                        width={54}
-                        height={54}
+                        width={40}
+                        height={40}
                         style={{ objectFit: "contain" }}
                       />
-                      <div>{currentPoolInfo.token.symbol}</div>
                     </>
                   ) : (
                     "Loading token..."
