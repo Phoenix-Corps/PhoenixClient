@@ -11,9 +11,6 @@ const DivisionTable = () => {
               #
             </th>
             <th className="text-[14px] md:text-base lg:text-lg text-left w-1/5">
-              Name
-            </th>
-            <th className="text-[14px] md:text-base lg:text-lg text-left w-1/5">
               Code
             </th>
             <th className="text-[14px] md:text-base lg:text-lg text-left w-3/5">
@@ -27,12 +24,6 @@ const DivisionTable = () => {
         <tbody>
           <tr className="border-b text-lg leading-6">
             <td className="p-5 pl-0">1</td>
-            <td className="p-4 pl-0 flex flex-wrap gap-4 font-normal">
-              <div className="flex  flex-col ">
-                <span className="font-semibold ">Pete Marshall</span>
-                <span>Sergeant Colonel</span>
-              </div>
-            </td>
             <td>
               <div>2051</div>
             </td>
@@ -45,14 +36,8 @@ const DivisionTable = () => {
           </tr>
           <tr className="border-b text-lg leading-6">
             <td className="p-5 pl-0">2</td>
-            <td className="p-4 pl-0 flex flex-wrap gap-4 font-normal">
-              <div className="flex  flex-col ">
-                <span className="font-semibold ">Pete Marshall</span>
-                <span>Sergeant Colonel</span>
-              </div>
-            </td>
             <td>
-              <div>2051</div>
+              <div>2052</div>
             </td>
             <td>
               <div>0x72bBdBbE5Cf18E36D5b5c758274A671b3b3eB95F</div>
@@ -63,14 +48,8 @@ const DivisionTable = () => {
           </tr>
           <tr className="border-b text-lg leading-6">
             <td className="p-5 pl-0">3</td>
-            <td className="p-4 pl-0 flex flex-wrap gap-4 font-normal">
-              <div className="flex  flex-col ">
-                <span className="font-semibold ">Pete Marshall</span>
-                <span>Sergeant Colonel</span>
-              </div>
-            </td>
             <td>
-              <div>2051</div>
+              <div>2053</div>
             </td>
             <td>
               <div>0x72bBdBbE5Cf18E36D5b5c758274A671b3b3eB95F</div>
