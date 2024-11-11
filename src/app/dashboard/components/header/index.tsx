@@ -57,9 +57,12 @@ const Header = () => {
               {!isCollapsed ? "Menu" : "X"}
             </button>
           ) : null}
-          <div className="bg-white">
-            <button onClick={() => changePageType()}>Switch Account</button>
-          </div>
+          {isConnected ? (
+            <div className="bg-[#182C4521] text-sm lg:text-base font-bold font-noto-serif rounded-full px-4 py-2 transition-all text-[#182C45] switch-bg">
+              <button onClick={() => changePageType()}>Switch Account</button>
+            </div>
+          ) : null}
+
           {pathname === "/dashboard/division" ? (
             <Image
               src={DivisionGrpoup.src}
