@@ -62,6 +62,28 @@ export interface ClaimInfo {
   claimable: number;
 }
 
+const processPoolInfo = (pool: any, rounds: any[]) => {
+  const currentRound = rounds.find(
+    (round: RoundInfo) => round.roundEnd < Date.now()
+  );
+  const poolInfo = {
+    id: pool.id,
+    projectInfo: poolToProjectMapping[pool.id],
+
+    token: (tokenMapping as { [key: string]: TokenInfo })[pool.paymentToken],
+    currentRound: {
+      id: (rounds.indexOf(currentRound) ?? 0) + 1,
+      roundStart: currentRound.roundStart,
+      roundEnd: currentRound.roundEnd,
+      voucherPrice: currentRound.voucherPrice,
+      goal: currentRound.goal,
+      available: currentRound.available
+    }
+  };
+
+  return poolInfo;
+}
+
 export const getPoolInfo = async (
   provider: ethers.providers.Provider,
   poolId: number
@@ -74,24 +96,8 @@ export const getPoolInfo = async (
   const { pool, rounds } = await launchpadContract.getPoolInfoWithRounds(
     poolId
   );
-  const currentRound = rounds.find(
-    (round: RoundInfo) => round.roundEnd < Date.now()
-  );
-  const poolInfo = {
-    id: poolId,
-    projectInfo: poolToProjectMapping[poolId],
-   
-    token: tokenMapping[pool.paymentToken], // TODO: fix ts error
-    currentRound: {
-      id: (rounds.indexOf(currentRound) ?? 0) + 1,
-      roundStart: currentRound.roundStart,
-      roundEnd: currentRound.roundEnd,
-      voucherPrice: currentRound.voucherPrice,
-      goal: currentRound.goal,
-      available: currentRound.available
-    }
-  };
-  return poolInfo;
+
+  return processPoolInfo(pool, rounds)
 };
 
 export const getPoolList = async (provider: ethers.providers.Provider) => {
@@ -110,23 +116,7 @@ export const getPoolList = async (provider: ethers.providers.Provider) => {
 
   const poolConfigList: PoolInfo[] = poolsData.map(
     ({ pool, rounds }, poolId) => {
-      const currentRound = rounds.find(
-        (round: RoundInfo) => round.roundEnd < Date.now()
-      );
-
-      return {
-        id: poolId,
-        projectInfo: poolToProjectMapping[poolId],
-        token: tokenMapping[pool.paymentToken], // TODO: fix ts error
-        currentRound: {
-          id: (rounds.indexOf(currentRound) ?? 0) + 1,
-          roundStart: currentRound.roundStart,
-          roundEnd: currentRound.roundEnd,
-          voucherPrice: currentRound.voucherPrice,
-          goal: currentRound.goal,
-          available: currentRound.available
-        }
-      };
+      return processPoolInfo(pool, rounds);
     }
   );
   return poolConfigList;
@@ -180,7 +170,7 @@ export const getUserInfo = async (
       requiredXP: nextRank.requiredXP.toNumber()
     };
   }
-// console.log(result)
+
   return result;
 };
 
@@ -188,24 +178,6 @@ export const getUserClaimInfo = async (
   provider: ethers.providers.Provider,
   address: string
 ) => {
-
-  return [
-    {
-      claimable: 0,
-      claimedPayment: 100,
-      totalPayment: 200,
-    },
-    {
-      claimable: 0,
-      claimedPayment: 200,
-      totalPayment: 200,
-    },
-    {
-      claimable: 100,
-      claimedPayment: 0,
-      totalPayment: 0,
-    },
-  ];
 
   const paymentPluginContract = new ethers.Contract(
     contracts.paymentPlugin,
