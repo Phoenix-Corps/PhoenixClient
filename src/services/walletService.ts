@@ -18,6 +18,7 @@ const paymentPercentDecimals = 10000000;
 const voucherDecimals = new Decimal("1000000000000000000");
 
 interface ProjectInfo {
+  id: number;
   name: string;
   description: string;
   logo: string;
@@ -35,7 +36,7 @@ interface TokenInfo {
 export interface PoolInfo {
   id: number;
   token: TokenInfo;
-  projectInfo: ProjectInfo;
+  projectInfo?: ProjectInfo;
   currentRound: {
     id: number;
     roundStart: number;
@@ -77,7 +78,7 @@ const processPoolInfo = (pool: any, rounds: any[]) => {
   const price = orgPrice.div(tokenDecimals).toString();
   const poolInfo = {
     id: pool.id,
-    projectInfo: poolToProjectMapping[pool.id],
+    projectInfo: poolToProjectMapping.find(poolInfo => poolInfo.id === pool.id.toNumber()),
     token: token,
     currentRound: {
       id: (rounds.indexOf(currentRound) ?? 0) + 1,
@@ -114,10 +115,9 @@ export const getPoolList = async (provider: ethers.providers.Provider) => {
     launchpadAbi,
     provider
   );
-  const poolCount = poolToProjectMapping.length;
 
-  const poolPromises = Array.from({ length: poolCount }, (_, poolId) =>
-    launchpadContract.getPoolInfoWithRounds(poolId)
+  const poolPromises = poolToProjectMapping.map(pool =>
+    launchpadContract.getPoolInfoWithRounds(pool.id)
   );
 
   const poolsData = await Promise.all(poolPromises);
@@ -160,12 +160,12 @@ export const getUserInfo = async (
     address: address,
     referralCode: referral,
     isTeamUser,
-    currentXP: userTierInfo.currentXP.toNumber(),
+    currentXP: userTierInfo.currentXP,
     currentRank: {
       name: rankMapping[userTierInfo.rank.toNumber()],
       level: userTierInfo.rank.toNumber() + 1,
-      paymentPercent: currentRank.paymentPercent.toNumber() / paymentPercentDecimals,
-      requiredXP: currentRank.requiredXP.toNumber()
+      paymentPercent: currentRank.paymentPercent / paymentPercentDecimals,
+      requiredXP: currentRank.requiredXP
     }
   };
   if (userTierInfo.rank + 1 < userRanks.length) {
@@ -174,8 +174,8 @@ export const getUserInfo = async (
     result.nextRank = {
       name: rankMapping[nextRankId],
       level: nextRankId + 1,
-      paymentPercent: nextRank.paymentPercent.toNumber() / paymentPercentDecimals,
-      requiredXP: nextRank.requiredXP.toNumber()
+      paymentPercent: nextRank.paymentPercent / paymentPercentDecimals,
+      requiredXP: nextRank.requiredXP
     };
   }
 

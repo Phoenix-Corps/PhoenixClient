@@ -1,15 +1,12 @@
 [
   {
+    "id": 0,
     "name": "Joca project",
     "logo": "https://img.freepik.com/premium-vector/pyramid-logo_609277-936.jpg?semt=ais_hybrid",
     "description": "Joca je gigachad, kupite JOCACOIN"
   },
   {
-    "name": "Jelly",
-    "logo": "https://cdn-icons-png.flaticon.com/512/3751/3751422.png",
-    "description": "JLY GANG TO THE MOON 🚀🌑"
-  },
-  {
+    "id": 2,
     "name": "Phoenix",
     "logo": "https://cdn-icons-png.flaticon.com/512/3751/3751422.png",
     "description": "Phoenix token, buy and get rich"
