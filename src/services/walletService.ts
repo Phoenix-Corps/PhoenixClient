@@ -268,12 +268,12 @@ export const buy = async (
 export const upgradeRank = async (
   signer: ethers.providers.JsonRpcSigner,
 ) => {
-  const launchpadContract = new ethers.Contract(
-    contracts.launchpad,
-    launchpadAbi,
+  const paymentPluginContract = new ethers.Contract(
+    contracts.paymentPlugin,
+    paymentPluginAbi,
     signer
   );
-  const tx = await launchpadContract.levelUp();
+  const tx = await paymentPluginContract.levelUp();
   await tx.wait();
 };
 
