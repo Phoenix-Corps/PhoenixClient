@@ -5,7 +5,7 @@ import { useEthersProvider } from "@/services/useEthersProvider";
 import { PoolInfo, buy, getVoucherBalance } from "@/services/walletService";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useAccount } from "wagmi";
 import ConnectButtonCustom from "./components/connectButtonCustom";
 import { BigNumber } from "ethers";
@@ -21,6 +21,7 @@ const BuyPage = (props: Props) => {
   const { isConnected, address } = useAccount();
   const searchParams = useSearchParams();
   const provider = useEthersProvider();
+  const signer = useEthersSigner();
 
   const { fetchPoolInfoById } = useBlockchainContext();
 
@@ -49,7 +50,7 @@ const BuyPage = (props: Props) => {
           setError("Error fetching voucher information.");
         });
     }
-  }, [poolId, address]);
+  }, [poolId, address, getVoucherBalance, setVouchersOwned, setError]);
 
   useEffect(() => {
     const poolIdValue = searchParams.get("poolId");
@@ -71,7 +72,7 @@ const BuyPage = (props: Props) => {
           setError("Error fetching pool information.");
         });
     }
-  }, [searchParams, fetchPoolInfoById]);
+  }, [searchParams, fetchPoolInfoById, setCurrentPoolInfo, setError, setPoolId, setCode]);
 
   if (error) {
     return (
@@ -81,24 +82,26 @@ const BuyPage = (props: Props) => {
     );
   }
 
-  const signer = useEthersSigner();
+  const handleSubmit = useCallback((e: React.FormEvent) => {
+    const runBuy = async (e: React.FormEvent) => {
+      e.preventDefault();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+      if (signer) {
+        setBuyInProgress(true);
 
-    if (signer) {
-      setBuyInProgress(true);
-
-      try {
-        await buy(signer, +poolId, currentPoolInfo!.token, amount!, code);
-      } catch (e) {
-        console.error(e);
-        setError("error when buying");
-      } finally {
-        setBuyInProgress(false);
+        try {
+          await buy(signer, +poolId, currentPoolInfo!.token, amount!, code);
+        } catch (e) {
+          console.error(e);
+          setError("error when buying");
+        } finally {
+          setBuyInProgress(false);
+        }
       }
-    }
-  };
+    };
+
+    runBuy(e);
+  }, [setBuyInProgress, setError])
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
