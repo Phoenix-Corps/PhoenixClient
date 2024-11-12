@@ -15,7 +15,7 @@ import tokenMapping from "../config/tokenMapping.json";
 import { RoundInfo } from "@/types/types";
 
 const paymentPercentDecimals = 10000000;
-const voucherDecimals = 1000000000000000000n;
+const voucherDecimals = new Decimal("1000000000000000000");
 
 interface ProjectInfo {
   name: string;
@@ -227,7 +227,7 @@ export const getVoucherBalance = async (
     provider
   );
   const result = await voucherContract.getUserPoints(poolId, address);
-  return result / voucherDecimals;
+  return new Decimal(result.toString()).div(voucherDecimals).toString();
 };
 
 export const claim = async (
