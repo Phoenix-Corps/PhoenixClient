@@ -11,28 +11,6 @@
         "type": "constructor"
     },
     {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "target",
-                "type": "address"
-            }
-        ],
-        "name": "AddressEmptyCode",
-        "type": "error"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
-            }
-        ],
-        "name": "AddressInsufficientBalance",
-        "type": "error"
-    },
-    {
         "inputs": [],
         "name": "AlreadyRecruited",
         "type": "error"
@@ -70,11 +48,6 @@
     {
         "inputs": [],
         "name": "CantRecruit",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "FailedInnerCall",
         "type": "error"
     },
     {
@@ -526,6 +499,47 @@
         "name": "addFreeRecruitments",
         "outputs": [],
         "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_offset",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_length",
+                "type": "uint256"
+            }
+        ],
+        "name": "batchGetRecruits",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "address",
+                        "name": "recruit",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "rank",
+                        "type": "uint256"
+                    }
+                ],
+                "internalType": "struct PaymentPlugin_Tier.RecruitInfo[]",
+                "name": "",
+                "type": "tuple[]"
+            }
+        ],
+        "stateMutability": "view",
         "type": "function"
     },
     {

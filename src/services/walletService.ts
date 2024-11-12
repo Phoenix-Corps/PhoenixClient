@@ -6,6 +6,7 @@ import contracts from "../contracts/contracts.json";
 import launchpadAbi from "../contracts/ABIs/Launchpad.json";
 import paymentPluginAbi from "../contracts/ABIs/PaymentPlugin.json";
 import voucherPluginAbi from "../contracts/ABIs/VoucherPlugin.json";
+import erc20Abi from "../contracts/ABIs/ERC20.json"
 
 import rankToNameMappingSolo from "../config/rankToNameMappingSolo.json";
 import rankToNameMappingTeam from "../config/rankToNameMappingTeam.json";
@@ -14,6 +15,7 @@ import tokenMapping from "../config/tokenMapping.json";
 import { RoundInfo } from "@/types/types";
 
 const paymentPercentDecimals = 10000000;
+const voucherDecimals = new Decimal("1000000000000000000");
 
 interface ProjectInfo {
   name: string;
@@ -22,6 +24,7 @@ interface ProjectInfo {
 }
 
 interface TokenInfo {
+  address: string;
   name: string;
   symbol: string;
   logo: string;
@@ -59,9 +62,9 @@ export interface UserInfo {
   nextRank?: Rank;
 }
 export interface ClaimInfo {
-  totalPayment: number;
-  claimedPayment: number;
-  claimable: number;
+  totalPayment: Decimal;
+  claimedPayment: Decimal;
+  claimable: Decimal;
 }
 
 const processPoolInfo = (pool: any, rounds: any[]) => {
@@ -201,12 +204,12 @@ export const getUserClaimInfo = async (
 
   const resultArray = await Promise.all(promiseList);
 
-  const results = [];
+  const results: ClaimInfo[] = [];
   for (let poolId = 0; poolId < poolToProjectMapping.length; poolId++) {
     results.push({
-      claimablePaiment: resultArray[3 * poolId],
-      claimedPaiment: resultArray[3 * poolId + 1],
-      totalPaiment: resultArray[3 * poolId + 2],
+      claimable: new Decimal(resultArray[3 * poolId].toString()),
+      claimedPayment: new Decimal(resultArray[3 * poolId + 1].toString()),
+      totalPayment: new Decimal(resultArray[3 * poolId + 2].toString()),
     })
   }
 
@@ -224,7 +227,7 @@ export const getVoucherBalance = async (
     provider
   );
   const result = await voucherContract.getUserPoints(poolId, address);
-  return result;
+  return new Decimal(result.toString()).div(voucherDecimals).toString();
 };
 
 export const claim = async (
@@ -242,6 +245,7 @@ export const claim = async (
 export const buy = async (
   signer: ethers.providers.JsonRpcSigner,
   poolId: number,
+  token: TokenInfo,
   amount: number,
   referralCode: string,
 ) => {
@@ -250,7 +254,15 @@ export const buy = async (
     launchpadAbi,
     signer
   );
-  await launchpadContract.buy(poolId, amount, referralCode);
+
+  const convertedAmount = BigInt(10) ** BigInt(token.decimals) * BigInt(amount);
+
+  const tokenContract = new ethers.Contract(token.address, erc20Abi, signer);
+  const approveTx = await tokenContract.approve(contracts.launchpad, convertedAmount * 2n, { gasLimit: 1000000 });
+  await approveTx.wait();
+
+  const tx = await launchpadContract.buy(poolId, convertedAmount, referralCode, { gasLimit: 1000000, });
+  await tx.wait();
 }
 
 export const upgradeRank = async (
@@ -261,7 +273,8 @@ export const upgradeRank = async (
     launchpadAbi,
     signer
   );
-  await launchpadContract.levelUp();
+  const tx = await launchpadContract.levelUp();
+  await tx.wait();
 };
 
 export const getDivision = async (
@@ -280,5 +293,6 @@ export const recruit = async (
     paymentPluginAbi,
     signer
   );
-  await paymentPluginContract.registerRecruit(recruit, rank);
+  const tx = await paymentPluginContract.registerRecruit(recruit, rank);
+  await tx.wait();
 };

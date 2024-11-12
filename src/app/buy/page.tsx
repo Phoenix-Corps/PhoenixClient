@@ -2,22 +2,26 @@
 
 import { useBlockchainContext } from "@/context/BlockchainContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
-import { PoolInfo, getVoucherBalance } from "@/services/walletService";
+import { PoolInfo, buy, getVoucherBalance } from "@/services/walletService";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useAccount } from "wagmi";
 import ConnectButtonCustom from "./components/connectButtonCustom";
 import { BigNumber } from "ethers";
+import { useEthersSigner } from "@/services/useEthersSigner";
 
 type Props = {};
 
 const BuyPage = (props: Props) => {
+  const [buyInProgress, setBuyInProgress] = useState<boolean>(false);
+
   const [amount, setAmount] = useState<number | null>(null);
   const [vouchersOwned, setVouchersOwned] = useState<BigNumber | null>(null);
   const { isConnected, address } = useAccount();
   const searchParams = useSearchParams();
   const provider = useEthersProvider();
+  const signer = useEthersSigner();
 
   const { fetchPoolInfoById } = useBlockchainContext();
 
@@ -46,7 +50,7 @@ const BuyPage = (props: Props) => {
           setError("Error fetching voucher information.");
         });
     }
-  }, [poolId, address]);
+  }, [poolId, address, getVoucherBalance, setVouchersOwned, setError]);
 
   useEffect(() => {
     const poolIdValue = searchParams.get("poolId");
@@ -68,7 +72,7 @@ const BuyPage = (props: Props) => {
           setError("Error fetching pool information.");
         });
     }
-  }, [searchParams, fetchPoolInfoById]);
+  }, [searchParams, fetchPoolInfoById, setCurrentPoolInfo, setError, setPoolId, setCode]);
 
   if (error) {
     return (
@@ -78,11 +82,26 @@ const BuyPage = (props: Props) => {
     );
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log(`code: ${code}, poolId: ${poolId}, amount: ${amount}`);
-    // TODO: walletService for buy
-  };
+  const handleSubmit = useCallback((e: React.FormEvent) => {
+    const runBuy = async (e: React.FormEvent) => {
+      e.preventDefault();
+
+      if (signer) {
+        setBuyInProgress(true);
+
+        try {
+          await buy(signer, +poolId, currentPoolInfo!.token, amount!, code);
+        } catch (e) {
+          console.error(e);
+          setError("error when buying");
+        } finally {
+          setBuyInProgress(false);
+        }
+      }
+    };
+
+    runBuy(e);
+  }, [setBuyInProgress, setError])
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
@@ -121,6 +140,7 @@ const BuyPage = (props: Props) => {
                 </div>
               </div>
               <button
+                disabled={!signer || buyInProgress}
                 className="buy-button flex justify-center items-center"
                 onClick={handleSubmit}
               >
