@@ -15,6 +15,7 @@ import tokenMapping from "../config/tokenMapping.json";
 import { RoundInfo } from "@/types/types";
 
 const paymentPercentDecimals = 10000000;
+const voucherDecimals = 1000000000000000000n;
 
 interface ProjectInfo {
   name: string;
@@ -226,7 +227,7 @@ export const getVoucherBalance = async (
     provider
   );
   const result = await voucherContract.getUserPoints(poolId, address);
-  return result;
+  return result / voucherDecimals;
 };
 
 export const claim = async (
@@ -260,7 +261,7 @@ export const buy = async (
   const approveTx = await tokenContract.approve(contracts.launchpad, convertedAmount * 2n, { gasLimit: 1000000 });
   await approveTx.wait();
 
-  const tx = await launchpadContract.buy(poolId, convertedAmount, referralCode, { gasLimit: 100000, });
+  const tx = await launchpadContract.buy(poolId, convertedAmount, referralCode, { gasLimit: 1000000, });
   await tx.wait();
 }
 

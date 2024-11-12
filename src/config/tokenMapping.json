@@ -12,5 +12,12 @@
     "symbol": "mockUSDC",
     "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png",
     "decimals": 6
+  },
+  "0x975CaB1a0127DD7dbf93B1D92Ac485CD55110005": {
+    "address": "0x975CaB1a0127DD7dbf93B1D92Ac485CD55110005",
+    "name": "Mock USDC",
+    "symbol": "mockUSDC",
+    "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png",
+    "decimals": 6
   }
 }
