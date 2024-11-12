@@ -44,14 +44,14 @@ const ProjectCard: React.FC<PoolInfo> = ({
     <div className="project-card w-[300px]">
       <div className="project-header">
         <Image
-          src={projectInfo.logo}
-          alt={projectInfo.logo}
+          src={projectInfo?.logo ?? ""}
+          alt={projectInfo?.logo ?? ""}
           width={40}
           height={40}
           className="project-logo"
         />
         <div className="project-title">
-          <h3 className="project-name">{projectInfo.name}</h3>
+          <h3 className="project-name">{projectInfo?.name}</h3>
         </div>
       </div>
       <div className="detail-row">

@@ -108,10 +108,10 @@ const BuyPage = (props: Props) => {
       <div className="voucher-wrapper ">
         <div className="voucher-text-input-wrapper">
           <div className="buy-heading-text">
-            {currentPoolInfo?.projectInfo.name || "Loading..."}
+            {currentPoolInfo?.projectInfo?.name || "Loading..."}
           </div>
           <div className="buy-main-text">
-            {currentPoolInfo?.projectInfo.description ||
+            {currentPoolInfo?.projectInfo?.description ||
               "Loading description..."}
           </div>
           {isConnected ? (
