@@ -159,22 +159,23 @@ export const getUserInfo = async (
   const rankMapping = isTeamUser
     ? rankToNameMappingTeam
     : rankToNameMappingSolo;
+  const userRankId = userTierInfo.rank.toNumber();
 
-  const currentRank = userRanks[userTierInfo.rank];
+  const currentRank = userRanks[userRankId];
   const result: UserInfo = {
     address: address,
     referralCode: referral,
     isTeamUser,
     currentXP: userTierInfo.currentXP,
     currentRank: {
-      name: rankMapping[userTierInfo.rank.toNumber()],
-      level: userTierInfo.rank.toNumber() + 1,
+      name: rankMapping[userRankId],
+      level: userRankId + 1,
       paymentPercent: currentRank.paymentPercent / paymentPercentDecimals,
       requiredXP: currentRank.requiredXP
     }
   };
-  if (userTierInfo.rank + 1 < userRanks.length) {
-    const nextRankId = userTierInfo.rank.toNumber() + 1;
+  if (userRankId + 1 < userRanks.length) {
+    const nextRankId = userRankId + 1;
     const nextRank = userRanks[nextRankId];
     result.nextRank = {
       name: rankMapping[nextRankId],
