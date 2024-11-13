@@ -3,7 +3,7 @@ import REPRESENTATIVE from "../../../public/images/representative.png";
 
 export default function RepresentativeSection() {
   return (
-    <section className="representative-card mt-10 w-[1000px]">
+    <section className="representative-card mt-10 max-w-[1000px]">
       <div
         className="representative-card-inner"
         style={{

@@ -4,39 +4,48 @@ import { PoolInfo } from "@/services/walletService";
 import { useBlockchainContext } from "@/context/BlockchainContext";
 import { useDashboardContext } from "@/context/DashboardContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
+import { getUserClaimInfo } from "@/services/walletService";
 import { Tooltip } from "@radix-ui/themes";
 
 const ClaimsTable: React.FC = () => {
   const { fetchAllPoolInfo } = useBlockchainContext();
-  const { fetchClaimInfo, claimInfo } = useDashboardContext();
+  const { fetchClaimInfo, claimInfo, userInfo } = useDashboardContext();
   const provider = useEthersProvider();
   const [projects, setProjects] = useState<PoolInfo[]>([]);
 
   useEffect(() => {
-    if (provider) {
-      fetchClaimInfo("0x0");
+    if (provider && userInfo) {
+      console.log("in address");
+      fetchClaimInfo(userInfo.address).then(res =>
+        console.log(res[0].claimable.toNumber())
+      );
     }
     fetchAllPoolInfo()
       .then(poolData => {
         setProjects(poolData);
+        console.log(poolData);
       })
       .catch(err => {
         console.error(err);
       });
-  }, []);
+  }, [userInfo, provider]);
+  useEffect(() => {
+    console.log(claimInfo);
+  }, [claimInfo]);
 
   const getClaimInfo = (projClaim: any) => {
-    if (projClaim.claimable > 0) {
+    if (projClaim.claimable.toNumber() > 0) {
       const amount = projClaim.claimable;
       return { color: "yellow", text: "CLAIMABLE", amount };
     } else if (
-      projClaim.claimable == 0 &&
-      projClaim.totalPayment > projClaim.claimedPayment
+      projClaim.claimable.toNumber() == 0 &&
+      projClaim.totalPayment.toNumber() > projClaim.claimedPayment.toNumber()
     ) {
-      const amount = projClaim.totalPayment - projClaim.claimedPayment;
+      const amount =
+        projClaim.totalPayment.toNumber() - projClaim.claimedPayment.toNumber();
       return { color: "red", text: "PENDING", amount };
     } else {
-      const amount = projClaim.totalPayment;
+      const amount = projClaim.totalPayment.toNumber();
       return { color: "green", text: "CLAIMED", amount };
     }
   };
@@ -61,6 +70,8 @@ const ClaimsTable: React.FC = () => {
           <tbody>
             {projects &&
               claimInfo &&
+              claimInfo.length > 0 &&
+              claimInfo[0] &&
               projects.map((row, index) => (
                 <tr key={index} className="border-b">
                   <td className="p-4 pl-0">{row.projectInfo.name}</td>

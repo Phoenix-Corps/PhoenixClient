@@ -6,6 +6,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import Footer from "@/app/dashboard/components/footer";
 import Header from "@/app/dashboard/components/header";
 import { Metadata } from "next";
+import TeamWrapper from "./TeamWrapper";
 
 export const metadata: Metadata = {
   title: "Phoenix Shinobi",
@@ -21,7 +22,7 @@ export default function RootLayout({
     <div>
       <div className="w-full mx-auto">
         <Header />
-        {children}
+        <TeamWrapper>{children}</TeamWrapper>
       </div>
       <Footer />
     </div>

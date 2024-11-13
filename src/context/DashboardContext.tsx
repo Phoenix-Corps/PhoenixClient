@@ -84,6 +84,7 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
       }
 
       if (userInfo) {
+        console.log("userinfo from cache");
         console.log(userInfo);
         return userInfo;
       }

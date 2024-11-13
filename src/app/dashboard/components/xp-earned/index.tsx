@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import VECTOR_1 from "@/app/dashboard/public/my-profile/Vector 1.svg";
 
 import { useDashboardContext } from "@/context/DashboardContext";
-
+import { upgradeRank } from "@/services/walletService";
+import { useEthersSigner } from "@/services/useEthersSigner";
 const XPearned: React.FC = () => {
   const { userInfo, fetchUserInfo, walletAddress } = useDashboardContext();
-
+  const signer = useEthersSigner();
   const [XPearned, setXPearned] = useState<string>("");
   const [precentXp, setPercentXp] = useState<number | null>(null);
   const [isClickable, setIsClickable] = useState(false);
@@ -14,21 +15,45 @@ const XPearned: React.FC = () => {
     if (walletAddress) {
       fetchUserInfo(walletAddress);
     }
-    if (userInfo?.currentRank?.requiredXP && userInfo?.nextRank?.requiredXP) {
-      setPercentXp(
-        ((userInfo.currentXP - userInfo.currentRank.requiredXP) /
-          (userInfo.nextRank.requiredXP - userInfo.currentRank.requiredXP)) *
-          100
-      );
-
-      setXPearned(`${userInfo.currentXP} / ${userInfo.nextRank.requiredXP}`);
+    if (
+      userInfo?.currentRank.requiredXP != undefined &&
+      userInfo?.nextRank?.requiredXP != undefined
+    ) {
+      //for zero
       if (
-        userInfo.currentXP &&
-        userInfo.nextRank.requiredXP &&
-        userInfo.currentXP > userInfo.nextRank.requiredXP
+        userInfo.currentXP === userInfo.currentRank.requiredXP ||
+        (userInfo.currentXP - userInfo.currentRank.requiredXP === 0 &&
+          userInfo.currentXP < userInfo.nextRank.requiredXP)
+      ) {
+        setIsClickable(false);
+        setPercentXp(0);
+      }
+      //for between
+      else if (
+        userInfo.currentXP > userInfo.currentRank.requiredXP &&
+        userInfo.currentXP < userInfo.nextRank.requiredXP
+      ) {
+        setIsClickable(false);
+        setPercentXp(
+          ((userInfo.currentXP - userInfo.currentRank.requiredXP) /
+            (userInfo.nextRank.requiredXP - userInfo.currentRank.requiredXP)) *
+            100
+        );
+      }
+      //for full green or over
+      else if (
+        userInfo.currentXP > userInfo.currentRank.requiredXP &&
+        userInfo.currentXP >= userInfo.nextRank.requiredXP
       ) {
         setIsClickable(true);
+        setPercentXp(100);
       }
+      //this is safe case
+      else {
+        setPercentXp(0);
+        setIsClickable(false);
+      }
+      setXPearned(`${userInfo.currentXP} / ${userInfo.nextRank.requiredXP}`);
     }
   }, [userInfo]);
 
@@ -36,9 +61,10 @@ const XPearned: React.FC = () => {
     if (
       userInfo?.currentXP &&
       userInfo?.nextRank?.requiredXP &&
-      userInfo.currentXP > userInfo.nextRank.requiredXP
+      userInfo.currentXP >= userInfo.nextRank.requiredXP &&
+      signer
     ) {
-      console.log("rank upgraded");
+      upgradeRank(signer);
     }
   };
 
@@ -54,23 +80,25 @@ const XPearned: React.FC = () => {
         <div className="flex justify-center text-white">Loading...</div>
       ) : (
         <div className="p-6">
-          <div className="w-full bg-gray-300 rounded-full h-6 overflow-hidden">
+          <div className="w-full bg-gray-300 rounded-full overflow-hidden h-12">
             <div
               className="h-full bg-green-500 text-white text-center font-bold"
               style={{ width: `${precentXp}%` }}
             >
-              <div>{XPearned}</div>
+              <div className="pl-6 min-w-20 h-12 flex justify-center items-center">
+                {XPearned}
+              </div>
             </div>
           </div>
           <button
-            onClick={isClickable ? upgradeLevel : undefined}
+            onClick={!isClickable ? upgradeLevel : undefined}
             className={`
         flex items-center justify-center m-auto mt-4
         rounded-full text-sm p-2 lg:text-[18px] md:h-[45px] w-[189px]
         uppercase font-bold
         transition-colors duration-500 ease-in-out
         ${
-          isClickable
+          !isClickable
             ? "bg-gray-400 text-white border border-white"
             : " text-gray-700 border border-gray-400 cursor-not-allowed"
         }
