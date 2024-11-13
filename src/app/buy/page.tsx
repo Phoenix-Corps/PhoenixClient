@@ -5,7 +5,7 @@ import { useEthersProvider } from "@/services/useEthersProvider";
 import { PoolInfo, buy, getVoucherBalance } from "@/services/walletService";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useAccount, useBalance } from "wagmi";
 import ConnectButtonCustom from "./components/connectButtonCustom";
 import { BigNumber } from "ethers";
@@ -15,7 +15,7 @@ import LoadingOverlay from "./components/loadingOverlay";
 
 type Props = {};
 
-const BuyPage = (props: Props) => {
+const BuyPageWrapper = (props: Props) => {
   const [showToast, setShowToast] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string>("");
   const [toastType, setToastType] = useState<ToastProps["type"]>("info");
@@ -269,7 +269,7 @@ const BuyPage = (props: Props) => {
             onChange={(e: any) => setCode(e.target.value || null)}
           />
           <div className="text-under-code">
-            {currentPoolInfo?.projectInfo.footerText}
+            {currentPoolInfo?.projectInfo?.footerText}
           </div>
         </>
       )}
@@ -284,6 +284,12 @@ const BuyPage = (props: Props) => {
       <LoadingOverlay isLoading={buyInProgress} />
     </div>
   );
+};
+
+const BuyPage = (props: Props) => {
+  return <Suspense>
+    <BuyPageWrapper {...props} />
+  </Suspense>
 };
 
 export default BuyPage;
