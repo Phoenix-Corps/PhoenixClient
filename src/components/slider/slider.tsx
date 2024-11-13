@@ -23,7 +23,7 @@ const Slider = () => {
         slides: { perView: 3, spacing: 30 }
       }
     },
-    slides: { perView: 1 }
+    slides: { perView: 1,spacing:15 }
   });
   const handlePrev = () => {
     slider2.current?.prev();
