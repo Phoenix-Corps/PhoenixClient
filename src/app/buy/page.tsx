@@ -115,7 +115,7 @@ const BuyPage = (props: Props) => {
         if (!isAmountValid()) {
           setShowToast(true);
           setToastMessage(
-            "Incorrect input value / not enough money in wallet!"
+            "Incorrect input value / not enough funds in wallet!"
           );
           setToastType("error");
           return;
@@ -269,9 +269,7 @@ const BuyPage = (props: Props) => {
             onChange={(e: any) => setCode(e.target.value || null)}
           />
           <div className="text-under-code">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim.
+            {currentPoolInfo?.projectInfo.footerText}
           </div>
         </>
       )}
