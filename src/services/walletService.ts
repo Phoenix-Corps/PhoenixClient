@@ -1,4 +1,3 @@
-
 import { ethers } from "ethers";
 import Decimal from "decimal.js";
 
@@ -6,7 +5,7 @@ import contracts from "../contracts/contracts.json";
 import launchpadAbi from "../contracts/ABIs/Launchpad.json";
 import paymentPluginAbi from "../contracts/ABIs/PaymentPlugin.json";
 import voucherPluginAbi from "../contracts/ABIs/VoucherPlugin.json";
-import erc20Abi from "../contracts/ABIs/ERC20.json"
+import erc20Abi from "../contracts/ABIs/ERC20.json";
 
 import rankToNameMappingSolo from "../config/rankToNameMappingSolo.json";
 import rankToNameMappingTeam from "../config/rankToNameMappingTeam.json";
@@ -72,13 +71,17 @@ const processPoolInfo = (pool: any, rounds: any[]) => {
   const currentRound = rounds.find(
     (round: RoundInfo) => round.roundEnd < Date.now()
   );
-  const token = (tokenMapping as { [key: string]: TokenInfo })[pool.paymentToken];
-  const orgPrice = (new Decimal(currentRound.voucherPrice.toString()));
+  const token = (tokenMapping as { [key: string]: TokenInfo })[
+    pool.paymentToken
+  ];
+  const orgPrice = new Decimal(currentRound.voucherPrice.toString());
   const tokenDecimals = new Decimal(10).pow(new Decimal(token.decimals));
   const price = orgPrice.div(tokenDecimals).toString();
   const poolInfo = {
     id: pool.id,
-    projectInfo: poolToProjectMapping.find(poolInfo => poolInfo.id === pool.id.toNumber()),
+    projectInfo: poolToProjectMapping.find(
+      poolInfo => poolInfo.id === pool.id.toNumber()
+    ),
     token: token,
     currentRound: {
       id: (rounds.indexOf(currentRound) ?? 0) + 1,
@@ -86,12 +89,12 @@ const processPoolInfo = (pool: any, rounds: any[]) => {
       roundEnd: currentRound.roundEnd,
       voucherPrice: price,
       goal: new Decimal(currentRound.goal.toString()),
-      available: new Decimal(currentRound.available.toString()),
+      available: new Decimal(currentRound.available.toString())
     }
   };
 
   return poolInfo;
-}
+};
 
 export const getPoolInfo = async (
   provider: ethers.providers.Provider,
@@ -106,7 +109,7 @@ export const getPoolInfo = async (
     poolId
   );
 
-  return processPoolInfo(pool, rounds)
+  return processPoolInfo(pool, rounds);
 };
 
 export const getPoolList = async (provider: ethers.providers.Provider) => {
@@ -153,7 +156,9 @@ export const getUserInfo = async (
 
   const isTeamUser = userTierInfo.team;
   const userRanks = isTeamUser ? ranks.team : ranks.solo;
-  const rankMapping = isTeamUser ? rankToNameMappingTeam : rankToNameMappingSolo;
+  const rankMapping = isTeamUser
+    ? rankToNameMappingTeam
+    : rankToNameMappingSolo;
 
   const currentRank = userRanks[userTierInfo.rank];
   const result: UserInfo = {
@@ -186,7 +191,6 @@ export const getUserClaimInfo = async (
   provider: ethers.providers.Provider,
   address: string
 ) => {
-
   const paymentPluginContract = new ethers.Contract(
     contracts.paymentPlugin,
     paymentPluginAbi,
@@ -209,8 +213,8 @@ export const getUserClaimInfo = async (
     results.push({
       claimable: new Decimal(resultArray[3 * poolId].toString()),
       claimedPayment: new Decimal(resultArray[3 * poolId + 1].toString()),
-      totalPayment: new Decimal(resultArray[3 * poolId + 2].toString()),
-    })
+      totalPayment: new Decimal(resultArray[3 * poolId + 2].toString())
+    });
   }
 
   return results;
@@ -219,7 +223,7 @@ export const getUserClaimInfo = async (
 export const getVoucherBalance = async (
   provider: ethers.providers.Provider,
   poolId: number,
-  address: string,
+  address: string
 ) => {
   const voucherContract = new ethers.Contract(
     contracts.voucherPlugin,
@@ -247,7 +251,7 @@ export const buy = async (
   poolId: number,
   token: TokenInfo,
   amount: number,
-  referralCode: string,
+  referralCode: string
 ) => {
   const launchpadContract = new ethers.Contract(
     contracts.launchpad,
@@ -258,16 +262,29 @@ export const buy = async (
   const convertedAmount = BigInt(10) ** BigInt(token.decimals) * BigInt(amount);
 
   const tokenContract = new ethers.Contract(token.address, erc20Abi, signer);
-  const approveTx = await tokenContract.approve(contracts.launchpad, convertedAmount * 2n, { gasLimit: 1000000 });
-  await approveTx.wait();
+  try {
+    const approveTx = await tokenContract.approve(
+      contracts.launchpad,
+      convertedAmount * 2n,
+      { gasLimit: 1000000 }
+    );
+    await approveTx.wait();
 
-  const tx = await launchpadContract.buy(poolId, convertedAmount, referralCode, { gasLimit: 1000000, });
-  await tx.wait();
-}
+    const tx = await launchpadContract.buy(
+      poolId,
+      convertedAmount,
+      referralCode,
+      { gasLimit: 1000000 }
+    );
+    await tx.wait();
+  } catch (err) {
+    return {
+      error: err
+    };
+  }
+};
 
-export const upgradeRank = async (
-  signer: ethers.providers.JsonRpcSigner,
-) => {
+export const upgradeRank = async (signer: ethers.providers.JsonRpcSigner) => {
   const paymentPluginContract = new ethers.Contract(
     contracts.paymentPlugin,
     paymentPluginAbi,
@@ -277,16 +294,14 @@ export const upgradeRank = async (
   await tx.wait();
 };
 
-export const getDivision = async (
-  provider: ethers.providers.Provider,
-) => {
+export const getDivision = async (provider: ethers.providers.Provider) => {
   return [];
 };
 
 export const recruit = async (
   recruit: string,
   rank: number,
-  signer: ethers.providers.JsonRpcSigner,
+  signer: ethers.providers.JsonRpcSigner
 ) => {
   const paymentPluginContract = new ethers.Contract(
     contracts.paymentPlugin,

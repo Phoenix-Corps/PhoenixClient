@@ -48,7 +48,7 @@
 }
 
 .voucher-wrapper {
-  gap: 124px;
+  gap: 120px;
   font-family: "K2D";
   display: flex;
   justify-content: center;
@@ -89,8 +89,7 @@
   line-height: 13px;
 }
 .voucher-text-input-wrapper {
-  margin-top: 36px;
-  margin-left: 54px;
+  margin-top: 18px;
   max-width: 390px;
 }
 .buy-heading-text {
