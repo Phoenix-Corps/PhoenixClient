@@ -12,46 +12,20 @@ const XPearned: React.FC = () => {
   const [isClickable, setIsClickable] = useState(false);
 
   useEffect(() => {
-    
-    if (
-      userInfo?.currentRank.requiredXP != undefined &&
-      userInfo?.nextRank?.requiredXP != undefined
-    ) {
-      //for zero
-      if (
-        userInfo.currentXP === userInfo.currentRank.requiredXP ||
-        (userInfo.currentXP - userInfo.currentRank.requiredXP === 0 &&
-          userInfo.currentXP < userInfo.nextRank.requiredXP)
-      ) {
-        setIsClickable(false);
-        setPercentXp(0);
-      }
-      //for between
-      else if (
-        userInfo.currentXP > userInfo.currentRank.requiredXP &&
-        userInfo.currentXP < userInfo.nextRank.requiredXP
-      ) {
-        setIsClickable(false);
-        setPercentXp(
-          ((userInfo.currentXP - userInfo.currentRank.requiredXP) /
-            (userInfo.nextRank.requiredXP - userInfo.currentRank.requiredXP)) *
-            100
-        );
-      }
-      //for full green or over
-      else if (
-        userInfo.currentXP > userInfo.currentRank.requiredXP &&
-        userInfo.currentXP >= userInfo.nextRank.requiredXP
-      ) {
-        setIsClickable(true);
-        setPercentXp(100);
-      }
-      //this is safe case
-      else {
-        setPercentXp(0);
-        setIsClickable(false);
-      }
+    if (!userInfo) {
+      return;
+    }
+
+    if (userInfo?.nextRank) {
+      const percentage = Math.min(userInfo.currentXP / userInfo.nextRank.requiredXP!, 1) * 100;
+      const clickable = userInfo.currentXP >= userInfo.nextRank.requiredXP!;
+      setPercentXp(percentage);
+      setIsClickable(clickable);
       setXPearned(`${userInfo.currentXP} / ${userInfo.nextRank.requiredXP}`);
+    } else {
+      setPercentXp(100);
+      setIsClickable(false);
+      setXPearned(`Max Rank`);
     }
   }, [userInfo?.currentXP]);
 
