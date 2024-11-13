@@ -160,12 +160,12 @@ export const getUserInfo = async (
     address: address,
     referralCode: referral,
     isTeamUser,
-    currentXP: userTierInfo.currentXP.toNumber(),
+    currentXP: userTierInfo.currentXP,
     currentRank: {
       name: rankMapping[userTierInfo.rank.toNumber()],
       level: userTierInfo.rank.toNumber() + 1,
       paymentPercent: currentRank.paymentPercent.toNumber() / paymentPercentDecimals,
-      requiredXP: currentRank.requiredXP.toNumber()
+      requiredXP: currentRank.requiredXP
     }
   };
   if (userTierInfo.rank + 1 < userRanks.length) {
@@ -175,7 +175,7 @@ export const getUserInfo = async (
       name: rankMapping[nextRankId],
       level: nextRankId + 1,
       paymentPercent: nextRank.paymentPercent.toNumber() / paymentPercentDecimals,
-      requiredXP: nextRank.requiredXP.toNumber()
+      requiredXP: nextRank.requiredXP
     };
   }
 

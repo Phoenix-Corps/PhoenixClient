@@ -14,6 +14,7 @@ const TeamWrapper: React.FC<Props> = ({ children }) => {
   const [error, setError] = useState<string>("");
   const { isConnected } = useAccount();
   const [imageWidth, setImageWidth] = useState(1440);
+  const [imageHeight, setImageHeight] = useState(2579);
   useEffect(() => {
     if (walletAddress) {
       fetchUserInfo(walletAddress).catch(e => {
@@ -26,14 +27,15 @@ const TeamWrapper: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     if (userInfo?.isTeamUser) {
       setImageWidth(860);
+      setImageHeight(2579);
     } else {
       setImageWidth(1440);
+      setImageHeight(3712);
     }
     // Function to calculate and set height based on screen dimensions
     const updateContainerHeight = () => {
-      const screenHeight = window.innerHeight;
       const screenWidth = window.innerWidth;
-      const dynamicHeight = (screenHeight * screenWidth) / imageWidth;
+      const dynamicHeight = (imageHeight * screenWidth) / imageWidth;
       setContainerHeight(
         userInfo?.isTeamUser ? dynamicHeight : dynamicHeight * 1.06
       );
