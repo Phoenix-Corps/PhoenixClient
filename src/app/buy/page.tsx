@@ -6,19 +6,28 @@ import { PoolInfo, buy, getVoucherBalance } from "@/services/walletService";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useAccount } from "wagmi";
+import { useAccount, useBalance } from "wagmi";
 import ConnectButtonCustom from "./components/connectButtonCustom";
 import { BigNumber } from "ethers";
 import { useEthersSigner } from "@/services/useEthersSigner";
+import Toast, { ToastProps } from "./components/toast";
+import LoadingOverlay from "./components/loadingOverlay";
 
 type Props = {};
 
 const BuyPage = (props: Props) => {
-  const [buyInProgress, setBuyInProgress] = useState<boolean>(false);
+  const [showToast, setShowToast] = useState<boolean>(false);
+  const [toastMessage, setToastMessage] = useState<string>("");
+  const [toastType, setToastType] = useState<ToastProps["type"]>("info");
 
+  const [buyInProgress, setBuyInProgress] = useState<boolean>(false);
   const [amount, setAmount] = useState<number | null>(null);
   const [vouchersOwned, setVouchersOwned] = useState<BigNumber | null>(null);
+
   const { isConnected, address } = useAccount();
+  const { data: balanceData, isError, isLoading } = useBalance({ address });
+  const normalizedBalance = balanceData ? parseFloat(balanceData.formatted) : 0;
+
   const searchParams = useSearchParams();
   const provider = useEthersProvider();
   const signer = useEthersSigner();
@@ -40,7 +49,7 @@ const BuyPage = (props: Props) => {
   );
 
   useEffect(() => {
-    if (provider && address && poolId) {
+    if (provider && address && poolId && !buyInProgress) {
       getVoucherBalance(provider, parseInt(poolId), address)
         .then(voucherBalanceResult => {
           setVouchersOwned(BigNumber.from(voucherBalanceResult));
@@ -50,7 +59,14 @@ const BuyPage = (props: Props) => {
           setError("Error fetching voucher information.");
         });
     }
-  }, [poolId, address, getVoucherBalance, setVouchersOwned, setError]);
+  }, [
+    buyInProgress,
+    poolId,
+    address,
+    getVoucherBalance,
+    setVouchersOwned,
+    setError
+  ]);
 
   useEffect(() => {
     const poolIdValue = searchParams.get("poolId");
@@ -72,7 +88,82 @@ const BuyPage = (props: Props) => {
           setError("Error fetching pool information.");
         });
     }
-  }, [searchParams, fetchPoolInfoById, setCurrentPoolInfo, setError, setPoolId, setCode]);
+  }, [
+    searchParams,
+    fetchPoolInfoById,
+    setCurrentPoolInfo,
+    setError,
+    setPoolId,
+    setCode
+  ]);
+
+  const isAmountValid = () => {
+    if (amount === null) return false;
+    return amount <= parseFloat(normalizedBalance.toString());
+  };
+
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      const runBuy = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (!isAmountValid()) {
+          setShowToast(true);
+          setToastMessage(
+            "Incorrect input value / not enough money in wallet!"
+          );
+          setToastType("error");
+          return;
+        }
+
+        if (signer) {
+          setBuyInProgress(true);
+          setShowToast(true);
+          setToastMessage("Purchase in progress...");
+          setToastType("info");
+
+          try {
+            const response = await buy(
+              signer,
+              +poolId,
+              currentPoolInfo!.token,
+              amount!,
+              code
+            );
+            console.log(response);
+            // TODO: Add more robust error handling
+            if (response?.error) {
+              setShowToast(true);
+              setToastMessage("Purchase cancelled.");
+              setToastType("error");
+            } else {
+              setShowToast(true);
+              setToastMessage("Purchase successful!");
+              setToastType("success");
+            }
+          } catch (e) {
+            setShowToast(true);
+            setToastMessage("Error while buying.");
+            setToastType("error");
+          } finally {
+            setBuyInProgress(false);
+          }
+        }
+      };
+
+      runBuy(e);
+    },
+    [
+      isAmountValid,
+      setBuyInProgress,
+      setError,
+      signer,
+      poolId,
+      currentPoolInfo,
+      amount,
+      code
+    ]
+  );
 
   if (error) {
     return (
@@ -82,36 +173,15 @@ const BuyPage = (props: Props) => {
     );
   }
 
-  const handleSubmit = useCallback((e: React.FormEvent) => {
-    const runBuy = async (e: React.FormEvent) => {
-      e.preventDefault();
-
-      if (signer) {
-        setBuyInProgress(true);
-
-        try {
-          await buy(signer, +poolId, currentPoolInfo!.token, amount!, code);
-        } catch (e) {
-          console.error(e);
-          setError("error when buying");
-        } finally {
-          setBuyInProgress(false);
-        }
-      }
-    };
-
-    runBuy(e);
-  }, [setBuyInProgress, setError])
-
   return (
     <div className="flex flex-col items-center justify-center p-4">
-      <div className="voucher-wrapper ">
-        <div className="voucher-text-input-wrapper">
+      <div className="voucher-wrapper md:gap-[50px] sm:gap-[120px] xs:gap-[120px]">
+        <div className="voucher-text-input-wrapper md:ml-[36px] sm:ml-0 flex flex-col items-center">
           <div className="buy-heading-text">
-            {currentPoolInfo?.projectInfo.name || "Loading..."}
+            {currentPoolInfo?.projectInfo?.name || "Loading..."}
           </div>
           <div className="buy-main-text">
-            {currentPoolInfo?.projectInfo.description ||
+            {currentPoolInfo?.projectInfo?.description ||
               "Loading description..."}
           </div>
           {isConnected ? (
@@ -154,7 +224,7 @@ const BuyPage = (props: Props) => {
             </div>
           )}
         </div>
-        <div className="voucher-image-right relative overflow-hidden">
+        <div className="voucher-image-right relative overflow-hidden md:mr-[36px] md:mt-[18px] sm:mr-0 sm:mt-0">
           {isConnected && (
             <div className="voucher-text-in-image">
               <div className="currency-and-text">
@@ -194,6 +264,15 @@ const BuyPage = (props: Props) => {
           </div>
         </>
       )}
+      {showToast && (
+        <Toast
+          message={toastMessage}
+          type={toastType}
+          position="bottom-right"
+          onClose={() => setShowToast(false)}
+        />
+      )}
+      <LoadingOverlay isLoading={buyInProgress} />
     </div>
   );
 };
