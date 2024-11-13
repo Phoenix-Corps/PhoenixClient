@@ -61,7 +61,8 @@ export default function Home() {
           </div>
         </div>
 
-        <section className="become-phoenix-card mt-10 w-[1000px]">
+        {/* <section className="become-phoenix-card mt-10 w-[1000px]"> */}
+        <section className="become-phoenix-card mt-10 max-w-[1000px]">
           <div
             className="representative-card-inner"
             style={{ marginBottom: 20, marginRight: 20 }}
