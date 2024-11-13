@@ -3,7 +3,7 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { formatAddress } from "@/app/dashboard/utils/formatAddress";
 
@@ -15,10 +15,16 @@ import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
 
 const Home: NextPage = () => {
 
-  const { walletAddress, userInfo } = useDashboardContext();
+  const { walletAddress, userInfo,fetchUserInfo } = useDashboardContext();
 
   const [isCopied, setIsCopied] = useState(false);
   const [isCodeCopied, setIsCodeCopied] = useState(false);
+
+  useEffect(() => {
+    if (walletAddress) {
+      fetchUserInfo(walletAddress);
+    }
+  },[userInfo,walletAddress]);
 
   const handleCopyReferralCode = (code: string) => {
     navigator.clipboard.writeText(code).then(() => {
@@ -31,6 +37,7 @@ const Home: NextPage = () => {
       setIsCodeCopied(true);
     });
   };
+
 
   return (
     <>
