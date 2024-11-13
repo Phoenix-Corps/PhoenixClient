@@ -18,7 +18,7 @@ export default function CollaborationSection() {
         to build and operate your project
       </h1>
 
-      <div className="dark-card max-w-[1000px] pt-[28px]">
+      <div className="dark-card w-[1000px] max-w-[95%] pt-[28px]">
         <div className="divider" style={{ marginTop: -1 }} />
 
         <div
