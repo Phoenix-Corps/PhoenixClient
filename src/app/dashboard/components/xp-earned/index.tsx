@@ -83,7 +83,7 @@ const XPearned: React.FC = () => {
               className="h-full bg-green-500 text-white text-center font-bold"
               style={{ width: `${precentXp}%` }}
             >
-              <div className="pl-6 min-w-20 h-12 flex justify-center items-center">
+                <div className="pl-6 w-[120px] min-w-[40px] h-12 flex justify-center items-center">
                 {XPearned}
               </div>
             </div>
