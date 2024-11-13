@@ -74,7 +74,7 @@ const ClaimsTable: React.FC = () => {
               claimInfo[0] &&
               projects.map((row, index) => (
                 <tr key={index} className="border-b">
-                  <td className="p-4 pl-0">{row.projectInfo.name}</td>
+                  <td className="p-4 pl-0">{row.projectInfo?.name}</td>
                   <td className="p-4 pl-0 flex flex-wrap gap-4">
                     <div key={row.id} className="flex items-center gap-2">
                       <span>
