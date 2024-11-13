@@ -1,6 +1,6 @@
 const CommunitySection = () => {
   return (
-    <section className="dark-card-border mt-10 max-w-[1000px]">
+    <section className="dark-card-border mt-10 w-[1000px] max-w-[95%]">
       <h2 className="subtitle" style={{ maxWidth: "502px" }}>
         The <span className="text-yellow">power</span> of true and fair
         community fundraising
