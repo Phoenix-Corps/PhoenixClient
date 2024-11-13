@@ -55,7 +55,7 @@ const TeamWrapper: React.FC<Props> = ({ children }) => {
   return (
     <div
       className={`relative min-h-screen p-4 bg-center bg-no-repeat ${
-        !userInfo?.isTeamUser ? "army-background" : "solo-background"
+        userInfo?.isTeamUser ? "army-background" : "solo-background"
       }`}
       style={containerStyles}
     >
