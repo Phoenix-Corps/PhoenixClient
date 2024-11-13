@@ -25,8 +25,6 @@ const BuyPage = (props: Props) => {
   const [vouchersOwned, setVouchersOwned] = useState<BigNumber | null>(null);
 
   const { isConnected, address } = useAccount();
-  const { data: balanceData, isError, isLoading } = useBalance({ address });
-  const normalizedBalance = balanceData ? parseFloat(balanceData.formatted) : 0;
 
   const searchParams = useSearchParams();
   const provider = useEthersProvider();
@@ -47,6 +45,13 @@ const BuyPage = (props: Props) => {
   const [currentPoolInfo, setCurrentPoolInfo] = useState<PoolInfo | undefined>(
     undefined
   );
+
+  const {
+    data: balanceData,
+    isError,
+    isLoading
+  } = useBalance({ address, token: currentPoolInfo?.token.address! as any });
+  const normalizedBalance = balanceData ? parseFloat(balanceData.formatted) : 0;
 
   useEffect(() => {
     if (provider && address && poolId && !buyInProgress) {
@@ -112,6 +117,12 @@ const BuyPage = (props: Props) => {
           setToastMessage(
             "Incorrect input value / not enough money in wallet!"
           );
+          setToastType("error");
+          return;
+        }
+        if (!code || code.length !== 8) {
+          setShowToast(true);
+          setToastMessage("Please enter referral code in proper format!");
           setToastType("error");
           return;
         }
