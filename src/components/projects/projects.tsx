@@ -99,6 +99,7 @@ const ProjectsSection: React.FC = () => {
     <section className="projects-section flex flex-col">
       <h2 className="title text-yellow-r">Active & Upcoming</h2>
       <div className="divider" />
+      <div style={{ height: "10px" }} />
       <div className="flex justify-center space-x-4 project-responsive">
         {projects.length ? (
           projects.map((project, index) => (
