@@ -5,16 +5,14 @@ import { useDashboardContext } from "@/context/DashboardContext";
 import { upgradeRank } from "@/services/walletService";
 import { useEthersSigner } from "@/services/useEthersSigner";
 const XPearned: React.FC = () => {
-  const { userInfo, fetchUserInfo, walletAddress } = useDashboardContext();
+  const { userInfo } = useDashboardContext();
   const signer = useEthersSigner();
   const [XPearned, setXPearned] = useState<string>("");
   const [precentXp, setPercentXp] = useState<number | null>(null);
   const [isClickable, setIsClickable] = useState(false);
 
   useEffect(() => {
-    if (walletAddress) {
-      fetchUserInfo(walletAddress);
-    }
+    
     if (
       userInfo?.currentRank.requiredXP != undefined &&
       userInfo?.nextRank?.requiredXP != undefined
@@ -55,7 +53,7 @@ const XPearned: React.FC = () => {
       }
       setXPearned(`${userInfo.currentXP} / ${userInfo.nextRank.requiredXP}`);
     }
-  }, [userInfo]);
+  }, [userInfo?.currentXP]);
 
   const upgradeLevel = () => {
     if (
