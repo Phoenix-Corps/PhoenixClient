@@ -20,6 +20,7 @@ interface ProjectInfo {
   id: number;
   name: string;
   description: string;
+  footerText: string;
   logo: string;
 }
 

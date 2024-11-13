@@ -1,14 +1,9 @@
 [
   {
-    "id": 0,
-    "name": "Joca project",
-    "logo": "https://img.freepik.com/premium-vector/pyramid-logo_609277-936.jpg?semt=ais_hybrid",
-    "description": "Joca je gigachad, kupite JOCACOIN"
-  },
-  {
-    "id": 2,
-    "name": "Phoenix",
-    "logo": "https://cdn-icons-png.flaticon.com/512/3751/3751422.png",
-    "description": "Phoenix token, buy and get rich"
+    "id": 5,
+    "name": "Phoenix Beta",
+    "logo": "/images/phoenix.png",
+    "description": "Participate in beta testing of the Phoenix platform, be the first to try it and earn rewards upon release.",
+    "footerText": "Note: This project uses mock USDC as payment token, no real tokens required to participate. The vouchers purchased will not be redeamable!"
   }
 ]
