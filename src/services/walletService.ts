@@ -250,16 +250,26 @@ export const claim = async (
   await launchpadContract.claimPayment(id);
 };
 
-export const approveSpending = async (
+export const checkApproval = async (
   signer: ethers.providers.JsonRpcSigner,
+  address: string,
   token: TokenInfo,
   amount: number,
 ) => {
   const convertedAmount = new Decimal(10).pow(token.decimals).mul(amount);
   const tokenContract = new ethers.Contract(token.address, erc20Abi, signer);
+  const approvedAmount = await tokenContract.allowance(address, contracts.launchpad);
+  return new Decimal(approvedAmount.toString()).gte(convertedAmount);
+}
+
+export const approveSpending = async (
+  signer: ethers.providers.JsonRpcSigner,
+  token: TokenInfo,
+) => {
+  const tokenContract = new ethers.Contract(token.address, erc20Abi, signer);
   const tx = await tokenContract.approve(
     contracts.launchpad,
-    BigInt(convertedAmount.toString()),
+    BigNumber.from("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"),
     { gasLimit: 1000000 }
   );
   return tx;
