@@ -2,7 +2,7 @@
 
 import { useBlockchainContext } from "@/context/BlockchainContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
-import { PoolInfo, approveSpending, buy, getVoucherBalance } from "@/services/walletService";
+import { PoolInfo, approveSpending, buy, checkApproval, getVoucherBalance } from "@/services/walletService";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React, { Suspense, useCallback, useEffect, useMemo, useState } from "react";
@@ -117,12 +117,14 @@ const BuyPageWrapper = (props: Props) => {
       const runBuy = async (e: React.FormEvent) => {
         e.preventDefault();
         setShowWarning(false);
+        setWarningMessage("");
 
         if (!isAmountValid()) {
           setShowWarning(true);
           setWarningMessage(
             "Incorrect input value / not enough funds in wallet!"
           );
+          return;
         }
         if (!code || code.length !== 8) {
           setShowWarning(true);
@@ -132,17 +134,24 @@ const BuyPageWrapper = (props: Props) => {
 
         if (signer) {
           try {
-            const approveTx = approveSpending(
+            const hasApproval = await checkApproval(
               signer,
+              address!,
               currentPoolInfo!.token,
-              amount!,
-            );
+              amount!);
 
-            setTxInProgressMessage("Waiting for Aprove spending transation to be completed");
-            setTxSuccessMessage("Aprove spending transation completed");
-            setTx(approveTx);
+            if (!hasApproval) {
+              const approveTx = approveSpending(
+                signer,
+                currentPoolInfo!.token,
+              );
 
-            await (await approveTx).wait();
+              setTxInProgressMessage("Waiting for Aprove spending transation to be completed");
+              setTxSuccessMessage("Aprove spending transation completed");
+              setTx(approveTx);
+
+              await (await approveTx).wait();
+            }
 
             const buyTx = buy(
               signer,
