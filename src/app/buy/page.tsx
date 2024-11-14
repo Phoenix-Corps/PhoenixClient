@@ -169,6 +169,7 @@ const BuyPageWrapper = (props: Props) => {
       isAmountValid,
       setBuyInProgress,
       setError,
+      setShowWarning,
       setWarningMessage,
       setTx,
       setTxInProgressMessage,
