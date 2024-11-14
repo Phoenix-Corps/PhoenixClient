@@ -36,8 +36,8 @@ const TransactionHandler = (props: TransactionHandlerProps) => {
         setType("error");
         success = false;
       } finally {
-        const closeToastTimeout = success ? 2 : 5;
-        setTimeout(() => setShowToast(false), closeToastTimeout * 1000);
+        // const closeToastTimeout = success ? 2 : 5;
+        // setTimeout(() => setShowToast(false), closeToastTimeout * 1000);
         props.onTxDone(success);
       }
     }
