@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import Decimal from "decimal.js";
 
 import contracts from "../contracts/contracts.json";
@@ -51,14 +51,14 @@ interface Rank {
   name: string;
   level: number;
   paymentPercent: number;
-  requiredXP?: number;
+  requiredXP?: BigNumber;
 }
 
 export interface UserInfo {
   address: string;
   referralCode: string;
   isTeamUser: boolean;
-  currentXP: number;
+  currentXP: BigNumber;
   currentRank: Rank;
   nextRank?: Rank;
 }

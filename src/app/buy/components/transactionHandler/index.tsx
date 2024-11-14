@@ -18,6 +18,7 @@ const TransactionHandler = (props: TransactionHandlerProps) => {
   useEffect(() => {
     const waitForTx = async () => {
       setShowToast(true);
+      setType("info");
 
       let success = false;
       try {
