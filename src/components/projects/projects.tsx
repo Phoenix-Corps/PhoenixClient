@@ -37,7 +37,9 @@ const ProjectCard: React.FC<PoolInfo> = ({
   const getDateString = (date: Date) => {
     const month = date.toLocaleString('default', { month: "short" });
     const day = date.getDate();
-    return `${month} ${day}`;
+    const hour = date.getHours();
+    const minut = date.getMinutes();
+    return `${month} ${day} - ${hour}:${minut}`;
   }
 
   return (
