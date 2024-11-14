@@ -2,7 +2,7 @@
 
 import { useBlockchainContext } from "@/context/BlockchainContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
-import { PoolInfo, buy, getVoucherBalance } from "@/services/walletService";
+import { PoolInfo, approveSpending, buy, getVoucherBalance } from "@/services/walletService";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React, { Suspense, useCallback, useEffect, useMemo, useState } from "react";
@@ -12,15 +12,20 @@ import { BigNumber } from "ethers";
 import { useEthersSigner } from "@/services/useEthersSigner";
 import Toast, { ToastProps } from "./components/toast";
 import LoadingOverlay from "./components/loadingOverlay";
+import TransactionHandler from "./components/transactionHandler";
 
 type Props = {};
 
 const BuyPageWrapper = (props: Props) => {
-  const [showToast, setShowToast] = useState<boolean>(false);
-  const [toastMessage, setToastMessage] = useState<string>("");
-  const [toastType, setToastType] = useState<ToastProps["type"]>("info");
+  const [showWarning, setShowWarning] = useState(false);
+  const [warningMessage, setWarningMessage] = useState<string>("");
+
+  const [tx, setTx] = useState<Promise<any> | undefined>(undefined);
+  const [txInProgressMessage, setTxInProgressMessage] = useState<string>("");
+  const [txSuccessMessage, setTxSuccessMessage] = useState<string>("");
 
   const [buyInProgress, setBuyInProgress] = useState<boolean>(false);
+
   const [amount, setAmount] = useState<number | null>(null);
   const [vouchersOwned, setVouchersOwned] = useState<BigNumber | null>(null);
 
@@ -111,51 +116,47 @@ const BuyPageWrapper = (props: Props) => {
     (e: React.FormEvent) => {
       const runBuy = async (e: React.FormEvent) => {
         e.preventDefault();
+        setShowWarning(false);
 
         if (!isAmountValid()) {
-          setShowToast(true);
-          setToastMessage(
+          setShowWarning(true);
+          setWarningMessage(
             "Incorrect input value / not enough funds in wallet!"
           );
-          setToastType("error");
-          return;
         }
         if (!code || code.length !== 8) {
-          setShowToast(true);
-          setToastMessage("Please enter referral code in proper format!");
-          setToastType("error");
+          setShowWarning(true);
+          setWarningMessage("Please enter referral code in proper format!");
           return;
         }
 
         if (signer) {
-          setBuyInProgress(true);
-          setShowToast(true);
-          setToastMessage("Purchase in progress...");
-          setToastType("info");
-
           try {
-            const response = await buy(
+            const approveTx = approveSpending(
+              signer,
+              currentPoolInfo!.token,
+              amount!,
+            );
+
+            setTxInProgressMessage("Waiting for Aprove spending transation to be completed");
+            setTxSuccessMessage("Aprove spending transation completed");
+            setTx(approveTx);
+
+            await (await approveTx).wait();
+
+            const buyTx = buy(
               signer,
               +poolId,
               currentPoolInfo!.token,
               amount!,
               code
             );
-            console.log(response);
-            // TODO: Add more robust error handling
-            if (response?.error) {
-              setShowToast(true);
-              setToastMessage("Purchase cancelled.");
-              setToastType("error");
-            } else {
-              setShowToast(true);
-              setToastMessage("Purchase successful!");
-              setToastType("success");
-            }
-          } catch (e) {
-            setShowToast(true);
-            setToastMessage("Error while buying.");
-            setToastType("error");
+
+            setTxInProgressMessage("Waiting for Buy transation to be completed");
+            setTxSuccessMessage("Purchase successful!");
+            setTx(buyTx);
+
+            await (await buyTx).wait();
           } finally {
             setBuyInProgress(false);
           }
@@ -168,6 +169,10 @@ const BuyPageWrapper = (props: Props) => {
       isAmountValid,
       setBuyInProgress,
       setError,
+      setWarningMessage,
+      setTx,
+      setTxInProgressMessage,
+      setTxSuccessMessage,
       signer,
       poolId,
       currentPoolInfo,
@@ -220,6 +225,11 @@ const BuyPageWrapper = (props: Props) => {
                   )}
                 </div>
               </div>
+              {showWarning && (
+                <div className="text-right text-xs text-red-800">
+                  {warningMessage}
+                </div>
+              )}
               <button
                 disabled={!signer || buyInProgress}
                 className="buy-button flex justify-center items-center"
@@ -265,7 +275,7 @@ const BuyPageWrapper = (props: Props) => {
           <input
             className="buy-input-main code-input"
             value={code ?? ""}
-            placeholder="CODE24"
+            placeholder="Referral Code"
             onChange={(e: any) => setCode(e.target.value || null)}
           />
           <div className="text-under-code">
@@ -273,14 +283,7 @@ const BuyPageWrapper = (props: Props) => {
           </div>
         </>
       )}
-      {showToast && (
-        <Toast
-          message={toastMessage}
-          type={toastType}
-          position="bottom-right"
-          onClose={() => setShowToast(false)}
-        />
-      )}
+      <TransactionHandler txPromise={tx} loadingMessage={txInProgressMessage} successMessage={txSuccessMessage} onTxDone={() => { }} />
       <LoadingOverlay isLoading={buyInProgress} />
     </div>
   );

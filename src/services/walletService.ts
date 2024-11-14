@@ -13,8 +13,9 @@ import poolToProjectMapping from "../config/poolToProjectMapping.json";
 import tokenMapping from "../config/tokenMapping.json";
 import { RoundInfo } from "@/types/types";
 
-const paymentPercentDecimals = 10000000;
+const paymentPercentDecimals = 5000000;
 const voucherDecimals = new Decimal("1000000000000000000");
+const xpDecimals = new Decimal(10).pow(18);
 
 interface ProjectInfo {
   id: number;
@@ -51,14 +52,14 @@ interface Rank {
   name: string;
   level: number;
   paymentPercent: number;
-  requiredXP?: BigNumber;
+  requiredXP?: Decimal;
 }
 
 export interface UserInfo {
   address: string;
   referralCode: string;
   isTeamUser: boolean;
-  currentXP: BigNumber;
+  currentXP: Decimal;
   currentRank: Rank;
   nextRank?: Rank;
 }
@@ -167,12 +168,12 @@ export const getUserInfo = async (
     address: address,
     referralCode: referral,
     isTeamUser,
-    currentXP: userTierInfo.currentXP,
+    currentXP: new Decimal(userTierInfo.currentXP.toString()).div(xpDecimals),
     currentRank: {
       name: rankMapping[userRankId],
       level: userRankId + 1,
       paymentPercent: currentRank.paymentPercent / paymentPercentDecimals,
-      requiredXP: currentRank.requiredXP
+      requiredXP: new Decimal(currentRank.requiredXP.toString()).div(xpDecimals)
     }
   };
   if (userRankId + 1 < userRanks.length) {
@@ -182,7 +183,7 @@ export const getUserInfo = async (
       name: rankMapping[nextRankId],
       level: nextRankId + 1,
       paymentPercent: nextRank.paymentPercent / paymentPercentDecimals,
-      requiredXP: nextRank.requiredXP
+      requiredXP: new Decimal(nextRank.requiredXP.toString()).div(xpDecimals)
     };
   }
 
@@ -248,6 +249,21 @@ export const claim = async (
   await launchpadContract.claimPayment(id);
 };
 
+export const approveSpending = async (
+  signer: ethers.providers.JsonRpcSigner,
+  token: TokenInfo,
+  amount: number,
+) => {
+  const convertedAmount = new Decimal(10).pow(token.decimals).mul(amount);
+  const tokenContract = new ethers.Contract(token.address, erc20Abi, signer);
+  const tx = await tokenContract.approve(
+    contracts.launchpad,
+    BigInt(convertedAmount.toString()),
+    { gasLimit: 1000000 }
+  );
+  return tx;
+}
+
 export const buy = async (
   signer: ethers.providers.JsonRpcSigner,
   poolId: number,
@@ -261,29 +277,14 @@ export const buy = async (
     signer
   );
 
-  const convertedAmount = BigInt(10) ** BigInt(token.decimals) * BigInt(amount);
-
-  const tokenContract = new ethers.Contract(token.address, erc20Abi, signer);
-  try {
-    const approveTx = await tokenContract.approve(
-      contracts.launchpad,
-      convertedAmount * 2n,
-      { gasLimit: 1000000 }
-    );
-    await approveTx.wait();
-
-    const tx = await launchpadContract.buy(
-      poolId,
-      convertedAmount,
-      referralCode,
-      { gasLimit: 1000000 }
-    );
-    await tx.wait();
-  } catch (err) {
-    return {
-      error: err
-    };
-  }
+  const convertedAmount = new Decimal(10).pow(token.decimals).mul(amount);
+  const tx = await launchpadContract.buy(
+    poolId,
+    BigInt(convertedAmount.toString()),
+    referralCode,
+    { gasLimit: 1000000 }
+  );
+  return tx;
 };
 
 export const upgradeRank = async (signer: ethers.providers.JsonRpcSigner) => {
