@@ -201,7 +201,8 @@ export const getUserClaimInfo = async (
   );
 
   let promiseList: Promise<BigInt>[] = [];
-  for (let poolId = 0; poolId < poolToProjectMapping.length; poolId++) {
+  for (let i = 0; i < poolToProjectMapping.length; i++) {
+    const poolId = poolToProjectMapping[i].id;
     promiseList = promiseList.concat([
       paymentPluginContract.getClaimablePayment(poolId, address),
       paymentPluginContract.getClaimedPayment(poolId, address),

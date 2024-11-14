@@ -6,6 +6,7 @@ import { useDashboardContext } from "@/context/DashboardContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
 import { getUserClaimInfo } from "@/services/walletService";
 import { Tooltip } from "@radix-ui/themes";
+import Decimal from "decimal.js";
 
 const ClaimsTable: React.FC = () => {
   const { fetchAllPoolInfo } = useBlockchainContext();
@@ -84,7 +85,7 @@ const ClaimsTable: React.FC = () => {
                           className="project-logo"
                         />
                       </span>
-                      <span>{getClaimInfo(claimInfo[index]).amount}</span>
+                      <span>{getClaimInfo(claimInfo[index]).amount.toString()}</span>
                     </div>
                   </td>
                   <td key={index}>
