@@ -292,8 +292,8 @@ export const upgradeRank = async (signer: ethers.providers.JsonRpcSigner) => {
     paymentPluginAbi,
     signer
   );
-  const tx = await paymentPluginContract.levelUp();
-  await tx.wait();
+  const tx = await paymentPluginContract.levelUp({ gasLimit: 1000000 });
+  return tx;
 };
 
 export const getDivision = async (provider: ethers.providers.Provider) => {

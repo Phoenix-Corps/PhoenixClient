@@ -69,7 +69,7 @@ const Toast: React.FC<ToastProps> = ({
 
   return (
     <div
-      className={`fixed p-4 rounded shadow-lg ${typeStyles[type]} ${positionStyles[position]} transition-opacity duration-300 ease-in-out`}
+      className={`fixed z-50 p-4 rounded shadow-lg ${typeStyles[type]} ${positionStyles[position]} transition-opacity duration-300 ease-in-out`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

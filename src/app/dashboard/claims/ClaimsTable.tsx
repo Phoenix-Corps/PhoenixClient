@@ -16,9 +16,7 @@ const ClaimsTable: React.FC = () => {
   useEffect(() => {
     if (provider && userInfo) {
       console.log("in address");
-      fetchClaimInfo(userInfo.address).then(res =>
-        console.log(res[0].claimable.toNumber())
-      );
+      fetchClaimInfo(userInfo.address);
     }
     fetchAllPoolInfo()
       .then(poolData => {
