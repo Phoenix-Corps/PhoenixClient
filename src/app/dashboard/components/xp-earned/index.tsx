@@ -19,8 +19,8 @@ const XPearned: React.FC = () => {
     }
 
     if (userInfo?.nextRank) {
-      const percentage = Math.min(userInfo.currentXP / userInfo.nextRank.requiredXP!, 1) * 100;
-      const clickable = userInfo.currentXP >= userInfo.nextRank.requiredXP!;
+      const percentage = Math.min(userInfo.currentXP.div(userInfo.nextRank.requiredXP!).toNumber(), 1) * 100;
+      const clickable = userInfo.currentXP.gte(userInfo.nextRank.requiredXP!);
       setPercentXp(percentage);
       setIsClickable(clickable);
       setXPearned(`${userInfo.currentXP} / ${userInfo.nextRank.requiredXP}`);
