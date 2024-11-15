@@ -15,13 +15,13 @@ const TeamWrapper: React.FC<Props> = ({ children }) => {
   const { isConnected } = useAccount();
   const [imageWidth, setImageWidth] = useState(1440);
   const [imageHeight, setImageHeight] = useState(2579);
-  useEffect(() => {
+  useEffect(() => { 
     if (walletAddress) {
       fetchUserInfo(walletAddress).catch(e => {
         setError(e.message);
       });
     }
-  }, [userInfo]);
+  }, [isConnected,userInfo]);
   const [containerHeight, setContainerHeight] = useState(0);
 
   useEffect(() => {
