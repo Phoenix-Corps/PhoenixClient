@@ -14,7 +14,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 const Header = () => {
   const pathname = usePathname();
-  const { changePageType, pageType } = useDashboardContext();
+  const { changePageType, pageType,userInfo } = useDashboardContext();
   const { isConnected } = useAccount();
   const router = useRouter();
   const { disconnect } = useDisconnect();
@@ -95,7 +95,7 @@ const Header = () => {
             My Claims
           </Link>
         </li>
-        {pageType == "army" ? (
+        {userInfo?.isTeamUser ? (
           <li onClick={() => setCollapsed(false)}>
             <Link
               href={"/dashboard/division"}

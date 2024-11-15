@@ -11,6 +11,7 @@ const Claims = () => {
 
   const { userInfo } =
     useDashboardContext();
+    console.log(userInfo);
   // useEffect(() => {
   //   if (walletAddress) {
   //     fetchUserInfo(walletAddress);

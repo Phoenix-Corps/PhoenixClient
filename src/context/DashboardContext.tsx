@@ -26,6 +26,7 @@ export interface DashboardContextType {
   resetClaimInfo: (address: string) => Promise<ClaimInfo[] | null>;
   changePageType: () => void;
   loadingDashboard: boolean;
+  loadingClaimInfo: boolean;
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(
@@ -38,6 +39,7 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
   const provider = useEthersProvider();
   const { address } = useAccount();
   const [loadingDashboard, setLoadingDashboard] = useState<boolean>(false);
+  const [loadingClaimInfo, setLoadingClaimInfo] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [claimInfo, setClaimInfo] = useState<ClaimInfo[] | null>(null);
   const [pageType, setPageType] = useState<"solo" | "army">("solo");
@@ -67,7 +69,7 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
       console.error("Provider is not available");
       return [];
     }
-
+    setLoadingClaimInfo(true);
     try {
       const data = await getUserClaimInfo(provider, address);
       console.log("NOT FROM CACHE", claimInfo);
@@ -78,7 +80,7 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
       console.error("Error fetching user info:", error);
       throw error;
     } finally {
-      setLoadingDashboard(false);
+      setLoadingClaimInfo(false);
     }
   }, []);
 
@@ -124,6 +126,7 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
         walletAddress: address,
         claimInfo,
         loadingDashboard,
+        loadingClaimInfo,
         userInfo,
         pageType,
         changePageType,
