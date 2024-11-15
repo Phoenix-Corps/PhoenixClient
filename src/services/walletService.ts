@@ -71,8 +71,8 @@ export interface ClaimInfo {
 
 const processPoolInfo = (pool: any, rounds: any[]) => {
   const currentRound = rounds.find(
-    (round: RoundInfo) => round.roundEnd < Date.now()
-  );
+    (round: RoundInfo) => new Date(round.roundEnd * 1000) > new Date()
+  ) ?? rounds[rounds.length - 1];
   const token = (tokenMapping as { [key: string]: TokenInfo })[
     pool.paymentToken
   ];
