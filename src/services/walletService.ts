@@ -90,8 +90,8 @@ const processPoolInfo = (pool: any, rounds: any[]) => {
       roundStart: currentRound.roundStart,
       roundEnd: currentRound.roundEnd,
       voucherPrice: price,
-      goal: new Decimal(currentRound.goal.toString()),
-      available: new Decimal(currentRound.available.toString())
+      goal: new Decimal(currentRound.voucherGoal.toString()),
+      available: new Decimal(currentRound.availableVouchers.toString())
     }
   };
 

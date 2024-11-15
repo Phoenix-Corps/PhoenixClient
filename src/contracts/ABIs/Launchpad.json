@@ -320,7 +320,7 @@
             {
                 "indexed": false,
                 "internalType": "uint256",
-                "name": "goal",
+                "name": "fundingGoal",
                 "type": "uint256"
             },
             {
@@ -619,7 +619,7 @@
             },
             {
                 "internalType": "uint256",
-                "name": "_goal",
+                "name": "_fundingGoal",
                 "type": "uint256"
             },
             {
@@ -761,7 +761,7 @@
             },
             {
                 "internalType": "uint256",
-                "name": "_goal",
+                "name": "_fundingGoal",
                 "type": "uint256"
             },
             {
@@ -836,7 +836,7 @@
                 "components": [
                     {
                         "internalType": "uint256",
-                        "name": "goal",
+                        "name": "fundingGoal",
                         "type": "uint256"
                     },
                     {
@@ -856,7 +856,17 @@
                     },
                     {
                         "internalType": "uint256",
-                        "name": "available",
+                        "name": "voucherGoal",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "availableVouchers",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "openFunding",
                         "type": "uint256"
                     },
                     {
@@ -934,7 +944,7 @@
                         "components": [
                             {
                                 "internalType": "uint256",
-                                "name": "goal",
+                                "name": "fundingGoal",
                                 "type": "uint256"
                             },
                             {
@@ -954,7 +964,17 @@
                             },
                             {
                                 "internalType": "uint256",
-                                "name": "available",
+                                "name": "voucherGoal",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "availableVouchers",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "openFunding",
                                 "type": "uint256"
                             },
                             {
@@ -1057,7 +1077,7 @@
                         "components": [
                             {
                                 "internalType": "uint256",
-                                "name": "goal",
+                                "name": "fundingGoal",
                                 "type": "uint256"
                             },
                             {
@@ -1077,7 +1097,17 @@
                             },
                             {
                                 "internalType": "uint256",
-                                "name": "available",
+                                "name": "voucherGoal",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "availableVouchers",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "openFunding",
                                 "type": "uint256"
                             },
                             {
@@ -1129,7 +1159,7 @@
                 "components": [
                     {
                         "internalType": "uint256",
-                        "name": "goal",
+                        "name": "fundingGoal",
                         "type": "uint256"
                     },
                     {
@@ -1149,7 +1179,17 @@
                     },
                     {
                         "internalType": "uint256",
-                        "name": "available",
+                        "name": "voucherGoal",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "availableVouchers",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "openFunding",
                         "type": "uint256"
                     },
                     {
@@ -1214,7 +1254,7 @@
                 "components": [
                     {
                         "internalType": "uint256",
-                        "name": "goal",
+                        "name": "fundingGoal",
                         "type": "uint256"
                     },
                     {
@@ -1234,7 +1274,17 @@
                     },
                     {
                         "internalType": "uint256",
-                        "name": "available",
+                        "name": "voucherGoal",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "availableVouchers",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "openFunding",
                         "type": "uint256"
                     },
                     {
