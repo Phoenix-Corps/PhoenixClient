@@ -1,4 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
+
+//import xp-earned.css 
+import "./xp-earned.css";
 import Decimal from "decimal.js";
 import { useDashboardContext } from "@/context/DashboardContext";
 import { upgradeRank } from "@/services/walletService";
@@ -87,7 +90,7 @@ const XPearned: React.FC = () => {
           transition-colors duration-500 ease-in-out
           ${
             isClickable
-              ? "bg-gray-400 text-white border border-white"
+              ? "upgrade-button "
               : " text-gray-700 border border-gray-400 cursor-not-allowed"
           }
         `}
