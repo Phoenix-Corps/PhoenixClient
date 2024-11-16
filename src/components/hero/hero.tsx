@@ -9,7 +9,7 @@ const Hero = () => {
 
   return (
     <section className="sm:text-right text-center">
-      <span className="button-container button-container-yellow sm:m-[2%]">
+      <span className="button-container button-container-yellow m-[2%]">
           <Link className="button button-yellow" href="/dashboard">
             <span className="button-label">Sign up for the</span>
             <span className="button-text">Shinobi alliance</span>
