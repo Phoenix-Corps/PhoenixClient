@@ -17,14 +17,13 @@ import { useAccount } from "wagmi";
 
 export interface DashboardContextType {
   userInfo: UserInfo | null;
-  pageType: "solo" | "army";
   claimInfo: ClaimInfo[] | null;
   walletAddress: string | undefined;
   fetchUserInfo: (address: string) => Promise<UserInfo | null>;
   resetUserInfo: (address: string) => Promise<UserInfo | null>;
+  disconnectUserInfo: () => void;
   fetchClaimInfo: (address: string) => Promise<ClaimInfo[] | null>;
   resetClaimInfo: (address: string) => Promise<ClaimInfo[] | null>;
-  changePageType: () => void;
   loadingDashboard: boolean;
   loadingClaimInfo: boolean;
 }
@@ -42,15 +41,6 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
   const [loadingClaimInfo, setLoadingClaimInfo] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [claimInfo, setClaimInfo] = useState<ClaimInfo[] | null>(null);
-  const [pageType, setPageType] = useState<"solo" | "army">("solo");
-
-  const changePageType = useCallback(() => {
-    if (pageType === "solo") {
-      setPageType("army");
-    } else {
-      setPageType("solo");
-    }
-  }, [pageType]);
 
   const fetchClaimInfo = useCallback(
     async (address: string): Promise<ClaimInfo[] | []> => {
@@ -84,10 +74,13 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, []);
 
+  const disconnectUserInfo = useCallback((): void => {
+    setUserInfo(null);
+  }, []);
+
   const fetchUserInfo = useCallback(
     async (address: string): Promise<UserInfo | null> => {
-
-      if (userInfo) {
+      if (userInfo && userInfo?.address === address) {
         console.log("userinfo from cache");
         console.log(userInfo);
         return userInfo;
@@ -98,27 +91,30 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
     [provider, userInfo]
   );
 
-  const resetUserInfo = useCallback(async (address: string): Promise<UserInfo | null> => {
-    setUserInfo(null);
-    if (!provider) {
-      console.error("Provider is not available");
-      return null;
-    }
+  const resetUserInfo = useCallback(
+    async (address: string): Promise<UserInfo | null> => {
+      setUserInfo(null);
+      if (!provider) {
+        console.error("Provider is not available");
+        return null;
+      }
 
-    setLoadingDashboard(true);
+      setLoadingDashboard(true);
 
-    try {
-      const data = await getUserInfo(provider, address);
-      console.log("NOT FROM CACHE", userInfo);
-      setUserInfo(data);
-      return data;
-    } catch (error) {
-      console.error("Error fetching user info:", error);
-      throw error;
-    } finally {
-      setLoadingDashboard(false);
-    }
-  }, []);
+      try {
+        const data = await getUserInfo(provider, address);
+        console.log("NOT FROM CACHE", userInfo);
+        setUserInfo(data);
+        return data;
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+        throw error;
+      } finally {
+        setLoadingDashboard(false);
+      }
+    },
+    []
+  );
 
   return (
     <DashboardContext.Provider
@@ -128,10 +124,9 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
         loadingDashboard,
         loadingClaimInfo,
         userInfo,
-        pageType,
-        changePageType,
         fetchUserInfo,
         resetUserInfo,
+        disconnectUserInfo,
         fetchClaimInfo,
         resetClaimInfo
       }}

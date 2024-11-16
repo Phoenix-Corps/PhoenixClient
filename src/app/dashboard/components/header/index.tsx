@@ -10,13 +10,12 @@ import { useDisconnect, useAccount } from "wagmi";
 import { useDashboardContext } from "@/context/DashboardContext";
 import DivisionGrpoup from "@/../public/dashboard/division-group.png";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const pathname = usePathname();
-  const { changePageType, pageType,userInfo } = useDashboardContext();
+  const { userInfo,disconnectUserInfo } = useDashboardContext();
   const { isConnected } = useAccount();
-  const router = useRouter();
   const { disconnect } = useDisconnect();
   const [isCollapsed, setCollapsed] = useState(false);
 
@@ -26,6 +25,7 @@ const Header = () => {
   const disconnectWallet = async () => {
     try {
       await disconnect();
+      disconnectUserInfo();
       setCollapsed(false);
     } catch (error) {
       console.error("Failed to disconnect:", error);
