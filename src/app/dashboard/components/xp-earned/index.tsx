@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-
+import Decimal from "decimal.js";
 import { useDashboardContext } from "@/context/DashboardContext";
 import { upgradeRank } from "@/services/walletService";
 import { useEthersSigner } from "@/services/useEthersSigner";
@@ -10,7 +10,7 @@ const XPearned: React.FC = () => {
   const [XPearned, setXPearned] = useState<string>("");
   const [precentXp, setPercentXp] = useState<number | null>(null);
   const [isClickable, setIsClickable] = useState(false);
-
+  const xpDecimals = new Decimal(10).pow(18);
   const [txPromise, setTxPromise] = useState<any>(null);
 
   useEffect(() => {
@@ -19,11 +19,19 @@ const XPearned: React.FC = () => {
     }
 
     if (userInfo?.nextRank) {
-      const percentage = Math.min(userInfo.currentXP.div(userInfo.nextRank.requiredXP!).toNumber(), 1) * 100;
+      const percentage =
+        Math.min(
+          userInfo.currentXP.div(userInfo.nextRank.requiredXP!).toNumber(),
+          1
+        ) * 100;
       const clickable = userInfo.currentXP.gte(userInfo.nextRank.requiredXP!);
       setPercentXp(percentage);
       setIsClickable(clickable);
-      setXPearned(`${userInfo.currentXP} / ${userInfo.nextRank.requiredXP}`);
+      setXPearned(
+        `${new Decimal(userInfo.currentXP.toFixed(2).toString())} / ${
+          userInfo.nextRank.requiredXP?.toFixed(2).toString()
+        }`
+      );
     } else {
       setPercentXp(100);
       setIsClickable(false);
@@ -60,27 +68,28 @@ const XPearned: React.FC = () => {
           <div className="flex justify-center text-white">Loading...</div>
         ) : (
           <div className="p-6">
-            <div className="w-full bg-gray-300 rounded-full overflow-hidden h-12">
+            <div className="w-full bg-gray-300 rounded-full overflow-hidden h-12 relative">
               <div
                 className="h-full bg-green-500 text-white text-center font-bold"
                 style={{ width: `${precentXp}%` }}
-              >
-                <div className="pl-6 w-[120px] min-w-[40px] h-12 flex justify-center items-center">
-                    {XPearned}
-                  </div>
-                </div>
+              ></div>
+              <div className="absolute inset-0 flex justify-center items-center font-bold">
+                {XPearned}
               </div>
-              <button
-                onClick={isClickable ? upgradeLevel : undefined}
-                className={`
+            </div>
+
+            <button
+              onClick={isClickable ? upgradeLevel : undefined}
+              className={`
           flex items-center justify-center m-auto mt-4
           rounded-full text-sm p-2 lg:text-[18px] md:h-[45px] w-[189px]
           uppercase font-bold
           transition-colors duration-500 ease-in-out
-          ${isClickable
-                  ? "bg-gray-400 text-white border border-white"
-                  : " text-gray-700 border border-gray-400 cursor-not-allowed"
-                }
+          ${
+            isClickable
+              ? "bg-gray-400 text-white border border-white"
+              : " text-gray-700 border border-gray-400 cursor-not-allowed"
+          }
         `}
             >
               Upgrade
@@ -88,7 +97,13 @@ const XPearned: React.FC = () => {
           </div>
         )}
       </div>
-      <TransactionHandler loadingMessage={"Upgrading rank"} successMessage={"Successfully upgrated rank"} txPromise={txPromise} onTxDone={upgradeLevelDone} onClose={() => { }} />
+      <TransactionHandler
+        loadingMessage={"Upgrading rank"}
+        successMessage={"Successfully upgrated rank"}
+        txPromise={txPromise}
+        onTxDone={upgradeLevelDone}
+        onClose={() => {}}
+      />
     </div>
   );
 };
