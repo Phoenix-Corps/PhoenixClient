@@ -1,11 +1,9 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import { PoolInfo } from "@/services/walletService";
 import { useBlockchainContext } from "@/context/BlockchainContext";
 import { useDashboardContext } from "@/context/DashboardContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
-import { getUserClaimInfo } from "@/services/walletService";
-import { Tooltip } from "@radix-ui/themes";
 import Decimal from "decimal.js";
 
 const ClaimsTable: React.FC = () => {
@@ -16,38 +14,65 @@ const ClaimsTable: React.FC = () => {
 
   useEffect(() => {
     if (provider && userInfo) {
-      console.log("in address");
       fetchClaimInfo(userInfo.address);
     }
     fetchAllPoolInfo()
-      .then(poolData => {
+      .then((poolData) => {
         setProjects(poolData);
-        console.log(poolData);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   }, [userInfo, provider]);
-  useEffect(() => {
-    console.log(claimInfo);
-  }, [claimInfo]);
 
-  const getClaimInfo = (projClaim: any) => {
-    if (projClaim.claimable.toNumber() > 0) {
-      const amount = projClaim.claimable;
-      return { color: "yellow", text: "CLAIMABLE", amount };
-    } else if (
-      projClaim.claimable.toNumber() == 0 &&
-      projClaim.totalPayment.toNumber() > projClaim.claimedPayment.toNumber()
-    ) {
-      const amount =
-        projClaim.totalPayment.toNumber() - projClaim.claimedPayment.toNumber();
-      return { color: "red", text: "PENDING", amount };
+  const claimsData = useMemo(() => {
+    if (claimInfo && projects && claimInfo.length > 0 && projects.length > 0) {
+      return projects.map((project, index) => {
+        const projClaim = claimInfo[index]; 
+        if (!projClaim) {
+          return null; 
+        }
+        let status = "";
+        let color = "";
+        let amount = new Decimal(0);
+
+        const totalPayment = projClaim.totalPayment;
+        const claimedPayment = projClaim.claimedPayment;
+        const claimable = projClaim.claimable;
+        console.log(totalPayment, claimedPayment, claimable);
+
+        const tokenDecimals = project.token.decimals || 18; // Default to 18 if undefined
+
+        if (claimable.comparedTo(0) > 0) {
+          status = "CLAIMABLE";
+          color = "yellow";
+          amount = claimable;
+        } else if (
+          claimable.comparedTo(0) === 0 &&
+          totalPayment.comparedTo(claimedPayment) > 0
+        ) {
+          status = "PENDING";
+          color = "red";
+          amount = totalPayment.minus(claimedPayment);
+        } else {
+          status = "CLAIMED";
+          color = "green";
+          amount = totalPayment;
+        }
+
+        const amountFormatted = amount.dividedBy(Decimal.pow(10, tokenDecimals));
+
+        return {
+          project,
+          status,
+          color,
+          amount: amountFormatted,
+        };
+      });
     } else {
-      const amount = projClaim.totalPayment.toNumber();
-      return { color: "green", text: "CLAIMED", amount };
+      return [];
     }
-  };
+  }, [claimInfo, projects]);
 
   return (
     <>
@@ -67,66 +92,49 @@ const ClaimsTable: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {projects &&
-              claimInfo &&
-              claimInfo.length > 0 &&
-              claimInfo[0] &&
-              projects.map((row, index) => (
-                <tr key={index} className="border-b">
-                  <td className="p-4 pl-0">{row.projectInfo?.name}</td>
-                  <td className="p-4 pl-0 flex flex-wrap gap-4">
-                    <div key={row.id} className="flex items-center gap-2">
-                      <span>
-                        <Image
-                          src={row.token.logo}
-                          alt={row.token.logo}
-                          width={20}
-                          height={20}
-                          className="project-logo"
-                        />
-                      </span>
-                      <span>{getClaimInfo(claimInfo[index]).amount.toString()}</span>
-                    </div>
-                  </td>
-                  <td key={index}>
-                    <div
-                      className={`btn-${
-                        getClaimInfo(claimInfo[index]).color
-                      }-grad-container`}
-                    >
-                      {getClaimInfo(claimInfo[index]).text === "CLAIMABLE" ? (
-                        <button
-                          className={`btn-${
-                            getClaimInfo(claimInfo[index]).color
-                          }-grad px-10`}
+            {claimsData &&
+              claimsData.map(
+                (data, index) =>
+                  data && (
+                    <tr key={index} className="border-b">
+                      <td className="p-4 pl-0">{data.project.projectInfo?.name}</td>
+                      <td className="p-4 pl-0 flex flex-wrap gap-4">
+                        <div
+                          key={data.project.id}
+                          className="flex items-center gap-2"
                         >
-                          <span
-                            className={`btn-${
-                              getClaimInfo(claimInfo[index]).color
-                            }-grad-text`}
-                          >
-                            {getClaimInfo(claimInfo[index]).text}
+                          <span>
+                            <Image
+                              src={data.project.token.logo}
+                              alt={data.project.token.logo}
+                              width={20}
+                              height={20}
+                              className="project-logo"
+                            />
                           </span>
-                        </button>
-                      ) : (
-                        <span
-                          className={`btn-${
-                            getClaimInfo(claimInfo[index]).color
-                          }-grad px-10`}
-                        >
-                          <span
-                            className={`btn-${
-                              getClaimInfo(claimInfo[index]).color
-                            }-grad-text`}
-                          >
-                            {getClaimInfo(claimInfo[index]).text}
-                          </span>
-                        </span>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                          <span>{data.amount.toString()}</span>
+                        </div>
+                      </td>
+                      <td key={index}>
+                        <div className={`btn-${data.color}-grad-container`}>
+                          {data.status === "CLAIMABLE" ? (
+                            <button className={`btn-${data.color}-grad px-10`}>
+                              <span className={`btn-${data.color}-grad-text`}>
+                                {data.status}
+                              </span>
+                            </button>
+                          ) : (
+                            <span className={`btn-${data.color}-grad px-10`}>
+                              <span className={`btn-${data.color}-grad-text`}>
+                                {data.status}
+                              </span>
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  )
+              )}
           </tbody>
         </table>
       </div>
