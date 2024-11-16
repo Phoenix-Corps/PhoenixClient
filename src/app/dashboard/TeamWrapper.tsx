@@ -8,7 +8,7 @@ type Props = {
 };
 
 const TeamWrapper: React.FC<Props> = ({ children }) => {
-  const { pageType, userInfo, walletAddress, fetchUserInfo } =
+  const {  userInfo, walletAddress, fetchUserInfo } =
     useDashboardContext();
 
   const [error, setError] = useState<string>("");
