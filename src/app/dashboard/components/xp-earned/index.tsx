@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-//import xp-earned.css 
+//import xp-earned.css
 import "./xp-earned.css";
 import Decimal from "decimal.js";
 import { useDashboardContext } from "@/context/DashboardContext";
@@ -31,9 +31,9 @@ const XPearned: React.FC = () => {
       setPercentXp(percentage);
       setIsClickable(clickable);
       setXPearned(
-        `${new Decimal(userInfo.currentXP.toFixed(2).toString())} / ${
-          userInfo.nextRank.requiredXP?.toFixed(2).toString()
-        }`
+        `${new Decimal(
+          userInfo.currentXP.toFixed(2).toString()
+        )} / ${userInfo.nextRank.requiredXP?.toFixed(2).toString()}`
       );
     } else {
       setPercentXp(100);
