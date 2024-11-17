@@ -57,7 +57,7 @@ const Home: NextPage = () => {
       const promise = registerUser(signer);
       setRegisterPromise(promise);
     }
-  }, [signer]);
+  }, [signer,setRegisterPromise]);
 
   const registerDone = useCallback(
     (success: boolean) => {
@@ -65,7 +65,7 @@ const Home: NextPage = () => {
         resetUserInfo(walletAddress);
       }
     },
-    []
+    [walletAddress]
   );
   return (
     <>
