@@ -334,6 +334,7 @@ export const recruit = async (
     paymentPluginAbi,
     signer
   );
+  
   const tx = await paymentPluginContract.registerRecruit(recruit, rank);
   await tx.wait();
 };

@@ -3,7 +3,7 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { formatAddress } from "@/app/dashboard/utils/formatAddress";
 import { useEthersSigner } from "@/services/useEthersSigner";
@@ -13,16 +13,23 @@ import XPearned from "./components/xp-earned";
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
 import LoadingOverlay from "../buy/components/loadingOverlay";
 import { registerUser } from "@/services/walletService";
+import TransactionHandler from "../buy/components/transactionHandler";
 
 const Home: NextPage = () => {
-  const { walletAddress, userInfo, fetchUserInfo, loadingDashboard } =
-    useDashboardContext();
+  const {
+    walletAddress,
+    userInfo,
+    fetchUserInfo,
+    loadingDashboard,
+    resetUserInfo
+  } = useDashboardContext();
 
   const signer = useEthersSigner();
 
   const [infoError, setInfoError] = useState<string | null>(null);
   const [isCopied, setIsCopied] = useState(false);
   const [isCodeCopied, setIsCodeCopied] = useState(false);
+  const [registerPromise, setRegisterPromise] = useState<any>(null);
 
   useEffect(() => {
     console.log("Wallet Address");
@@ -45,6 +52,21 @@ const Home: NextPage = () => {
     });
   };
 
+  const register = useCallback(async () => {
+    if (signer) {
+      const promise = registerUser(signer);
+      setRegisterPromise(promise);
+    }
+  }, [signer]);
+
+  const registerDone = useCallback(
+    (success: boolean) => {
+      if (success && walletAddress) {
+        resetUserInfo(walletAddress);
+      }
+    },
+    []
+  );
   return (
     <>
       <Head>
@@ -166,13 +188,11 @@ const Home: NextPage = () => {
                     </div>
                   ) : (
                     <button
-                    className="flex items-center justify-center m-auto mt-4
+                      className="flex items-center justify-center m-auto mt-4
           rounded-full text-sm p-2 lg:text-[18px] md:h-[45px] w-[189px]
           uppercase font-bold
           transition-colors duration-500 ease-in-out upgrade-button "
-                      onClick={() => {
-                        if (signer) registerUser(signer);
-                      }}
+                      onClick={register}
                     >
                       {" "}
                       Register User
@@ -183,6 +203,13 @@ const Home: NextPage = () => {
             </div>
           </>
         )}
+        <TransactionHandler
+          loadingMessage={"Registering user"}
+          successMessage={"Successfully registered user"}
+          txPromise={registerPromise}
+          onTxDone={registerDone}
+          onClose={() => {}}
+        />
       </div>
     </>
   );
