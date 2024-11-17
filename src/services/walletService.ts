@@ -312,6 +312,18 @@ export const getDivision = async (provider: ethers.providers.Provider) => {
   return [];
 };
 
+export const registerUser = async (
+  signer: ethers.providers.JsonRpcSigner
+) => {
+  const paymentPluginContract = new ethers.Contract(
+    contracts.paymentPlugin,
+    paymentPluginAbi,
+    signer
+  );
+  const tx = await paymentPluginContract.registerSolo(true);
+  return tx;
+}
+
 export const recruit = async (
   recruit: string,
   rank: number,

@@ -6,16 +6,19 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 
 import { formatAddress } from "@/app/dashboard/utils/formatAddress";
-
+import { useEthersSigner } from "@/services/useEthersSigner";
 import { useDashboardContext } from "@/context/DashboardContext";
 
 import XPearned from "./components/xp-earned";
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
 import LoadingOverlay from "../buy/components/loadingOverlay";
+import { registerUser } from "@/services/walletService";
 
 const Home: NextPage = () => {
   const { walletAddress, userInfo, fetchUserInfo, loadingDashboard } =
     useDashboardContext();
+
+  const signer = useEthersSigner();
 
   const [infoError, setInfoError] = useState<string | null>(null);
   const [isCopied, setIsCopied] = useState(false);
@@ -161,7 +164,20 @@ const Home: NextPage = () => {
                         )}
                       </div>
                     </div>
-                  ) : null}
+                  ) : (
+                    <button
+                    className="flex items-center justify-center m-auto mt-4
+          rounded-full text-sm p-2 lg:text-[18px] md:h-[45px] w-[189px]
+          uppercase font-bold
+          transition-colors duration-500 ease-in-out upgrade-button "
+                      onClick={() => {
+                        if (signer) registerUser(signer);
+                      }}
+                    >
+                      {" "}
+                      Register User
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
