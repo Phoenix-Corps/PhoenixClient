@@ -7,6 +7,7 @@
   align-items: center;
 }
 
+
 .signin-button-container {
   display: inline-block;
   width: 100px;
@@ -77,3 +78,17 @@
     margin-top: 25px;
   }
 }
+
+
+.shinobi-button{
+  inset-area: unset;
+  right: 0;
+}
+@media (max-width: 767px) {
+  .shinobi-button{
+    inset-area: bottom;
+  }
+  
+}
+
+
