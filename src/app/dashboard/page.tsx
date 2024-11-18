@@ -57,7 +57,7 @@ const Home: NextPage = () => {
       const promise = registerUser(signer);
       setRegisterPromise(promise);
     }
-  }, [signer,setRegisterPromise]);
+  }, [signer, setRegisterPromise]);
 
   const registerDone = useCallback(
     (success: boolean) => {
@@ -87,42 +87,46 @@ const Home: NextPage = () => {
 
             <div className="mx-auto mt-6 md:mt-9 lg:mt-12">
               {/* Profile Card */}
-              <div className="profile-card py-4 h-[170px] lg:h-[251px] flex justify-between items-center px-6 rounded-tl-[50px] lg:rounded-tl-[80px] shadow-xl lg:px-[56px]">
-                <div className="flex flex-col gap-1.5">
-                  <div>
-                    <h3 className="text-[#12384F] header-text-bold text-[32px] font-bold font-source-sans-pro leading-[50px]">
-                      Lvl. {userInfo?.currentRank.level}
-                    </h3>
-                    <div className="flex gap-10 items-center">
-                      <h2 className="shadow-text2 text-[#12384F] header-text-bold text-4xl lg:text-[54px] font-bold font-noto-serif uppercase">
-                        {userInfo?.currentRank.name}
-                      </h2>
+              {userInfo?.referralCode ? (
+                <div className="profile-info-xp">
+                  <div className="profile-card py-4 h-[170px] lg:h-[251px] flex justify-between items-center px-6 rounded-tl-[50px] lg:rounded-tl-[80px] shadow-xl lg:px-[56px]">
+                    <div className="flex flex-col gap-1.5">
+                      <div>
+                        <h3 className="text-[#12384F] header-text-bold text-[32px] font-bold font-source-sans-pro leading-[50px]">
+                          Lvl. {userInfo?.currentRank.level}
+                        </h3>
+                        <div className="flex gap-10 items-center">
+                          <h2 className="shadow-text2 text-[#12384F] header-text-bold text-4xl lg:text-[54px] font-bold font-noto-serif uppercase">
+                            {userInfo?.currentRank.name}
+                          </h2>
+                        </div>
+                      </div>
+                      <p className="text-[#09111B] text-[14px] lg:text-[22px] font-source-sans-pro">
+                        You are currently earning{" "}
+                        <span className="font-bold">
+                          {userInfo?.currentRank.paymentPercent ?? 0}%
+                        </span>{" "}
+                        in commissions
+                      </p>
                     </div>
+                    {userInfo?.currentRank?.level ? (
+                      <div className=" md:block">
+                        <Image
+                          src={`/Shinobi Alliance Ranks/Lvl-${
+                            userInfo && userInfo?.currentRank?.level
+                          }.png`}
+                          width={100}
+                          height={100}
+                          alt=""
+                          className="md:block max-h-[140px] object-contain"
+                        />
+                      </div>
+                    ) : null}
                   </div>
-                  <p className="text-[#09111B] text-[14px] lg:text-[22px] font-source-sans-pro">
-                    You are currently earning{" "}
-                    <span className="font-bold">
-                      {userInfo?.currentRank.paymentPercent ?? 0}%
-                    </span>{" "}
-                    in commissions
-                  </p>
+                  {/* Edit Profile */}
+                  <XPearned />
                 </div>
-                {userInfo?.currentRank?.level ? (
-                  <div className=" md:block">
-                    <Image
-                      src={`/Shinobi Alliance Ranks/Lvl-${
-                        userInfo && userInfo?.currentRank?.level
-                      }.png`}
-                      width={100}
-                      height={100}
-                      alt=""
-                      className="md:block max-h-[140px] object-contain"
-                    />
-                  </div>
-                ) : null}
-              </div>
-              {/* Edit Profile */}
-              <XPearned />
+              ) : null}
               {/* Numbers */}
 
               {/* Profile info */}
