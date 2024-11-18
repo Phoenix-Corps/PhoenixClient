@@ -9,8 +9,7 @@ const Hero = () => {
     <section className="sm:text-right text-center">
       <span className="button-container button-container-yellow m-[1%] absolute shinobi-button">
         <Link className="button button-yellow" href="/dashboard">
-          <span className="button-label">Sign up for the</span>
-          <span className="button-text">Shinobi alliance</span>
+          <span className="button-text">Open Dashboard</span>
         </Link>
       </span>
       <Logo className="sm:w-[70%] w-full m-auto h-full object-contain hero-image" />
