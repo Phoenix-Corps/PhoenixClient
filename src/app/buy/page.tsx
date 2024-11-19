@@ -18,11 +18,10 @@ import React, {
   useMemo,
   useState
 } from "react";
-import { useAccount, useBalance } from "wagmi";
+import { useAccount, useBalance, useDisconnect } from "wagmi";
 import ConnectButtonCustom from "./components/connectButtonCustom";
 import { BigNumber } from "ethers";
 import { useEthersSigner } from "@/services/useEthersSigner";
-import Toast, { ToastProps } from "./components/toast";
 import LoadingOverlay from "./components/loadingOverlay";
 import TransactionHandler from "./components/transactionHandler";
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
@@ -42,9 +41,11 @@ const BuyPageWrapper = (props: Props) => {
   const [isCodeCopied, setIsCodeCopied] = useState(false);
 
   const [amount, setAmount] = useState<number | null>(null);
+  const [amountVouchers, setAmountVouchers] = useState<number | null>(null);
   const [vouchersOwned, setVouchersOwned] = useState<BigNumber | null>(null);
 
   const { isConnected, address } = useAccount();
+  const { disconnect } = useDisconnect();
 
   const searchParams = useSearchParams();
   const provider = useEthersProvider();
@@ -121,6 +122,29 @@ const BuyPageWrapper = (props: Props) => {
     setPoolId,
     setCode
   ]);
+
+  useEffect(() => {
+    if (amount !== null && currentPoolInfo?.currentRound?.voucherPrice) {
+      const vouchers =
+        amount /
+        parseFloat(currentPoolInfo.currentRound.voucherPrice.toString());
+      setAmountVouchers(
+        Number.isFinite(vouchers) ? parseFloat(vouchers.toFixed(2)) : null
+      );
+    }
+  }, [amount, currentPoolInfo]);
+
+  useEffect(() => {
+    if (
+      amountVouchers !== null &&
+      currentPoolInfo?.currentRound?.voucherPrice
+    ) {
+      const value =
+        amountVouchers *
+        parseFloat(currentPoolInfo.currentRound.voucherPrice.toString());
+      setAmount(Number.isFinite(value) ? parseFloat(value.toFixed(2)) : null);
+    }
+  }, [amountVouchers, currentPoolInfo]);
 
   const isAmountValid = () => {
     if (amount === null) return false;
@@ -224,43 +248,77 @@ const BuyPageWrapper = (props: Props) => {
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
+      {isConnected && (
+        <button
+          onClick={() => disconnect()}
+          className="buy-button absolute top-0 right-3 w-[100px] h-[40px] text-xs p-1"
+        >
+          Disconnect wallet
+        </button>
+      )}
       <div className="voucher-wrapper mb-[50px] md:gap-[50px] sm:gap-[120px] xs:gap-[120px]">
         <div className="voucher-text-input-wrapper md:ml-[36px] sm:ml-0 flex flex-col items-center">
           <div className="buy-heading-text">
             {currentPoolInfo?.projectInfo?.name || "Loading..."}
           </div>
-          <div className="buy-main-text">
+          <div className="buy-main-text px-8 text-justify">
             {currentPoolInfo?.projectInfo?.description ||
               "Loading description..."}
           </div>
           {isConnected ? (
             <div className="relative buy-wrapper-main">
-              <input
-                className="buy-input-main"
-                value={amount ?? ""}
-                placeholder="0.00"
-                onChange={(e: any) => setAmount(e.target.value || null)}
-              />
-              <div className="curr-drop-wrapper">
-                <div className="curr-main flex flex-row items-center">
-                  {currentPoolInfo?.token ? (
-                    <>
-                      <Image
-                        src={currentPoolInfo.token.logo}
-                        alt="Description of the image"
-                        width={30}
-                        height={30}
-                        style={{ objectFit: "contain" }}
-                      />
-                    </>
-                  ) : (
-                    "Loading token..."
-                  )}
-                </div>
+              <div className="flex flex-row items-center border-2 border-white rounded-lg bg-gradient-to-b from-white/10 to-blue-300/20 p-2">
+                <input
+                  className="flex-1 bg-transparent text-white text-lg font-bold placeholder-white/50 focus:outline-none px-4"
+                  value={amount ?? ""}
+                  placeholder="0.00"
+                  onChange={(e: any) => setAmount(e.target.value || null)}
+                />
+                <div className="h-8 w-px bg-white/50 mx-2"></div>
+                {currentPoolInfo?.token ? (
+                  <Image
+                    src={currentPoolInfo.token.logo}
+                    alt="Description of the image"
+                    width={30}
+                    height={30}
+                    style={{ objectFit: "contain" }}
+                  />
+                ) : (
+                  <span className="text-sm text-white/50">...</span>
+                )}
+              </div>
+              <div className="flex flex-row items-center border-2 border-white rounded-lg bg-gradient-to-b from-white/10 to-blue-300/20 p-2 mt-2">
+                <input
+                  className="flex-1 bg-transparent text-white text-lg font-bold placeholder-white/50 focus:outline-none px-4"
+                  value={amountVouchers ?? ""}
+                  placeholder="0.00"
+                  onChange={(e: any) =>
+                    setAmountVouchers(e.target.value || null)
+                  }
+                />
+                <div className="h-8 w-px bg-white/50 mx-2"></div>
+                {currentPoolInfo?.projectInfo ? (
+                  <Image
+                    src={currentPoolInfo.projectInfo.logo}
+                    alt="Description of the image"
+                    width={30}
+                    height={30}
+                    style={{ objectFit: "contain" }}
+                  />
+                ) : (
+                  <span className="text-sm text-white/50">...</span>
+                )}
               </div>
               {showWarning && (
-                <div className="text-right text-xs text-red-800">
+                <div className="text-right text-xs text-red-800 mt-2">
                   {warningMessage}
+                </div>
+              )}
+              {currentPoolInfo ? (
+                <div className="change-rate-text z-10">{`1 ${currentPoolInfo?.projectInfo?.name} = ${currentPoolInfo?.currentRound.voucherPrice} ${currentPoolInfo?.token.name}`}</div>
+              ) : (
+                <div className="change-rate-text z-10">
+                  Loading conversion rate...
                 </div>
               )}
               <button
@@ -278,7 +336,7 @@ const BuyPageWrapper = (props: Props) => {
             </div>
           )}
         </div>
-        <div className="voucher-image-right relative overflow-hidden md:mr-[36px] md:mt-[18px] sm:mr-0 sm:mt-0">
+        <div className="voucher-image-right relative overflow-hidden md:mr-[36px] md:mt-[18px] sm:mr-[36px] sm:mt-[18px]">
           {isConnected && (
             <div className="voucher-text-in-image">
               <div className="currency-and-text">
@@ -289,15 +347,10 @@ const BuyPageWrapper = (props: Props) => {
                 ) : (
                   <div>Loading vouchers...</div>
                 )}
-                <div className="voucher-text-text">VOUCHERS</div>
-              </div>
-              {currentPoolInfo ? (
-                <div className="change-rate-text z-10">{`1 Voucher = ${currentPoolInfo?.currentRound.voucherPrice} ${currentPoolInfo?.token.name}`}</div>
-              ) : (
-                <div className="change-rate-text z-10">
-                  Loading conversion rate...
+                <div className="voucher-text-text">
+                  {currentPoolInfo?.projectInfo?.name}
                 </div>
-              )}
+              </div>
             </div>
           )}
           <div className="voucher-phoenix-image"></div>
@@ -305,26 +358,28 @@ const BuyPageWrapper = (props: Props) => {
       </div>
       {isConnected && (
         <>
-         {code && <div className="flex items-center justify-center gap-2">
-            <h2 className="text-[#0d283a] text-3xl lg:text-[12px] font-bold font-noto-serif leading-[50px] shadow-text2 truncate">
-              {window.location.href}
-            </h2>
-            <div className="relative flex items-center">
-              <button onClick={() => handleCopyCode(window.location.href)}>
-                <COPY_ICON />
-              </button>
-              {isCodeCopied && (
-                <p
-                  className="flex added-fade-out absolute -left-3 -top-6"
-                  onAnimationEnd={() => setIsCodeCopied(false)}
-                >
-                  Copied!
-                </p>
-              )}
+          {code && (
+            <div className="flex items-center justify-center gap-2">
+              <h2 className="text-[#0d283a] text-3xl lg:text-[12px] font-bold font-noto-serif leading-[50px] shadow-text2 truncate">
+                {window.location.href}
+              </h2>
+              <div className="relative flex items-center">
+                <button onClick={() => handleCopyCode(window.location.href)}>
+                  <COPY_ICON />
+                </button>
+                {isCodeCopied && (
+                  <p
+                    className="flex added-fade-out absolute -left-3 -top-6"
+                    onAnimationEnd={() => setIsCodeCopied(false)}
+                  >
+                    Copied!
+                  </p>
+                )}
+              </div>
             </div>
-          </div>}
+          )}
           <input
-            className="buy-input-main code-input mt-0"
+            className="buy-input-main code-input mt-0 text-white placeholder-white/50"
             value={code ?? ""}
             placeholder="Referral Code"
             onChange={(e: any) => setCode(e.target.value || null)}
