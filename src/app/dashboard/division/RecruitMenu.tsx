@@ -26,9 +26,6 @@ const RecruitMenu = ({ onClose }: RecruitMenuProps) => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    "Desired rank for new recruit"
-
-
   const getHireInfo = useCallback(async () => {
     if (userInfo && provider) {
       const loadedRanks = await getHireRankInfo(provider, userInfo.address, [0, 4, 9]);
@@ -117,7 +114,7 @@ const RecruitMenu = ({ onClose }: RecruitMenuProps) => {
               }}
               onClick={handleDropdownToggle}
             >
-              <div>{selectedRank?.name}</div>
+              <div>{selectedRank?.name ?? "Desired rank for new recruit"}</div>
               <ArrowIcon
                 className={`transition-transform ${dropdownOpen ? "rotate-180" : ""
                   }`}
