@@ -247,7 +247,8 @@ export const claim = async (
     launchpadAbi,
     signer
   );
-  await launchpadContract.claimPayment(id);
+  const tx = await launchpadContract.claimPayment(id);
+  return tx;
 };
 
 export const checkApproval = async (
@@ -336,5 +337,5 @@ export const recruit = async (
   );
   
   const tx = await paymentPluginContract.registerRecruit(recruit, rank);
-  await tx.wait();
+  return tx;
 };
