@@ -10,6 +10,7 @@ import CollaborationSection from "./collaboration";
 import Footer from "@/components/footer/footer";
 import ProjectsSection from "@/components/projects/projects";
 
+
 export default function Home() {
   return (
     <>
