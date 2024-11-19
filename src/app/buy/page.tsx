@@ -2,10 +2,22 @@
 
 import { useBlockchainContext } from "@/context/BlockchainContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
-import { PoolInfo, approveSpending, buy, checkApproval, getVoucherBalance } from "@/services/walletService";
+import {
+  PoolInfo,
+  approveSpending,
+  buy,
+  checkApproval,
+  getVoucherBalance
+} from "@/services/walletService";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import React, { Suspense, useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from "react";
 import { useAccount, useBalance } from "wagmi";
 import ConnectButtonCustom from "./components/connectButtonCustom";
 import { BigNumber } from "ethers";
@@ -13,6 +25,7 @@ import { useEthersSigner } from "@/services/useEthersSigner";
 import Toast, { ToastProps } from "./components/toast";
 import LoadingOverlay from "./components/loadingOverlay";
 import TransactionHandler from "./components/transactionHandler";
+import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
 
 type Props = {};
 
@@ -25,6 +38,8 @@ const BuyPageWrapper = (props: Props) => {
   const [txSuccessMessage, setTxSuccessMessage] = useState<string>("");
 
   const [buyInProgress, setBuyInProgress] = useState<boolean>(false);
+
+  const [isCodeCopied, setIsCodeCopied] = useState(false);
 
   const [amount, setAmount] = useState<number | null>(null);
   const [vouchersOwned, setVouchersOwned] = useState<BigNumber | null>(null);
@@ -112,6 +127,12 @@ const BuyPageWrapper = (props: Props) => {
     return amount <= parseFloat(normalizedBalance.toString());
   };
 
+  const handleCopyCode = (code: string) => {
+    navigator.clipboard.writeText(code).then(() => {
+      setIsCodeCopied(true);
+    });
+  };
+
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       const runBuy = async (e: React.FormEvent) => {
@@ -138,15 +159,15 @@ const BuyPageWrapper = (props: Props) => {
               signer,
               address!,
               currentPoolInfo!.token,
-              amount!);
+              amount!
+            );
 
             if (!hasApproval) {
-              const approveTx = approveSpending(
-                signer,
-                currentPoolInfo!.token,
-              );
+              const approveTx = approveSpending(signer, currentPoolInfo!.token);
 
-              setTxInProgressMessage("Waiting for Aprove spending transation to be completed");
+              setTxInProgressMessage(
+                "Waiting for Aprove spending transation to be completed"
+              );
               setTxSuccessMessage("Aprove spending transation completed");
               setTx(approveTx);
 
@@ -161,7 +182,9 @@ const BuyPageWrapper = (props: Props) => {
               code
             );
 
-            setTxInProgressMessage("Waiting for Buy transation to be completed");
+            setTxInProgressMessage(
+              "Waiting for Buy transation to be completed"
+            );
             setTxSuccessMessage("Purchase successful!");
             setTx(buyTx);
 
@@ -201,7 +224,7 @@ const BuyPageWrapper = (props: Props) => {
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
-      <div className="voucher-wrapper md:gap-[50px] sm:gap-[120px] xs:gap-[120px]">
+      <div className="voucher-wrapper mb-[50px] md:gap-[50px] sm:gap-[120px] xs:gap-[120px]">
         <div className="voucher-text-input-wrapper md:ml-[36px] sm:ml-0 flex flex-col items-center">
           <div className="buy-heading-text">
             {currentPoolInfo?.projectInfo?.name || "Loading..."}
@@ -282,8 +305,26 @@ const BuyPageWrapper = (props: Props) => {
       </div>
       {isConnected && (
         <>
+         {code && <div className="flex items-center justify-center gap-2">
+            <h2 className="text-[#0d283a] text-3xl lg:text-[12px] font-bold font-noto-serif leading-[50px] shadow-text2 truncate">
+              {window.location.href}
+            </h2>
+            <div className="relative flex items-center">
+              <button onClick={() => handleCopyCode(window.location.href)}>
+                <COPY_ICON />
+              </button>
+              {isCodeCopied && (
+                <p
+                  className="flex added-fade-out absolute -left-3 -top-6"
+                  onAnimationEnd={() => setIsCodeCopied(false)}
+                >
+                  Copied!
+                </p>
+              )}
+            </div>
+          </div>}
           <input
-            className="buy-input-main code-input"
+            className="buy-input-main code-input mt-0"
             value={code ?? ""}
             placeholder="Referral Code"
             onChange={(e: any) => setCode(e.target.value || null)}
@@ -293,16 +334,23 @@ const BuyPageWrapper = (props: Props) => {
           </div>
         </>
       )}
-      <TransactionHandler txPromise={tx} loadingMessage={txInProgressMessage} successMessage={txSuccessMessage} onTxDone={() => { }} />
+      <TransactionHandler
+        txPromise={tx}
+        loadingMessage={txInProgressMessage}
+        successMessage={txSuccessMessage}
+        onTxDone={() => {}}
+      />
       <LoadingOverlay isLoading={buyInProgress} />
     </div>
   );
 };
 
 const BuyPage = (props: Props) => {
-  return <Suspense>
-    <BuyPageWrapper {...props} />
-  </Suspense>
+  return (
+    <Suspense>
+      <BuyPageWrapper {...props} />
+    </Suspense>
+  );
 };
 
 export default BuyPage;

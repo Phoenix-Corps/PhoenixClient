@@ -10,6 +10,16 @@
   justify-content: space-between;
 }
 
+.added-fade-out {
+  opacity: 1;
+  animation: fadeOut 1s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 .sign-in-color {
   padding: 6px 26px;
   border-radius: 100px;
