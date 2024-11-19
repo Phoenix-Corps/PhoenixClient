@@ -1,16 +1,22 @@
-import React, { FC, useEffect, useState, useMemo } from "react";
+import React, { FC, useEffect, useState, useMemo, useCallback } from "react";
 import Image from "next/image";
-import { PoolInfo } from "@/services/walletService";
+import { claim, PoolInfo } from "@/services/walletService";
 import { useBlockchainContext } from "@/context/BlockchainContext";
 import { useDashboardContext } from "@/context/DashboardContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
 import Decimal from "decimal.js";
+import TransactionHandler from "@/app/buy/components/transactionHandler";
+import { useEthersSigner } from "@/services/useEthersSigner";
 
 const ClaimsTable: React.FC = () => {
   const { fetchAllPoolInfo } = useBlockchainContext();
-  const { fetchClaimInfo, claimInfo, userInfo } = useDashboardContext();
+  const { fetchClaimInfo, resetClaimInfo, claimInfo, userInfo } = useDashboardContext();
   const provider = useEthersProvider();
+  const signer = useEthersSigner();
   const [projects, setProjects] = useState<PoolInfo[]>([]);
+
+  const [claimTx, setClaimTx] = useState<Promise<any> | undefined>(undefined);
+  const [claimInProgress, setClaimInProgress] = useState<boolean>(false);
 
   useEffect(() => {
     if (provider && userInfo) {
@@ -74,6 +80,22 @@ const ClaimsTable: React.FC = () => {
     }
   }, [claimInfo, projects]);
 
+  const triggerClaim = useCallback((id: number) => {
+    if (signer) {
+      setClaimInProgress(true);
+      const tx = claim(signer, id);
+      setClaimTx(tx);
+    }
+  }, [signer, setClaimInProgress, setClaimTx]);
+
+  const onClaimDone = useCallback((success: boolean) => {
+    if (success && userInfo) {
+      resetClaimInfo(userInfo.address);
+    }
+    setClaimTx(undefined);
+    setClaimInProgress(false);
+  }, [userInfo, resetClaimInfo, setClaimInProgress, setClaimTx]);
+
   return (
     <>
       <div className="table-gradient-container p-8 mt-8 rounded-tl-[40px] md:p-12 md:rounded-tl-[60px] lg:p-14 lg:rounded-tl-[80px] overflow-x-auto">
@@ -118,7 +140,7 @@ const ClaimsTable: React.FC = () => {
                       <td key={index}>
                         <div className={`btn-${data.color}-grad-container`}>
                           {data.status === "CLAIMABLE" ? (
-                            <button className={`btn-${data.color}-grad px-10`}>
+                            <button disabled={claimInProgress} className={`btn-${data.color}-grad px-10`} onClick={() => { triggerClaim(data.project.id); }}>
                               <span className={`btn-${data.color}-grad-text`}>
                                 {data.status}
                               </span>
@@ -138,6 +160,7 @@ const ClaimsTable: React.FC = () => {
           </tbody>
         </table>
       </div>
+      <TransactionHandler txPromise={claimTx} loadingMessage={"Claim in progress..."} successMessage={"Claim successful!"} onTxDone={onClaimDone} />
     </>
   );
 };
