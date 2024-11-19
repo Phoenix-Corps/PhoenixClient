@@ -112,9 +112,15 @@ const Home: NextPage = () => {
                     {userInfo?.currentRank?.level ? (
                       <div className=" md:block">
                         <Image
-                          src={`/Shinobi Alliance Ranks/Lvl-${
-                            userInfo && userInfo?.currentRank?.level
-                          }.png`}
+                          src={
+                            userInfo.isTeamUser
+                              ? `/Army Ranks/Lvl-${
+                                  userInfo && userInfo?.currentRank?.level
+                                }.png`
+                              : `/Shinobi Alliance Ranks/Lvl-${
+                                  userInfo && userInfo?.currentRank?.level
+                                }.png`
+                          }
                           width={100}
                           height={100}
                           alt=""
