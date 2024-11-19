@@ -45,7 +45,6 @@ const BuyPageWrapper = (props: Props) => {
   const [amount, setAmount] = useState<number | null>(null);
   const [vouchersOwned, setVouchersOwned] = useState<BigNumber | null>(null);
 
-  const [urlForCopy, setUrlForCopy] = useState<string>("");
 
   const { isConnected, address } = useAccount();
 
@@ -82,19 +81,23 @@ const BuyPageWrapper = (props: Props) => {
       fetchUserInfo(walletAddress);
     }
   }, [walletAddress]);
-  useEffect(() => {
-    if (userInfo?.referralCode) {
+  
+  const urlForCopy = useMemo(() => {
+    if (userInfo?.referralCode && currentPoolInfo?.currentRound?.id) {
       const { origin, pathname } = window.location;
       const host = origin + pathname;
       const poolIdRefCode =
         "?poolId=" +
-        currentPoolInfo?.currentRound.id +
+        currentPoolInfo.currentRound.id +
         "&code=" +
-        userInfo?.referralCode;
+        userInfo.referralCode;
       console.log(poolIdRefCode);
-      setUrlForCopy(host + poolIdRefCode);
+      return host + poolIdRefCode;
+    } else {
+      return '';
     }
-  }, [userInfo]);
+  }, [userInfo, currentPoolInfo]);
+  
   useEffect(() => {
     if (provider && address && poolId && !buyInProgress) {
       getVoucherBalance(provider, parseInt(poolId), address)
