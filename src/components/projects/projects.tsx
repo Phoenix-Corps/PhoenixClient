@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import "./projects.css";
-
+import USDClogo from "@public/buy/usd-coin.svg";
 const ProjectCard: React.FC<PoolInfo> = ({
   id,
   projectInfo,
@@ -21,9 +21,7 @@ const ProjectCard: React.FC<PoolInfo> = ({
   const goal = currentRound.goal;
   const raised = goal.sub(available);
 
-  const percentage = goal.gt(0)
-    ? raised.div(goal).mul(100)
-    : 0;
+  const percentage = goal.gt(0) ? raised.div(goal).mul(100) : 0;
 
   const renderButton = () => {
     // TODO: statuses
@@ -35,12 +33,12 @@ const ProjectCard: React.FC<PoolInfo> = ({
   };
 
   const getDateString = (date: Date) => {
-    const month = date.toLocaleString('default', { month: "short" });
+    const month = date.toLocaleString("default", { month: "short" });
     const day = date.getDate();
     const hour = date.getHours();
     const minut = date.getMinutes();
     return `${month} ${day} - ${hour}:${minut}`;
-  }
+  };
 
   return (
     <div className="project-card w-[300px]">
@@ -69,9 +67,13 @@ const ProjectCard: React.FC<PoolInfo> = ({
           <span>ROUND END</span>
           <span>{getDateString(roundEndDate)}</span>
         </div>
-        <div className="detail-row">
+        <div className="detail-row items-center">
           <span>ROUND PRICE</span>
-          <span>{currentRound.voucherPrice}</span>
+          <span className="flex justify-center items-center">
+            {" "}
+            <USDClogo width={40} height={40} />
+            {currentRound.voucherPrice}
+          </span>
         </div>
         <div className="detail-row">
           <span>TOTAL RAISED</span>
