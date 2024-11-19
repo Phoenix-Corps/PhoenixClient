@@ -16,8 +16,12 @@
 }
 
 @keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 .sign-in-color {
@@ -94,6 +98,7 @@
   line-height: 22px;
 }
 .change-rate-text {
+  margin-top: 10px;
   font-size: 10px;
   font-weight: 400;
   line-height: 13px;
@@ -116,8 +121,6 @@
   margin-bottom: 35px;
 }
 .buy-input-main {
-  position: relative;
-
   height: 61px;
   color: rgba(255, 255, 255, 1);
 
@@ -125,7 +128,6 @@
   font-weight: 800;
   line-height: 27.3px;
 
-  opacity: 54%;
   padding: 17px 20px;
   background: radial-gradient(
     93.63% 549.7% at 2.46% 8.98%,
@@ -133,44 +135,11 @@
     rgba(196, 216, 234, 0.2) 100%
   );
   border: 2px solid rgba(255, 255, 255, 1);
-  border-radius: 8px; /* Optional: add rounding to match input style */
+  border-radius: 8px;
 }
 .buy-wrapper-main {
   display: inline-block;
   height: 61px;
-}
-.curr-drop-wrapper {
-  padding-left: 5px;
-  padding-right: 5px;
-  position: absolute;
-  right: 0;
-  top: 2px;
-  height: calc(100% - 4px);
-  display: flex;
-  align-items: center;
-  border-left: 0.86px solid rgba(255, 255, 255, 0.2);
-}
-.drop-down-wrapper {
-  background-color: rgba(106, 142, 228, 1);
-  height: 350px;
-  width: 140px;
-  position: absolute;
-  right: 0;
-  display: flex;
-  height: auto;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid rgba(124, 161, 209, 0.44);
-  border-radius: 8px;
-  margin-top: 6px;
-  cursor: pointer;
-  box-shadow: 0px 13px 54.5px 0px rgba(12, 43, 82, 0.36);
-}
-.drop-down-wrapper > div {
-  width: 100%;
-}
-.drop-item:hover {
-  background-color: rgba(124, 161, 209, 0.44);
 }
 .buy-button {
   margin-top: 30px;
