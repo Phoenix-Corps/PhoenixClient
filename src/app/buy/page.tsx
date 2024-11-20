@@ -1,6 +1,7 @@
 "use client";
 
 import { useBlockchainContext } from "@/context/BlockchainContext";
+import { useDashboardContext } from "@/context/DashboardContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
 import {
   PoolInfo,
@@ -44,6 +45,7 @@ const BuyPageWrapper = (props: Props) => {
   const [amountVouchers, setAmountVouchers] = useState<number | null>(null);
   const [vouchersOwned, setVouchersOwned] = useState<BigNumber | null>(null);
 
+
   const { isConnected, address } = useAccount();
   const { disconnect } = useDisconnect();
 
@@ -52,6 +54,7 @@ const BuyPageWrapper = (props: Props) => {
   const signer = useEthersSigner();
 
   const { fetchPoolInfoById } = useBlockchainContext();
+  const { userInfo, walletAddress, fetchUserInfo } = useDashboardContext();
 
   const initialError = useMemo(() => {
     const poolIdValue = searchParams.get("poolId");
@@ -74,6 +77,28 @@ const BuyPageWrapper = (props: Props) => {
   } = useBalance({ address, token: currentPoolInfo?.token.address! as any });
   const normalizedBalance = balanceData ? parseFloat(balanceData.formatted) : 0;
 
+  useEffect(() => {
+    if (walletAddress) {
+      fetchUserInfo(walletAddress);
+    }
+  }, [walletAddress]);
+  
+  const urlForCopy = useMemo(() => {
+    if (userInfo?.referralCode && currentPoolInfo?.currentRound?.id) {
+      const { origin, pathname } = window.location;
+      const host = origin + pathname;
+      const poolIdRefCode =
+        "?poolId=" +
+        currentPoolInfo.currentRound.id +
+        "&code=" +
+        userInfo.referralCode;
+      console.log(poolIdRefCode);
+      return host + poolIdRefCode;
+    } else {
+      return '';
+    }
+  }, [userInfo, currentPoolInfo]);
+  
   useEffect(() => {
     if (provider && address && poolId && !buyInProgress) {
       getVoucherBalance(provider, parseInt(poolId), address)
@@ -358,13 +383,13 @@ const BuyPageWrapper = (props: Props) => {
       </div>
       {isConnected && (
         <>
-          {code && (
+  {currentPoolInfo?.currentRound.id && userInfo?.referralCode && (
             <div className="flex items-center justify-center gap-2">
               <h2 className="text-[#0d283a] text-3xl lg:text-[12px] font-bold font-noto-serif leading-[50px] shadow-text2 truncate">
-                {window.location.href}
+                {urlForCopy}
               </h2>
               <div className="relative flex items-center">
-                <button onClick={() => handleCopyCode(window.location.href)}>
+                <button onClick={() => handleCopyCode(urlForCopy)}>
                   <COPY_ICON />
                 </button>
                 {isCodeCopied && (
