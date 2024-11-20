@@ -84,12 +84,12 @@ const BuyPageWrapper = (props: Props) => {
   }, [walletAddress]);
   
   const urlForCopy = useMemo(() => {
-    if (userInfo?.referralCode && currentPoolInfo?.currentRound?.id) {
+    if (userInfo?.referralCode && currentPoolInfo?.projectInfo?.id) {
       const { origin, pathname } = window.location;
       const host = origin + pathname;
       const poolIdRefCode =
         "?poolId=" +
-        currentPoolInfo.currentRound.id +
+        currentPoolInfo.projectInfo.id +
         "&code=" +
         userInfo.referralCode;
       console.log(poolIdRefCode);
