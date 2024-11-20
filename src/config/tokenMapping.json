@@ -6,22 +6,8 @@
     "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png",
     "decimals": 18
   },
-  "0x357a5433FC8b4ec15B67703fB0128465b8F37E60": {
-    "address": "0x357a5433FC8b4ec15B67703fB0128465b8F37E60",
-    "name": "Mock USDC",
-    "symbol": "mockUSDC",
-    "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png",
-    "decimals": 6
-  },
-  "0x975CaB1a0127DD7dbf93B1D92Ac485CD55110005": {
-    "address": "0x975CaB1a0127DD7dbf93B1D92Ac485CD55110005",
-    "name": "Mock USDC",
-    "symbol": "mockUSDC",
-    "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png",
-    "decimals": 6
-  },
-  "0xA1f9442Ad9EE5C3206A6A0C833d57Ad1C8fB1c94": {
-    "address": "0xA1f9442Ad9EE5C3206A6A0C833d57Ad1C8fB1c94",
+  "0x4b4Bac93cC2Aa7B207dc7cef78bF89bebeB96CF9": {
+    "address": "0x4b4Bac93cC2Aa7B207dc7cef78bF89bebeB96CF9",
     "name": "Mock USDC",
     "symbol": "mockUSDC",
     "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png",
