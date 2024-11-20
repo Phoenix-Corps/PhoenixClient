@@ -97,7 +97,8 @@ const BuyPageWrapper = (props: Props) => {
     } else {
       return '';
     }
-  }, [userInfo, currentPoolInfo]);
+  }, [userInfo, currentPoolInfo, window.location.origin, window.location.pathname]);
+  
   
   useEffect(() => {
     if (provider && address && poolId && !buyInProgress) {
