@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import phoenixLogo from "@/app/dashboard/public/images/phoenix-logo.png";
 import GRADIENT_LINE from "@/app/dashboard/public/my-profile/Line 1.png";
 import HeaderLogo from "@/app/dashboard/public/images/headerLogo.png";
-import { useDisconnect, useAccount } from "wagmi";
+import { useDisconnect, useAccount, useCall } from "wagmi";
 import { useDashboardContext } from "@/context/DashboardContext";
 import DivisionGrpoup from "@/../public/dashboard/division-group.png";
 
@@ -22,15 +22,19 @@ const Header = () => {
   useEffect(() => {
     setCollapsed(false);
   }, [pathname]);
-  const disconnectWallet = async () => {
+
+  const disconnectWallet = useCallback(() => {
     try {
-      await disconnect();
+      disconnect();
       disconnectUserInfo();
       setCollapsed(false);
     } catch (error) {
       console.error("Failed to disconnect:", error);
     }
-  };
+  }, [disconnect, disconnectUserInfo, setCollapsed]);
+
+  const isTeamUser = useMemo(() => userInfo?.isTeamUser ?? false, [userInfo]);
+
   return (
     <header
       className={
@@ -57,7 +61,7 @@ const Header = () => {
             </button>
           ) : null}
 
-          {pathname === "/dashboard/division" ? (
+          {isTeamUser ? (
             <Image
               src={DivisionGrpoup.src}
               width={120}
