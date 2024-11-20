@@ -9,7 +9,8 @@ import {
   getUserInfo,
   UserInfo,
   getUserClaimInfo,
-  ClaimInfo
+  ClaimInfo,
+  getHireRankInfo
 } from "@/services/walletService";
 
 import { useEthersProvider } from "@/services/useEthersProvider";
@@ -87,6 +88,28 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
       }
 
       return resetUserInfo(address);
+    },
+    [provider, userInfo]
+  );
+
+  const getRankHireInfo = useCallback(
+    async (address: string, ranks: [number]): Promise<any> => {
+      if (!provider) {
+        console.error("Provider is not available");
+        return [];
+      }
+
+      setLoadingDashboard(true);
+
+      try {
+        const data = await getHireRankInfo(provider, address, ranks);
+        return data;
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+        return [];
+      } finally {
+        setLoadingDashboard(false);
+      }
     },
     [provider, userInfo]
   );

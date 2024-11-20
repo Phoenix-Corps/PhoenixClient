@@ -28,7 +28,7 @@ const Division = () => {
         <RecruitMenu onClose={() => setShowRecruitMenu(false)} />
       )}
   
-      {/* <DivisionTable /> */}
+      <DivisionTable />
     </div>
   );
 };

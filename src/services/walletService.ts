@@ -55,11 +55,20 @@ interface Rank {
   requiredXP?: Decimal;
 }
 
+export interface HireRank {
+  name: string;
+  id: number;
+  level: number;
+  hireCost: Decimal;
+  vouchers: number;
+}
+
 export interface UserInfo {
   address: string;
   referralCode: string;
   isTeamUser: boolean;
   currentXP: Decimal;
+  canHire: boolean;
   currentRank: Rank;
   nextRank?: Rank;
 }
@@ -135,6 +144,32 @@ export const getPoolList = async (provider: ethers.providers.Provider) => {
   return poolConfigList;
 };
 
+export const getHireRankInfo = async (
+  provider: ethers.providers.Provider,
+  address: string,
+  rankIds: number[]
+): Promise<HireRank[]> => {
+  const paymentPluginContract = new ethers.Contract(
+    contracts.paymentPlugin,
+    paymentPluginAbi,
+    provider
+  );
+  const ranksPromise = paymentPluginContract.getTiers();
+  const promises = rankIds.map((rankId) => paymentPluginContract.freeRecruitments(address, rankId));
+  let results = await Promise.all(promises.concat(ranksPromise));
+  const ranks = results.pop();
+  return rankIds.map((rankId, index) => {
+    const rank = ranks.team[rankId];
+    return {
+      name: rankToNameMappingTeam[rankId],
+      id: rankId,
+      level: rankId + 1,
+      vouchers: results.at(index).toNumber(),
+      hireCost: new Decimal(rank.xpHireCost.toString()).div(xpDecimals)
+    }
+  });
+}
+
 export const getUserInfo = async (
   provider: ethers.providers.Provider,
   address: string
@@ -168,6 +203,7 @@ export const getUserInfo = async (
     address: address,
     referralCode: referral,
     isTeamUser,
+    canHire: currentRank.canHire,
     currentXP: new Decimal(userTierInfo.currentXP.toString()).div(xpDecimals),
     currentRank: {
       name: rankMapping[userRankId],
@@ -247,7 +283,8 @@ export const claim = async (
     launchpadAbi,
     signer
   );
-  await launchpadContract.claimPayment(id);
+  const tx = await launchpadContract.claimPayment(id);
+  return tx;
 };
 
 export const checkApproval = async (
@@ -335,6 +372,6 @@ export const recruit = async (
     signer
   );
   
-  const tx = await paymentPluginContract.registerRecruit(recruit, rank);
-  await tx.wait();
+  const tx = await paymentPluginContract.registerRecruit(recruit, rank, true, { gasLimit: 1000000 });
+  return tx;
 };
