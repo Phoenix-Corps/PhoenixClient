@@ -72,10 +72,18 @@ export interface UserInfo {
   currentRank: Rank;
   nextRank?: Rank;
 }
+
 export interface ClaimInfo {
   totalPayment: Decimal;
   claimedPayment: Decimal;
   claimable: Decimal;
+}
+
+export interface Recruit {
+  code: string,
+  address: string;
+  rankName: string;
+  rankId: number;
 }
 
 const processPoolInfo = (pool: any, rounds: any[]) => {
@@ -345,8 +353,30 @@ export const upgradeRank = async (signer: ethers.providers.JsonRpcSigner) => {
   return tx;
 };
 
-export const getDivision = async (provider: ethers.providers.Provider) => {
-  return [];
+export const getDivision = async (provider: ethers.providers.Provider, address: string, offset: number, count: number) => {
+  const paymentPluginContract = new ethers.Contract(
+    contracts.paymentPlugin,
+    paymentPluginAbi,
+    provider
+  );
+  const launchpadContract = new ethers.Contract(
+    contracts.launchpad,
+    launchpadAbi,
+    provider
+  );
+  const recruits = await paymentPluginContract.batchGetRecruits(address, offset, count);
+  const promises = recruits.map((recruit: any) => launchpadContract.userReferral(recruit[0]))
+  const referralCodes = await Promise.all(promises);
+  const results: Recruit[] = recruits.map((recruit: any, index: number) => {
+    return {
+      code: referralCodes[index],
+      address: recruit[0],
+      rankId: recruit[1],
+      rankName: rankToNameMappingTeam[recruit[1]]
+    }
+  });
+
+  return results;
 };
 
 export const registerUser = async (
