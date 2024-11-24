@@ -9,12 +9,12 @@ import RepresentativeSection from "../components/representative/representative";
 import CollaborationSection from "./collaboration";
 import Footer from "@/components/footer/footer";
 import ProjectsSection from "@/components/projects/projects";
-
+import Main from "@/components-new-design/upper-main/upper-main";
 export default function Home() {
   return (
     <>
       <div className="relative bg-center min-h-screen">
-        COMPONENTS
+        <Main />
       </div>
     </>
   );
