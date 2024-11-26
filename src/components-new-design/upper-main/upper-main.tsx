@@ -3,7 +3,7 @@ import Image from "next/image";
 import PhoenixMini from "@public/home/phoenix-mini-logo.png";
 import Leif from "@public/home/leif-front.png";
 import PhoenixLOGO from "@public/images/phoenix-image-voucher.png";
-import ButtonHome from "./reusable-components/HomebuttonYellow";
+import ButtonHome from "./reusable-components/HomeButtonYellow";
 import DownArrow from "@public/home/down-arrow.png";
 const Main = () => {
   return (
@@ -42,8 +42,16 @@ const Main = () => {
           </div>
         </div>
         <div className="flex m-auto gap-[24px]">
-          <ButtonHome mainText="SHINOBI ALLIANCE" rightText="SIGN UP" link={"/dashboard"}/>
-          <ButtonHome mainText="PROJECT / START UP" rightText="SIGN UP" link={"/dashboard"}/>
+          <ButtonHome
+            mainText="SHINOBI ALLIANCE"
+            rightText="SIGN UP"
+            link={"/dashboard"}
+          />
+          <ButtonHome
+            mainText="PROJECT / START UP"
+            rightText="SIGN UP"
+            link={"/dashboard"}
+          />
         </div>
         <div className=" mt-4 flex justify-center pr-[13px]">
           <Image src={DownArrow.src} width={23} height={26} alt="down-arrow" />
