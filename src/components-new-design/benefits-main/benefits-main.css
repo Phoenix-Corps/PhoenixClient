@@ -1,0 +1,25 @@
+.font-benefits {
+  font-family: "DIN Condensed", sans-serif;
+  font-size: 65px;
+  font-weight: 700;
+  line-height: 94.8px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  text-transform: uppercase;
+  color: #2958ff;
+}
+
+.font-representatives {
+  font-family: "DIN Condensed", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 48px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  text-transform: uppercase;
+  color: #2958ff;
+}

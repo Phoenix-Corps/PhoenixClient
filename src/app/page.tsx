@@ -1,20 +1,13 @@
-import Image from "next/image";
-import BACKGROUND_IMAGE from "@public/images/BACKGROUND.webp";
-import REPRESENTATIVE_IMAGE from "../../public/images/representative.png";
-import Slider from "../components/slider/slider";
-import Hero from "../components/hero/hero";
-import HeadingSection from "../components/heading/heading";
-import CommunitySection from "../components/community/community";
-import RepresentativeSection from "../components/representative/representative";
-import CollaborationSection from "./collaboration";
-import Footer from "@/components/footer/footer";
-import ProjectsSection from "@/components/projects/projects";
+import BenefitsMain from "@/components-new-design/benefits-main/benefits-main";
+import CommunityMain from "@/components-new-design/community-main/community-main";
 import Main from "@/components-new-design/upper-main/upper-main";
 export default function Home() {
   return (
     <>
       <div className="relative bg-center min-h-screen">
         <Main />
+        <BenefitsMain />
+        <CommunityMain />
       </div>
     </>
   );
