@@ -7,13 +7,23 @@ type Props = {
   mainText: string;
   rightText?: string;
   link: string;
+  miniBox?: boolean;
 };
 
-const ButtonHome: React.FC<Props> = ({ mainText, rightText, link }) => {
+const ButtonHome: React.FC<Props> = ({
+  mainText,
+  rightText,
+  link,
+  miniBox
+}) => {
   return (
     <div>
       <Link href={link}>
-        <button className="flex din button-front-yellow justify-center items-center text-[28px] p-4 rounded">
+        <button
+          className={`flex din button-front-yellow justify-center items-center text-[28px] p-4 rounded ${
+            miniBox && "flex justify-between w-full"
+          } `}
+        >
           <div className="main-text-button-front h-[34px]">{mainText}</div>
           {rightText && (
             <div className="right-text-button-front h-[34px] ml-[24px]">

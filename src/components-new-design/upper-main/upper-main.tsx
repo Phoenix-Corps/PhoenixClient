@@ -6,6 +6,7 @@ import PhoenixLOGO from "@public/images/phoenix-image-voucher.png";
 import ButtonHome from "./reusable-components/HomeButtonYellow";
 import BlueBoxMain from "./reusable-components/BlueBoxMain";
 import DownArrow from "@public/home/down-arrow.png";
+import BuyBox from "./reusable-components/BuyBox";
 const Main = () => {
   return (
     <div className="main-air-wrapper">
@@ -33,16 +34,16 @@ const Main = () => {
             alt="phoenix-logo"
           />
           <div className="w-fit absolute left-[5%] top-[30%]">
-            <div className="flex font-main-smaller w-fit flex-col">
+            <div className="flex din font-main-smaller w-fit flex-col">
               <div className="text-center">WINGS</div>
               <div>OF FINANCIAL</div>
             </div>
-            <div className="pl-[22%] font-main-bigger font-bold text-[rgba(245,248,252,1)] w-fit">
+            <div className="pl-[22%] font-main-bigger din font-bold text-[rgba(245,248,252,1)] w-fit">
               FREEDOM
             </div>
           </div>
         </div>
-        <div className="flex m-auto gap-[24px]">
+        <div className="flex m-auto gap-[24px] flex-wrap">
           <ButtonHome
             mainText="SHINOBI ALLIANCE"
             rightText="SIGN UP"
@@ -58,10 +59,10 @@ const Main = () => {
           <Image src={DownArrow.src} width={23} height={26} alt="down-arrow" />
         </div>
 
-        <div className="din font-bold text-center text-[40px] uppercase mt-[80px] text-[rgba(245,248,252,1)]">
+        <div className="font-title-main text-center din uppercase mt-[80px] ">
           How to get started as a project
         </div>
-        <div className="flex flex-wrap justify-center gap-[19px] m-auto">
+        <div className="flex flex-wrap justify-center gap-[19px] m-auto mt-[50px]">
           <BlueBoxMain
             number={"1"}
             title={"come up with a concept"}
@@ -82,15 +83,36 @@ const Main = () => {
             }
           />
           <div className="orange-project-box w-[296px] h-[334px] rounded py-[24px] px-[24px]  text-[rgba(245,248,252,1)]">
-            <div className="font-title-orange uppercase">
+            <div className="font-title-orange din uppercase">
               Enjoy the ride
             </div>
-            <div className="text-[16px] mt-[12px] font-normal leading-5 text-[rgba(216, 227, 244, 1);]">
+            <div className="aeroport mt-[12px] font-description-orange ">
               Enjoy the ride and let us (Phoenix) find funds for you to manifest
               your plans in a truly organic and community driven method while
               working as hard as you can on giving us (Phoenix) as much
               promotional as possible
             </div>
+          </div>
+        </div>
+        <div className="font-title-main text-center din uppercase mt-[80px] ">
+          active & upcoming projects
+        </div>
+        <div className="flex flex-wrap justify-center gap-[19px] m-auto mt-[50px]">
+          <BuyBox />
+          <BuyBox />
+          <BuyBox />
+        </div>
+        <div className="flex lg:flex-row md:flex-col sm:flex-col xs:flex-col w-full mt-[15%] gap-[20%]">
+          <div className="din font-bold text-[97px] leading-[89px] tracking-[-0.04rem] text-[rgba(245,248,252,1)] uppercase w-1/2">
+            The power of true and fair community fundraising
+          </div>
+          <div className="aeroport font-normal text-[16px] leading-[20px] tracking-[-0.03rem] text-[rgba(216,227,244,1)] w-[40%]">
+            Phoenix empowers it's army of representatives to earn money without
+            investing money by promoting projects, fostering community growth
+            and sharing earned commission money in a honest and proportional way
+            to ensure sustainability for both Phoenix and the projects it will
+            gather funds for and for the investors that will be investing in
+            these private sales.
           </div>
         </div>
       </div>

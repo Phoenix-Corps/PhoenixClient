@@ -9,36 +9,38 @@
   background-blend-mode: overlay;
   padding: 30px 100px;
 }
-.font-main-smaller {
+.din {
   font-family: "DIN Condensed", sans-serif;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  letter-spacing: -0.04em;
+}
+.aeroport {
+  font-family: "Aeroport", sans-serif;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+}
+.font-main-smaller {
   font-size: 97.12px;
   font-weight: 700;
   line-height: 89.03px;
-  letter-spacing: -0.04em;
   text-align: left;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
   color: rgba(245, 248, 252, 1);
 }
 .font-main-bigger {
-  font-family: "DIN Condensed", sans-serif;
   font-size: 150px;
   font-weight: 700;
-  /* line-height: 89.03px; */
-  letter-spacing: -0.04em;
   text-align: left;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
 }
-.din {
-  font-family: "DIN Condensed", sans-serif;
+.font-title-main {
+  font-size: 40px;
   font-weight: 700;
-
-  text-align: left;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
-  text-transform: uppercase;
+  line-height: 48px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: rgba(255, 255, 255, 1);
 }
+
 .freedom-text {
   background: linear-gradient(0deg, #f5f8fc, #f5f8fc),
     radial-gradient(
@@ -77,45 +79,49 @@
 .orange-project-box {
   background: linear-gradient(180deg, #ff5e3b 0%, #ff876d 100%);
 }
-.font-title {
-  font-family: "DIN Condensed", sans-serif;
+.font-description {
+  /* font-family: "Aeroport", sans-serif; */
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20.8px;
+  text-align: left;
+  color: rgba(216, 227, 244, 1);
+}
+.font-description-blue {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20.8px;
+  text-align: left;
+  color: rgba(216, 227, 244, 1);
+}
+.font-title-blue {
   font-size: 24px;
   font-weight: 700;
   line-height: 28.8px;
   text-align: left;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 1);
 }
-.font-description {
-  font-family: "Aeroport", sans-serif;
+.font-description-orange {
   font-size: 16px;
   font-weight: 400;
   line-height: 20.8px;
   text-align: left;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
-  color: rgba(216, 227, 244, 1);
+  
 }
 .font-title-orange {
-  font-family: "DIN Condensed", sans-serif;
   font-size: 60px;
   font-weight: 700;
   line-height: 55px;
   text-align: left;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
   color: rgba(255, 255, 255, 1);
 }
-.font-description-orange {
-  font-family: "Aeroport", sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 20.8px;
-  text-align: left;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
+.mini-blue-box{
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(55.29999923706055px)
+  
+}
 
-  color: rgba(255, 255, 255, 1);
+.mini-blue-box-divider{
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(55.29999923706055px)
+
 }
