@@ -33,11 +33,11 @@ const Main = () => {
             alt="phoenix-logo"
           />
           <div className="w-fit absolute left-[5%] top-[30%]">
-            <div className="flex font-bold text-[56px] leading-[50px] text-[rgba(245,248,252,1)] w-fit flex-col">
+            <div className="flex font-main-smaller w-fit flex-col">
               <div className="text-center">WINGS</div>
               <div>OF FINANCIAL</div>
             </div>
-            <div className="pl-[25%] din font-bold text-[140px] text-[rgba(245,248,252,1)] w-fit">
+            <div className="pl-[22%] font-main-bigger font-bold text-[rgba(245,248,252,1)] w-fit">
               FREEDOM
             </div>
           </div>
@@ -82,7 +82,7 @@ const Main = () => {
             }
           />
           <div className="orange-project-box w-[296px] h-[334px] rounded py-[24px] px-[24px]  text-[rgba(245,248,252,1)]">
-            <div className="text-[45px] leading-[55px]  uppercase font-bold">
+            <div className="font-title-orange uppercase">
               Enjoy the ride
             </div>
             <div className="text-[16px] mt-[12px] font-normal leading-5 text-[rgba(216, 227, 244, 1);]">
