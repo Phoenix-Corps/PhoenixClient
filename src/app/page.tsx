@@ -1,6 +1,8 @@
 import BenefitsMain from "@/components-new-design/benefits-main/benefits-main";
 import CommunityMain from "@/components-new-design/community-main/community-main";
 import Main from "@/components-new-design/upper-main/upper-main";
+import WhitepapersSection from "@/components-new-design/bottom-section/whitepapers-main";
+import { BottomSection } from "@/components-new-design/bottom-section/bottom-section";
 export default function Home() {
   return (
     <>
@@ -8,6 +10,7 @@ export default function Home() {
         <Main />
         <BenefitsMain />
         <CommunityMain />
+        <BottomSection />
       </div>
     </>
   );
