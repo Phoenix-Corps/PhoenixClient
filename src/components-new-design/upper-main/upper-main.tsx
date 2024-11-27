@@ -65,35 +65,39 @@ const Main = () => {
           How to get started as a project
         </div>
         <div className="flex flex-wrap gap-y-3 mt-[50px] gap-[19px] nm:w-auto w-full justify-center">
-          <BlueBoxMain
-            number={"1"}
-            title={"come up with a concept"}
-            description={"Come up with a good concept, name, brand, logo etc."}
-          />
-          <BlueBoxMain
-            number={"2"}
-            title={"Set project goals"}
-            description={
-              "Set realistic, fair and sustainable goals for both the project and it's future investors"
-            }
-          />
-          <BlueBoxMain
-            number={"3"}
-            title={"Sign up"}
-            description={
-              'Contact us through the "Sign up as a project form" (that text should be a link that links to the form for signing up as a project'
-            }
-          />
+          <div className="flex flex-wrap gap-y-3 gap-[19px] nm:w-auto w-full justify-center">
+            <BlueBoxMain
+              number={"1"}
+              title={"come up with a concept"}
+              description={"Come up with a good concept, name, brand, logo etc."}
+            />
+            <BlueBoxMain
+              number={"2"}
+              title={"Set project goals"}
+              description={
+                "Set realistic, fair and sustainable goals for both the project and it's future investors"
+              }
+            />
+          </div>
+          <div className="flex flex-wrap gap-y-3 gap-[19px] nm:w-auto w-full justify-center">
+            <BlueBoxMain
+              number={"3"}
+              title={"Sign up"}
+              description={
+                'Contact us through the "Sign up as a project form" (that text should be a link that links to the form for signing up as a project'
+              }
+            />
 
-          <div className="orange-project-box nm:w-[296px] w-full h-[334px] rounded py-[24px] px-[24px]  text-[rgba(245,248,252,1)]">
-            <div className="font-title-orange din uppercase">
-              Enjoy the ride
-            </div>
-            <div className="aeroport mt-[12px] font-description-orange ">
-              Enjoy the ride and let us (Phoenix) find funds for you to manifest
-              your plans in a truly organic and community driven method while
-              working as hard as you can on giving us (Phoenix) as much
-              promotional as possible
+            <div className="orange-project-box nm:w-[296px] w-full max-w-[296px] h-[334px] rounded py-[24px] px-[24px]  text-[rgba(245,248,252,1)]">
+              <div className="font-title-orange din uppercase">
+                Enjoy the ride
+              </div>
+              <div className="aeroport mt-[12px] font-description-orange ">
+                Enjoy the ride and let us (Phoenix) find funds for you to manifest
+                your plans in a truly organic and community driven method while
+                working as hard as you can on giving us (Phoenix) as much
+                promotional as possible
+              </div>
             </div>
           </div>
         </div>
