@@ -2,6 +2,12 @@ import React from "react";
 import PhoenixBlueBox from "@public/home/phoenix-logo-3.png";
 import Image from "next/image";
 import ButtonHome from "./HomeButtonYellow";
+import { useBlockchainContext } from "@/context/BlockchainContext";
+import { PoolInfo } from "@/services/walletService";
+import { BigNumber } from "ethers";
+import Link from "next/link";
+import "./projects.css";
+import USDClogo from "@public/buy/usd-coin.svg";
 
 type Props = {};
 
