@@ -189,14 +189,15 @@
   margin-bottom: 28px;
 }
 .buy-icon-wrapper {
-  width: 30px;
-  height: 30px;
-  background: radial-gradient(
+  width: 50px;
+    height: 50px;
+    /* background: radial-gradient(
     93.63% 549.7% at 2.46% 8.98%,
     rgba(255, 255, 255, 0.08) 0%,
     rgba(196, 216, 234, 0.2) 100%
   );
-  border-radius: 14.9px;
+    */ background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 25px;
   border: 0.32px;
   display: flex;
   justify-content: center;

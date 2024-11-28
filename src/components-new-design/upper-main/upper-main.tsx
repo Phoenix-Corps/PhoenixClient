@@ -1,31 +1,16 @@
 import React from "react";
 import Image from "next/image";
-import PhoenixMini from "@public/home/phoenix-mini-logo.png";
-import Leif from "@public/home/leif-front.png";
 import PhoenixLOGO from "@public/home/phoenix-main.png";
-import ButtonHome from "./reusable-components/HomeButtonYellow";
-import BlueBoxMain from "./reusable-components/BlueBoxMain";
+import ButtonHome from "../reusable-components/HomeButtonYellow";
+import BlueBoxMain from "../reusable-components/BlueBoxMain";
 import DownArrow from "@public/home/down-arrow.png";
-import BuyBox from "./reusable-components/BuyBox";
-import ProjectsSection from "./reusable-components/BuyBoxReal";
+import BuyBox from "../reusable-components/BuyBox";
+import ProjectsSection from "../reusable-components/BuyBoxReal";
+import { Logo } from "../reusable-components/Logo";
 const Main = () => {
   return (
     <div className="main-air-wrapper md:py-[30px] md:px-[100px] p-[16px]">
-      <div className="w-40 relative">
-        <Image
-          src={PhoenixMini.src}
-          width={122}
-          height={28}
-          alt="phoenix-mini"
-        />
-        <Image
-          src={Leif.src}
-          width={37}
-          height={21}
-          alt="leif"
-          className="absolute right-0 top-[-12px]"
-        />
-      </div>
+      <Logo width={162} />
       <div className="flex justify-center flex-col ">
         <div className="w-fit relative m-auto ">
           <Image

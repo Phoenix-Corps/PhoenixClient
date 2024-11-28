@@ -73,10 +73,17 @@
 }
 .button-front-yellow {
   background: rgba(242, 230, 61, 1);
+  border-width: 1px;
+    border-color: rgba(242, 230, 61, 1);
 }
-.main-text-button-front {
-  color: rgba(24, 72, 99, 1);
+.button-front-hollow {
+  color: white;
+  background: rgba(242, 230, 61, 0);
+  outline: rgba(216, 227, 244, 1);
+  border-width: 1px;
+  border-color: white;
 }
+
 .right-text-button-front {
   color: rgba(24, 72, 99, 1);
   opacity: 20%;
