@@ -76,6 +76,11 @@
   border-width: 1px;
     border-color: rgba(242, 230, 61, 1);
 }
+.button-front-yellow:hover {
+  transition: all 0.3s ease;
+  filter: brightness(1.1);
+  transform: scale(1.05);
+}
 .button-front-hollow {
   color: white;
   background: rgba(242, 230, 61, 0);
