@@ -1,7 +1,8 @@
+import Image from "next/image"
 
 export const RepCard = () => {
-    return <div className="w-[80%] h-100 grid grid-cols-2 rep-card-gradient">
-        <div className="p-20 pl-10 ">
+    return <div className="w-[80%] flex flex-col lg:flex-row rep-card-gradient">
+        <div className="flex-1 overflow-auto p-20 pl-10 ">
             <h4 className="pb-5 rep-header-font">
                 Become a Phoenix representative
             </h4>
@@ -12,6 +13,16 @@ export const RepCard = () => {
                 For the exact details please read the whitepaper and see what the best option is for you. Sign up link for the “Shinobi alliance” aka the solo player's team can be found on the bottom of the website.
             </p>
         </div>
-        <div className="rep-card-image " />
+        <div className="flex-1 overflow-auto" >
+            <div className="rep-card-image min-h-[400px]" />
+            {/* <Image
+                src={"/home/phoenix-main.png"}
+                alt="Description of the image"
+                height={916}
+                width={857}
+                sizes="100vw"
+                style={{ objectFit: "cover" }}
+            /> */}
+        </div>
     </div>
 }

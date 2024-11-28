@@ -19,10 +19,13 @@
   background-image: url("/home/phoenix-main.png");
   background-repeat: no-repeat;
   /* background-size: cover; */
-  background-size: 250%;
+  background-size: 200%;
   background-position: 72% 60%;
   /* background-position: center; */
   background-blend-mode: overlay;
+@media (max-width: 1024px) {
+    background-size: 150%;
+  }
 }
 
 .copyright-text {
