@@ -10,13 +10,13 @@
   
 }
 .din {
-  font-family: "DIN Condensed", sans-serif;
+  font-family: "DIN Condensed Local", sans-serif;
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
   letter-spacing: -0.04em;
 }
 .aeroport {
-  font-family: "Aeroport", sans-serif;
+  font-family: "Aeroport Local", sans-serif;
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
 }

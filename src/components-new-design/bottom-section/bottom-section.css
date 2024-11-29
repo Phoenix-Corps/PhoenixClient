@@ -29,7 +29,7 @@
 }
 
 .copyright-text {
-  font-family: "Aeroport", sans-serif;
+  font-family: "Aeroport Local", sans-serif;
   font-size: 10px;
   font-weight: 400;
   line-height: 1.3;
@@ -39,7 +39,7 @@
   color: white;
 }
 .rep-header-font {
-  font-family: "DIN Condensed", sans-serif;
+  font-family: "DIN Condensed Local", sans-serif;
   font-size: 24px;
   font-weight: 700;
   line-height: 20.8px;
@@ -50,7 +50,7 @@
 }
 
 .rep-text-font {
-  font-family: "Aeroport", sans-serif;
+  font-family: "Aeroport Local", sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 20.8px;
@@ -61,7 +61,7 @@
 }
 
 .whitepaper-font-item {
-  font-family: "DIN Condensed", sans-serif;
+  font-family: "DIN Condensed Local", sans-serif;
   font-size: 98px;
   font-weight: 700;
   line-height: 1;
@@ -93,7 +93,7 @@
 }
 
 .whitepaper-font-title {
-  font-family: "DIN Condensed", sans-serif;
+  font-family: "DIN Condensed Local", sans-serif;
   font-size: 40px;
   font-weight: 700;
   line-height: 48px;
