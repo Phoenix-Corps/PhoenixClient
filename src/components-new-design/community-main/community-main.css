@@ -1,0 +1,50 @@
+.community-main-gradient {
+  background: linear-gradient(170deg, #2958ff 60%, #ff886d 170%);
+}
+
+.font-header {
+  font-family: "DIN Condensed", sans-serif;
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 96px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: white;
+}
+
+.font-subheader {
+  font-family: "DIN Condensed", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 48px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: white;
+}
+
+.font-items {
+  font-family: "Aeroport", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 20.8px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: white;
+}
+
+.item-row {
+  margin-top: 20px;
+  z-index: 1;
+}
+
+.line-bullet {
+  position: absolute;
+  left: 402px;
+  top: 75px;
+  z-index: 3;
+}
