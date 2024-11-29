@@ -1,12 +1,10 @@
 .voucher-image-right {
   display: flex;
   background-image: url("../../public/images/voucher-image.png");
-  width: 300px;
-  height: 443px;
-  margin-bottom: 18px;
-  border: 1.5px solid;
-  border-radius: 13px;
-  margin-top: 90px;
+  /* width: 30%; */
+    flex-grow: 1;
+    height: 500px;
+    min-width: 300px;
 }
 
 .voucher-phoenix-image {

@@ -62,18 +62,15 @@
 }
 
 .voucher-wrapper {
-  gap: 120px;
-  font-family: "K2D";
-  display: flex;
-  justify-content: center;
-  background: radial-gradient(
+  /* background: radial-gradient(
     43.79% 91.34% at 23.97% -2.71%,
     rgba(29, 74, 205, 0.5) 0%,
     rgba(29, 74, 205, 0.17) 100%
   );
-  flex-wrap: wrap;
-  border-radius: 15px;
-  border: 1.5px;
+    */ background-color: rgba(25, 96, 255, 0.6);
+      /* flex-wrap: wrap; */
+      border-radius: 4px;
+      max-width: 1000px;
 }
 .voucher-text-in-image {
   display: flex;
@@ -97,15 +94,9 @@
   font-size: 17px;
   line-height: 22px;
 }
-.change-rate-text {
-  margin-top: 10px;
-  font-size: 10px;
-  font-weight: 400;
-  line-height: 13px;
-}
 .voucher-text-input-wrapper {
-  margin-top: 18px;
-  max-width: 390px;
+  /* max-width: 600px; */
+    /* height: 100%; */
 }
 .buy-heading-text {
   font-size: 51.16px;
@@ -139,7 +130,7 @@
 }
 .buy-wrapper-main {
   display: inline-block;
-  height: 61px;
+  /* height: 61px; */
 }
 .buy-button {
   margin-top: 30px;

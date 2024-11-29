@@ -26,8 +26,42 @@ import { useEthersSigner } from "@/services/useEthersSigner";
 import LoadingOverlay from "./components/loadingOverlay";
 import TransactionHandler from "./components/transactionHandler";
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
+import { BuyButton } from "./components/BuyButton";
 
 type Props = {};
+
+const Input = (props: {
+  amount: number | null;
+  tokenName?: string;
+  amountUpdated: (amount: number | null) => void;
+  imageSrc?: string;
+}) => {
+  return <div className="flex flex-row items-center border border-[rgba(255, 255, 255, 0.3)] rounded w-full bg-gradient-to-b from-white/10 to-blue-300/20 p-2 ">
+    <input
+      className="flex-1 bg-transparent text-white text-lg font-bold placeholder-white/50 focus:outline-none px-4"
+      value={props.amount ?? ""}
+      placeholder="0.00"
+      onChange={(e: any) => props.amountUpdated(e.target.value || null)}
+    />
+    {/* <div className="h-8 w-px bg-white/50 mx-2"></div> */}
+    {props.imageSrc ? (
+      <>
+        <Image
+          src={props.imageSrc}
+          alt="Description of the image"
+          width={30}
+          height={30}
+          style={{ objectFit: "contain" }}
+        />
+        <div className="w-[60px] pl-4 aeroport text-[10px]">
+          {props.tokenName ?? ""}
+        </div>
+      </>
+    ) : (
+      <span className="text-sm text-white/50">...</span>
+    )}
+  </div>
+}
 
 const BuyPageWrapper = (props: Props) => {
   const [showWarning, setShowWarning] = useState(false);
@@ -97,7 +131,7 @@ const BuyPageWrapper = (props: Props) => {
     } else {
       return '';
     }
-  }, [userInfo, currentPoolInfo, window.location.origin, window.location.pathname]);
+  }, [userInfo, currentPoolInfo]);
   
   
   useEffect(() => {
@@ -184,9 +218,9 @@ const BuyPageWrapper = (props: Props) => {
   };
 
   const handleSubmit = useCallback(
-    (e: React.FormEvent) => {
-      const runBuy = async (e: React.FormEvent) => {
-        e.preventDefault();
+    () => {
+      const runBuy = async () => {
+    // e.preventDefault();
         setShowWarning(false);
         setWarningMessage("");
 
@@ -245,7 +279,7 @@ const BuyPageWrapper = (props: Props) => {
         }
       };
 
-      runBuy(e);
+      runBuy();
     },
     [
       isAmountValid,
@@ -272,6 +306,14 @@ const BuyPageWrapper = (props: Props) => {
     );
   }
 
+  const conversionRateText = useMemo(() => {
+    if (currentPoolInfo && currentPoolInfo.projectInfo) {
+      return `1 ${currentPoolInfo?.projectInfo?.name} = ${currentPoolInfo?.currentRound.voucherPrice} ${currentPoolInfo?.token.name}`;
+    } else {
+      return "Loading conversion rate...";
+    }
+  }, [currentPoolInfo]);
+
   return (
     <div className="flex flex-col items-center justify-center p-4">
       {isConnected && (
@@ -282,78 +324,44 @@ const BuyPageWrapper = (props: Props) => {
           Disconnect wallet
         </button>
       )}
-      <div className="voucher-wrapper mb-[50px] md:gap-[50px] sm:gap-[120px] xs:gap-[120px]">
-        <div className="voucher-text-input-wrapper md:ml-[36px] sm:ml-0 flex flex-col items-center">
+      <div className="voucher-wrapper din mb-[50px] flex w-full">
+        <div className="voucher-text-input-wrapper grow p-10 flex flex-col items-center max-w-[500px]">
           <div className="buy-heading-text">
             {currentPoolInfo?.projectInfo?.name || "Loading..."}
           </div>
-          <div className="buy-main-text px-8 text-justify">
+          <div className="buy-main-text w-full aeroport text-justify">
             {currentPoolInfo?.projectInfo?.description ||
               "Loading description..."}
           </div>
           {isConnected ? (
-            <div className="relative buy-wrapper-main">
-              <div className="flex flex-row items-center border-2 border-white rounded-lg bg-gradient-to-b from-white/10 to-blue-300/20 p-2">
-                <input
-                  className="flex-1 bg-transparent text-white text-lg font-bold placeholder-white/50 focus:outline-none px-4"
-                  value={amount ?? ""}
-                  placeholder="0.00"
-                  onChange={(e: any) => setAmount(e.target.value || null)}
-                />
-                <div className="h-8 w-px bg-white/50 mx-2"></div>
-                {currentPoolInfo?.token ? (
-                  <Image
-                    src={currentPoolInfo.token.logo}
-                    alt="Description of the image"
-                    width={30}
-                    height={30}
-                    style={{ objectFit: "contain" }}
-                  />
-                ) : (
-                  <span className="text-sm text-white/50">...</span>
-                )}
-              </div>
-              <div className="flex flex-row items-center border-2 border-white rounded-lg bg-gradient-to-b from-white/10 to-blue-300/20 p-2 mt-2">
-                <input
-                  className="flex-1 bg-transparent text-white text-lg font-bold placeholder-white/50 focus:outline-none px-4"
-                  value={amountVouchers ?? ""}
-                  placeholder="0.00"
-                  onChange={(e: any) =>
-                    setAmountVouchers(e.target.value || null)
-                  }
-                />
-                <div className="h-8 w-px bg-white/50 mx-2"></div>
-                {currentPoolInfo?.projectInfo ? (
-                  <Image
-                    src={currentPoolInfo.projectInfo.logo}
-                    alt="Description of the image"
-                    width={30}
-                    height={30}
-                    style={{ objectFit: "contain" }}
-                  />
-                ) : (
-                  <span className="text-sm text-white/50">...</span>
-                )}
-              </div>
-              {showWarning && (
-                <div className="text-right text-xs text-red-800 mt-2">
-                  {warningMessage}
+            <div className="relative buy-wrapper-main w-full">
+              <Input tokenName={currentPoolInfo?.token.symbol} imageSrc={currentPoolInfo?.token.logo} amount={amount} amountUpdated={setAmount} />
+              <div className="h-[5px]" />
+              <Input tokenName={"Voucher"} imageSrc={currentPoolInfo?.projectInfo?.logo} amount={amountVouchers} amountUpdated={setAmountVouchers} />
+              <div className="aeroport text-xs mt-2 h-[40px] w-full flex flex-row items-between">
+                <div>
+                  <div className="text-left z-10 w-[250px]">{conversionRateText}</div>
                 </div>
-              )}
-              {currentPoolInfo ? (
-                <div className="change-rate-text z-10">{`1 ${currentPoolInfo?.projectInfo?.name} = ${currentPoolInfo?.currentRound.voucherPrice} ${currentPoolInfo?.token.name}`}</div>
-              ) : (
-                <div className="change-rate-text z-10">
-                  Loading conversion rate...
+                <div className="text-red-800 text-right">
+                  {showWarning ? warningMessage : ""}
                 </div>
-              )}
-              <button
-                disabled={!signer || buyInProgress}
-                className="buy-button flex justify-center items-center"
-                onClick={handleSubmit}
-              >
-                BUY
-              </button>
+              </div>
+              <div className="w-full flex flex-row flex-wrap justify-between">
+                <div>
+                  <input
+                    className="buy-input-main code-input mt-0 text-white placeholder-white/50"
+                    value={code ?? ""}
+                    placeholder="Referral Code"
+                    onChange={(e: any) => setCode(e.target.value || null)}
+                  />
+                </div>
+                <div>
+                  <BuyButton onClick={handleSubmit} />
+                </div>
+              </div>
+              <div className="text-under-code">
+                {currentPoolInfo?.projectInfo?.footerText}
+              </div>
             </div>
           ) : (
             <div className="text-center items-center flex flex-col justify-center">
@@ -362,7 +370,7 @@ const BuyPageWrapper = (props: Props) => {
             </div>
           )}
         </div>
-        <div className="voucher-image-right relative overflow-hidden md:mr-[36px] md:mt-[18px] sm:mr-[36px] sm:mt-[18px]">
+        <div className="voucher-image-right relative overflow-hidden">
           {isConnected && (
             <div className="voucher-text-in-image">
               <div className="currency-and-text">
@@ -384,7 +392,7 @@ const BuyPageWrapper = (props: Props) => {
       </div>
       {isConnected && (
         <>
-  {currentPoolInfo?.currentRound.id && userInfo?.referralCode && (
+          {currentPoolInfo?.currentRound.id && userInfo?.referralCode && (
             <div className="flex items-center justify-center gap-2">
               <h2 className="text-[#0d283a] text-3xl lg:text-[12px] font-bold font-noto-serif leading-[50px] shadow-text2 truncate">
                 {urlForCopy}
@@ -404,15 +412,6 @@ const BuyPageWrapper = (props: Props) => {
               </div>
             </div>
           )}
-          <input
-            className="buy-input-main code-input mt-0 text-white placeholder-white/50"
-            value={code ?? ""}
-            placeholder="Referral Code"
-            onChange={(e: any) => setCode(e.target.value || null)}
-          />
-          <div className="text-under-code">
-            {currentPoolInfo?.projectInfo?.footerText}
-          </div>
         </>
       )}
       <TransactionHandler

@@ -6,7 +6,8 @@ import Link from "next/link";
 type Props = {
   mainText: string;
   rightText?: string;
-  link: string;
+  link?: string;
+  onClick?: () => void,
   miniBox?: boolean;
   width?: number;
 };
@@ -15,19 +16,21 @@ const ButtonYellow: React.FC<Props> = ({
   mainText,
   rightText,
   link,
+  onClick,
   miniBox,
   width
 }) => {
   const widthClass = `w-[${width ?? 300}px]`;
   return (
     <div>
-      <Link href={link}>
+      <Link href={link ?? ""}>
         <button
           className={`
             flex din button-front-yellow justify-center items-center text-[28px] p-4 rounded w-[300px]
             ${widthClass}
             ${miniBox && "flex justify-between w-full"}
           `}
+          onClick={onClick}
         >
           <div className="main-text-button-front h-[34px]">{mainText}</div>
           {rightText && (
