@@ -23,7 +23,7 @@ const ButtonHollow: React.FC<Props> = ({
           className={`flex din button-front-hollow justify-center items-center text-[28px] p-4 rounded ${miniBox && "flex justify-between w-full"
             } `}
         >
-          <div className="main-text-button-front h-[34px]">{mainText}</div>
+          <div className="main-text-button-front text-[#ffffff] h-[34px]">{mainText}</div>
           {rightText && (
             <div className="right-text-button-front h-[34px] ml-[24px]">
               {rightText}

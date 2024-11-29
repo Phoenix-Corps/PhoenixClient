@@ -5,7 +5,7 @@ import BenefitsPercentage from "@public/benefits-percentage.svg";
 const BenefitsMain: React.FC = () => {
   return (
     <section className="bg-[#F6F9FFD9]/85 md:py-20 md:px-40 xs:px-10 xs:py-10">
-      <div className="flex lg:flex-row md:flex-col sm:flex-col xs:flex-col w-full">
+      <div className="flex flex-col md:flex-row w-full p-5">
         <div className="flex-1 flex justify-center">
           <div className="flex flex-col">
             <div className="flex flex-row">
@@ -35,7 +35,7 @@ const BenefitsMain: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="flex-1 flex justify-center lg:mt-0 md:mt-20 sm:mt-20 xs:mt-20">
+        <div className="flex-1 flex justify-center lg:mt-0 md:mt-20 sm:mt-20 xs:mt-20 pt-5">
           <BenefitsPercentage />
         </div>
       </div>

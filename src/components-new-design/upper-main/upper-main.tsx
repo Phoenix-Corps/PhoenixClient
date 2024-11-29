@@ -1,51 +1,16 @@
 import React from "react";
-import Image from "next/image";
-import PhoenixLOGO from "@public/home/phoenix-main.png";
-import ButtonHome from "../reusable-components/HomeButtonYellow";
 import BlueBoxMain from "../reusable-components/BlueBoxMain";
-import DownArrow from "@public/home/down-arrow.png";
-import BuyBox from "../reusable-components/BuyBox";
 import ProjectsSection from "../reusable-components/BuyBoxReal";
 import { Logo } from "../reusable-components/Logo";
+import { LandingSection } from "./landing-section";
 const Main = () => {
   return (
-    <div className="main-air-wrapper md:py-[30px] md:px-[100px] p-[16px]">
-      <Logo width={162} />
+    <div className="main-air-wrapper">
+      <div className="absolute top-10 left-10 md">
+        <Logo width={162} />
+      </div>
       <div className="flex justify-center flex-col ">
-        <div className="w-fit relative m-auto ">
-          <Image
-            src={PhoenixLOGO.src}
-            width={1200}
-            height={700}
-            alt="phoenix-logo"
-            className="z-[1] relative"
-          />
-          <div className="w-fit absolute left-[0%]  main-text-wrapper">
-            <div className="flex din font-main-smaller w-fit flex-col relative z-[2]">
-              <div className="text-center">WINGS</div>
-              <div>OF FINANCIAL</div>
-            </div>
-            <div className="pl-[24%] freedom-text font-main-bigger din font-bold text-[rgba(245,248,252,1)] w-fit">
-              FREEDOM
-            </div>
-          </div>
-        </div>
-        <div className="flex m-auto gap-[24px] md:mt-0 mt-4 flex-wrap justify-center">
-          <ButtonHome
-            mainText="SHINOBI&nbsp;&nbsp;&nbsp;ALLIANCE"
-            rightText="SIGN UP"
-            link={"/dashboard"}
-          />
-          <ButtonHome
-            mainText="PROJECT / START UP"
-            rightText="SIGN UP"
-            link={"/dashboard"}
-          />
-        </div>
-        <div className=" mt-4 flex justify-center">
-          <Image src={DownArrow.src} width={23} height={26} alt="down-arrow" />
-        </div>
-
+        <LandingSection />
         <div className="font-title-main text-center din uppercase mt-[80px] ">
           How to get started as a project
         </div>
@@ -91,11 +56,9 @@ const Main = () => {
         </div>
         <div className="flex flex-wrap justify-center gap-[19px] m-auto mt-[50px]">
           <ProjectsSection />
-          <ProjectsSection />
-          <ProjectsSection />
         </div>
-        <div className="flex  lg:flex-row md:flex-col sm:flex-col xs:flex-col w-full mt-[15%] gap-[20%]">
-          <div className="din font-bold text-[97px] leading-[89px] tracking-[-0.04rem] text-[rgba(245,248,252,1)] uppercase nm:w-1/2 w-full">
+        <div className="flex md:flex-row flex-col w-full mt-[15%] gap-[20%] p-5 md:p-20">
+          <div className="din font-bold md:text-[97px] text-[60px] leading-[89px] tracking-[-0.04rem] text-[rgba(245,248,252,1)] uppercase nm:w-1/2 w-full text-center md:text-left">
             The power of true and fair community fundraising
           </div>
           <div className="aeroport font-normal text-[16px] leading-[20px] tracking-[-0.03rem] text-[rgba(216,227,244,1);] nm:w-[40%] w-full">

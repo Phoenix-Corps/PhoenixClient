@@ -3,7 +3,7 @@ import { Whitepaper } from "./whitepaper";
 
 const WhitepapersSection: React.FC = () => {
   return (
-    <div className="w-[80%]">
+    <div className="md:w-[80%] w-[95%]">
       <div className="pt-10 pb-10 w-full flex flex-column justify-center">
         <h4 className="whitepaper-font-title">
           WHITEPAPER
