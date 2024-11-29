@@ -62,15 +62,8 @@
 }
 
 .voucher-wrapper {
-  /* background: radial-gradient(
-    43.79% 91.34% at 23.97% -2.71%,
-    rgba(29, 74, 205, 0.5) 0%,
-    rgba(29, 74, 205, 0.17) 100%
-  );
-    */ background-color: rgba(25, 96, 255, 0.6);
-      /* flex-wrap: wrap; */
-      border-radius: 4px;
-      max-width: 1000px;
+  border-radius: 4px;
+    max-width: 1000px;
 }
 .voucher-text-in-image {
   display: flex;
@@ -93,10 +86,6 @@
   font-weight: 400;
   font-size: 17px;
   line-height: 22px;
-}
-.voucher-text-input-wrapper {
-  /* max-width: 600px; */
-    /* height: 100%; */
 }
 .buy-heading-text {
   font-size: 51.16px;

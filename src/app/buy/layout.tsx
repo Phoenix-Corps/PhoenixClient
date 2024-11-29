@@ -11,7 +11,7 @@ export default function RootLayout({
     <div>
       {/* TODO: maybe put theme wrapper on home page */}
 
-      <div className="min-h-screen background-image text-white">
+      <div className="min-h-screen main-air-wrapper text-white">
         <Header />
         {children}
         <Footer />

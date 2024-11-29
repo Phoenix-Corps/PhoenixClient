@@ -27,6 +27,7 @@ import LoadingOverlay from "./components/loadingOverlay";
 import TransactionHandler from "./components/transactionHandler";
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
 import { BuyButton } from "./components/BuyButton";
+import { SellerLinkBar } from "./components/SellerLinkBar";
 
 type Props = {};
 
@@ -211,12 +212,6 @@ const BuyPageWrapper = (props: Props) => {
     return amount <= parseFloat(normalizedBalance.toString());
   };
 
-  const handleCopyCode = (code: string) => {
-    navigator.clipboard.writeText(code).then(() => {
-      setIsCodeCopied(true);
-    });
-  };
-
   const handleSubmit = useCallback(
     () => {
       const runBuy = async () => {
@@ -315,7 +310,7 @@ const BuyPageWrapper = (props: Props) => {
   }, [currentPoolInfo]);
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
+    <div className="flex flex-col items-center justify-center p-4 bg-[rgba(25,96,255,0.6)]">
       {isConnected && (
         <button
           onClick={() => disconnect()}
@@ -393,24 +388,7 @@ const BuyPageWrapper = (props: Props) => {
       {isConnected && (
         <>
           {currentPoolInfo?.currentRound.id && userInfo?.referralCode && (
-            <div className="flex items-center justify-center gap-2">
-              <h2 className="text-[#0d283a] text-3xl lg:text-[12px] font-bold font-noto-serif leading-[50px] shadow-text2 truncate">
-                {urlForCopy}
-              </h2>
-              <div className="relative flex items-center">
-                <button onClick={() => handleCopyCode(urlForCopy)}>
-                  <COPY_ICON />
-                </button>
-                {isCodeCopied && (
-                  <p
-                    className="flex added-fade-out absolute -left-3 -top-6"
-                    onAnimationEnd={() => setIsCodeCopied(false)}
-                  >
-                    Copied!
-                  </p>
-                )}
-              </div>
-            </div>
+            <SellerLinkBar url={urlForCopy} />
           )}
         </>
       )}
