@@ -1,27 +1,4 @@
-import Image, { StaticImageData } from "next/image";
-import DISCORD from "@public/images/discord_icon.svg";
-import TWITTER from "@public/images/twitter_icon.svg";
-import TELEGRAM from "@public/images/telegram_icon.svg";
-
-const SocialButton = (props: {
-    link: string;
-    src: string;
-}) => {
-    return <a
-        href={props.link}
-        target="_blank"
-        rel="noreferrer"
-        className="w-[50px] h-[50px]"
-    >
-        <Image
-            alt="cursor discord"
-            className="social-icon"
-            src={props.src}
-            width={50}
-            height={50}
-        />
-    </a>
-}
+import { SocialButton } from "@/components-new-design/reusable-components/SocialButton"
 
 export const Socials = () => {
     return <div className="flex flex-col items-center">
