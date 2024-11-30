@@ -30,6 +30,7 @@ import PhoenixBlueBox from "@public/home/phoenix-logo-3.png";
 import VoucherICON from "@/../public/buy/phoenix-coin.png";
 import { BuyButton } from "./components/BuyButton";
 import { SellerLinkBar } from "./components/SellerLinkBar";
+import Decimal from "decimal.js";
 
 type Props = {};
 
@@ -82,7 +83,7 @@ const BuyPageWrapper = (props: Props) => {
 
   const [amount, setAmount] = useState<number | null>(null);
   const [amountVouchers, setAmountVouchers] = useState<number | null>(null);
-  const [vouchersOwned, setVouchersOwned] = useState<BigNumber | null>(null);
+  const [vouchersOwned, setVouchersOwned] = useState<Decimal | null>(null);
 
   const { isConnected, address } = useAccount();
   const { disconnect } = useDisconnect();
@@ -141,7 +142,7 @@ const BuyPageWrapper = (props: Props) => {
     if (provider && address && poolId && !buyInProgress) {
       getVoucherBalance(provider, parseInt(poolId), address)
         .then(voucherBalanceResult => {
-          setVouchersOwned(BigNumber.from(voucherBalanceResult));
+          setVouchersOwned(voucherBalanceResult);
         })
         .catch(error => {
           console.error(error);
@@ -299,7 +300,6 @@ const BuyPageWrapper = (props: Props) => {
   }, [currentPoolInfo]);
 
   if (error) {
-    console.warn(error);
     return (
       <div className="flex flex-col items-center justify-center p-4">
         {error}
@@ -394,7 +394,7 @@ const BuyPageWrapper = (props: Props) => {
                 <div className="currency-and-text">
                   {vouchersOwned ? (
                     <div className="voucher-text-number font-extrabold z-10">
-                      {vouchersOwned.toString()}
+                      {vouchersOwned.toFixed(2)}
                     </div>
                   ) : (
                     <div>Loading vouchers...</div>

@@ -80,16 +80,17 @@ export interface ClaimInfo {
 }
 
 export interface Recruit {
-  code: string,
+  code: string;
   address: string;
   rankName: string;
   rankId: number;
 }
 
 const processPoolInfo = (pool: any, rounds: any[]) => {
-  const currentRound = rounds.find(
-    (round: RoundInfo) => new Date(round.roundEnd * 1000) > new Date()
-  ) ?? rounds[rounds.length - 1];
+  const currentRound =
+    rounds.find(
+      (round: RoundInfo) => new Date(round.roundEnd * 1000) > new Date()
+    ) ?? rounds[rounds.length - 1];
   const token = (tokenMapping as { [key: string]: TokenInfo })[
     pool.paymentToken
   ];
@@ -163,7 +164,9 @@ export const getHireRankInfo = async (
     provider
   );
   const ranksPromise = paymentPluginContract.getTiers();
-  const promises = rankIds.map((rankId) => paymentPluginContract.freeRecruitments(address, rankId));
+  const promises = rankIds.map(rankId =>
+    paymentPluginContract.freeRecruitments(address, rankId)
+  );
   let results = await Promise.all(promises.concat(ranksPromise));
   const ranks = results.pop();
   return rankIds.map((rankId, index) => {
@@ -174,9 +177,9 @@ export const getHireRankInfo = async (
       level: rankId + 1,
       vouchers: results.at(index).toNumber(),
       hireCost: new Decimal(rank.xpHireCost.toString()).div(xpDecimals)
-    }
+    };
   });
-}
+};
 
 export const getUserInfo = async (
   provider: ethers.providers.Provider,
@@ -279,7 +282,7 @@ export const getVoucherBalance = async (
     provider
   );
   const result = await voucherContract.getUserPoints(poolId, address);
-  return new Decimal(result.toString()).div(voucherDecimals).toString();
+  return new Decimal(result.toString()).div(voucherDecimals);
 };
 
 export const claim = async (
@@ -299,26 +302,31 @@ export const checkApproval = async (
   signer: ethers.providers.JsonRpcSigner,
   address: string,
   token: TokenInfo,
-  amount: number,
+  amount: number
 ) => {
   const convertedAmount = new Decimal(10).pow(token.decimals).mul(amount);
   const tokenContract = new ethers.Contract(token.address, erc20Abi, signer);
-  const approvedAmount = await tokenContract.allowance(address, contracts.launchpad);
+  const approvedAmount = await tokenContract.allowance(
+    address,
+    contracts.launchpad
+  );
   return new Decimal(approvedAmount.toString()).gte(convertedAmount);
-}
+};
 
 export const approveSpending = async (
   signer: ethers.providers.JsonRpcSigner,
-  token: TokenInfo,
+  token: TokenInfo
 ) => {
   const tokenContract = new ethers.Contract(token.address, erc20Abi, signer);
   const tx = await tokenContract.approve(
     contracts.launchpad,
-    BigNumber.from("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"),
+    BigNumber.from(
+      "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    ),
     { gasLimit: 1000000 }
   );
   return tx;
-}
+};
 
 export const buy = async (
   signer: ethers.providers.JsonRpcSigner,
@@ -353,7 +361,12 @@ export const upgradeRank = async (signer: ethers.providers.JsonRpcSigner) => {
   return tx;
 };
 
-export const getDivision = async (provider: ethers.providers.Provider, address: string, offset: number, count: number) => {
+export const getDivision = async (
+  provider: ethers.providers.Provider,
+  address: string,
+  offset: number,
+  count: number
+) => {
   const paymentPluginContract = new ethers.Contract(
     contracts.paymentPlugin,
     paymentPluginAbi,
@@ -364,8 +377,14 @@ export const getDivision = async (provider: ethers.providers.Provider, address: 
     launchpadAbi,
     provider
   );
-  const recruits = await paymentPluginContract.batchGetRecruits(address, offset, count);
-  const promises = recruits.map((recruit: any) => launchpadContract.userReferral(recruit[0]))
+  const recruits = await paymentPluginContract.batchGetRecruits(
+    address,
+    offset,
+    count
+  );
+  const promises = recruits.map((recruit: any) =>
+    launchpadContract.userReferral(recruit[0])
+  );
   const referralCodes = await Promise.all(promises);
   const results: Recruit[] = recruits.map((recruit: any, index: number) => {
     return {
@@ -373,15 +392,13 @@ export const getDivision = async (provider: ethers.providers.Provider, address: 
       address: recruit[0],
       rankId: recruit[1],
       rankName: rankToNameMappingTeam[recruit[1]]
-    }
+    };
   });
 
   return results;
 };
 
-export const registerUser = async (
-  signer: ethers.providers.JsonRpcSigner
-) => {
+export const registerUser = async (signer: ethers.providers.JsonRpcSigner) => {
   const paymentPluginContract = new ethers.Contract(
     contracts.paymentPlugin,
     paymentPluginAbi,
@@ -389,7 +406,7 @@ export const registerUser = async (
   );
   const tx = await paymentPluginContract.registerSolo(true);
   return tx;
-}
+};
 
 export const recruit = async (
   recruit: string,
@@ -401,7 +418,9 @@ export const recruit = async (
     paymentPluginAbi,
     signer
   );
-  
-  const tx = await paymentPluginContract.registerRecruit(recruit, rank, true, { gasLimit: 1000000 });
+
+  const tx = await paymentPluginContract.registerRecruit(recruit, rank, true, {
+    gasLimit: 1000000
+  });
   return tx;
 };
