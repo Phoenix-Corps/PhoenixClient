@@ -159,6 +159,9 @@
   text-align: center;
   opacity: 60%;
   max-width: 542px;
+  @media (max-width: 880px) {
+    margin-bottom: 8px;
+  }
 }
 
 .buy-footer-wrapper {

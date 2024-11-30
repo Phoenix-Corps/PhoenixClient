@@ -11,7 +11,7 @@ border-radius: 100px;
 border: 1px solid rgba(169, 193, 239, 1)
 }
 .voucher-phoenix-image {
-  width: 149%;
+  width: 220%;
   height: 147%;
 
   position: absolute;
@@ -21,4 +21,8 @@ border: 1px solid rgba(169, 193, 239, 1)
 
   right: 1px;
   bottom: -135px;
+  @media (max-width: 768px) {
+    right: -152px;
+    top: 0px;
+  }
 }

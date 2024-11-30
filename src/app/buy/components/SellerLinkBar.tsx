@@ -12,8 +12,8 @@ export const SellerLinkBar = (props: {
         });
     }, [setIsCodeCopied]);
 
-    return <div className="w-full md:w-[80%] max-w-[800px] flex md:flex-row flex-col din p-5 gap-[5px] items-center border rounded border-[rgba(255, 255, 255, 0.15)]">
-        <div className="text-[24px] md:w-[200px] w:full">
+    return <div className="w-full md:w-[80%] max-w-[800px] flex md:flex-row flex-col din p-5 gap-[5px] items-center border rounded border-[rgba(255, 255, 255, 0.15)] m-auto mt-5">
+        <div className="text-[24px] md:w-[200px] w:full text-left w-full">
             BEING A SELLER?
         </div>
         <div className="aeroport text-[10px] md:w-auto w-full">

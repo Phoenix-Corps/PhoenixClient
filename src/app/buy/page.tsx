@@ -307,103 +307,105 @@ const BuyPageWrapper = (props: Props) => {
   }, [currentPoolInfo]);
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 bg-[rgba(25,96,255,0.6)] m-4 md:0 rounded-[4px]">
-      {isConnected && (
-        <button
-          onClick={() => disconnect()}
-          className="buy-button absolute top-0 right-3 w-[100px] h-[40px] text-xs p-1"
-        >
-          Disconnect wallet
-        </button>
-      )}
-      <div className="voucher-wrapper din mb-[50px] flex w-full flex-wrap ">
-        <div className="voucher-text-input-wrapper grow md:p-10 p-0 flex flex-col items-center">
-          <div className="flex flex-row justify-start items-center w-full">
-            <div className="mini-blue-box w-[64px] h-[64px] rounded-full flex justify-center items-center">
-              <Image
-                src={PhoenixBlueBox.src}
-                width={37}
-                height={43}
-                alt="project-logo"
-              />
-            </div>
-            <div className="buy-heading-text ml-[24px]">
-              {currentPoolInfo?.projectInfo?.name || "Loading..."}
-            </div>
-          </div>
-          <div className="buy-main-text w-full aeroport text-justify">
-            {currentPoolInfo?.projectInfo?.description ||
-              "Loading description..."}
-          </div>
-          {isConnected ? (
-            <div className="relative buy-wrapper-main w-full">
-              <Input
-                tokenName={currentPoolInfo?.token.symbol}
-                imageSrc={currentPoolInfo?.token.logo}
-                amount={amount}
-                amountUpdated={setAmount}
-              />
-              <div className="h-[5px]" />
-              <div className="phoenix-imgae-token-wrapper">
-                <Input
-                  tokenName={"Voucher"}
-                  imageSrc={VoucherICON.src}
-                  amount={amountVouchers}
-                  amountUpdated={setAmountVouchers}
+    <div className=" m-4">
+      <div className="flex flex-col items-center justify-center bg-[rgba(25,96,255,0.6)] md:0 rounded-[4px] w-fit md:m-auto">
+        {isConnected && (
+          <button
+            onClick={() => disconnect()}
+            className="buy-button absolute top-0 right-3 w-[100px] h-[40px] text-xs p-1"
+          >
+            Disconnect wallet
+          </button>
+        )}
+        <div className="voucher-wrapper din mb-0 flex w-full flex-wrap ">
+          <div className="voucher-text-input-wrapper grow md:p-10 p-6 flex flex-col items-center">
+            <div className="flex flex-row justify-start items-center w-full">
+              <div className="mini-blue-box w-[64px] h-[64px] rounded-full flex justify-center items-center">
+                <Image
+                  src={PhoenixBlueBox.src}
+                  width={37}
+                  height={43}
+                  alt="project-logo"
                 />
               </div>
-              <div className="aeroport text-xs mt-2 h-[40px] w-full flex flex-row items-between">
-                <div>
-                  <div className="text-left z-10 w-[250px]">
-                    {conversionRateText}
-                  </div>
-                </div>
-                <div className="text-red-800 text-right">
-                  {showWarning ? warningMessage : ""}
-                </div>
+              <div className="buy-heading-text ml-[24px]">
+                {currentPoolInfo?.projectInfo?.name || "Loading..."}
               </div>
-              <div className="w-full flex flex-row flex-wrap justify-between gap-y-2">
-                <div className="md:w-auto w-full">
-                  <input
-                    className="buy-input-main code-input mt-0 text-white placeholder-white/50 w-full"
-                    value={code ?? ""}
-                    placeholder="Referral Code"
-                    onChange={(e: any) => setCode(e.target.value || null)}
+            </div>
+            <div className="buy-main-text w-full aeroport text-justify">
+              {currentPoolInfo?.projectInfo?.description ||
+                "Loading description..."}
+            </div>
+            {isConnected ? (
+              <div className="relative buy-wrapper-main w-full">
+                <Input
+                  tokenName={currentPoolInfo?.token.symbol}
+                  imageSrc={currentPoolInfo?.token.logo}
+                  amount={amount}
+                  amountUpdated={setAmount}
+                />
+                <div className="h-[5px]" />
+                <div className="phoenix-imgae-token-wrapper">
+                  <Input
+                    tokenName={"Voucher"}
+                    imageSrc={VoucherICON.src}
+                    amount={amountVouchers}
+                    amountUpdated={setAmountVouchers}
                   />
                 </div>
-                <>
-                  <BuyButton onClick={handleSubmit} />
-                </>
-              </div>
-              <div className="text-under-code text-left">
-                {currentPoolInfo?.projectInfo?.footerText}
-              </div>
-            </div>
-          ) : (
-            <div className="text-center items-center flex flex-col justify-center">
-              <p className="mb-4">Connect your wallet to continue</p>
-              <ConnectButtonCustom />
-            </div>
-          )}
-        </div>
-        <div className="voucher-image-right relative overflow-hidden">
-          {isConnected && (
-            <div className="voucher-text-in-image">
-              <div className="currency-and-text">
-                {vouchersOwned ? (
-                  <div className="voucher-text-number font-extrabold z-10">
-                    {vouchersOwned.toString()}
+                <div className="aeroport text-xs mt-2 h-[40px] w-full flex flex-row items-between">
+                  <div>
+                    <div className="text-left z-10 w-[250px]">
+                      {conversionRateText}
+                    </div>
                   </div>
-                ) : (
-                  <div>Loading vouchers...</div>
-                )}
-                <div className="voucher-text-text z-10">
-                  {currentPoolInfo?.projectInfo?.name}
+                  <div className="text-red-800 text-right">
+                    {showWarning ? warningMessage : ""}
+                  </div>
+                </div>
+                <div className="w-full flex flex-row flex-wrap justify-between gap-y-2">
+                  <div className="md:w-auto w-full">
+                    <input
+                      className="buy-input-main code-input mt-0 text-white placeholder-white/50 w-full"
+                      value={code ?? ""}
+                      placeholder="Referral Code"
+                      onChange={(e: any) => setCode(e.target.value || null)}
+                    />
+                  </div>
+                  <>
+                    <BuyButton onClick={handleSubmit} />
+                  </>
+                </div>
+                <div className="text-under-code text-left">
+                  {currentPoolInfo?.projectInfo?.footerText}
                 </div>
               </div>
-            </div>
-          )}
-          <div className="voucher-phoenix-image"></div>
+            ) : (
+              <div className="text-center items-center flex flex-col justify-center">
+                <p className="mb-4">Connect your wallet to continue</p>
+                <ConnectButtonCustom />
+              </div>
+            )}
+          </div>
+          <div className="voucher-image-right relative overflow-hidden md:h-auto h-[161px]">
+            {isConnected && (
+              <div className="voucher-text-in-image">
+                <div className="currency-and-text">
+                  {vouchersOwned ? (
+                    <div className="voucher-text-number font-extrabold z-10">
+                      {vouchersOwned.toString()}
+                    </div>
+                  ) : (
+                    <div>Loading vouchers...</div>
+                  )}
+                  <div className="voucher-text-text z-10">
+                    {currentPoolInfo?.projectInfo?.name}
+                  </div>
+                </div>
+              </div>
+            )}
+            <div className="voucher-phoenix-image "></div>
+          </div>
         </div>
       </div>
       {isConnected && (
