@@ -23,7 +23,6 @@ const Toast: React.FC<ToastProps> = ({
   position = "top-right",
   onClose
 }) => {
-
   const typeStyles: Record<ToastProps["type"], string> = {
     success: "bg-green-500 text-white",
     error: "bg-red-500 text-white",
@@ -42,11 +41,11 @@ const Toast: React.FC<ToastProps> = ({
 
   const link = useMemo(() => {
     if (txHash) {
-      return `https://polygonscan.com/tx/${txHash}`;
+      return `https://basescan.org/tx/${txHash}`;
     } else {
       return "";
     }
-  }, [txHash])
+  }, [txHash]);
 
   return (
     <div
@@ -54,16 +53,17 @@ const Toast: React.FC<ToastProps> = ({
     >
       <div>
         {message}
-        &nbsp;
-        View transaction on <a href={link} target="_blank"><b>poligonscan</b></a>.
+        &nbsp; View transaction on{" "}
+        <a href={link} target="_blank">
+          <b>Explorer</b>
+        </a>
+        .
       </div>
-      <button onClick={onClose} className="absolute top-1 right-1 w-[15px] h-[15px]">
-        <Image
-          src='/close-x.svg'
-          width={15}
-          height={15}
-          alt="project-logo"
-        />
+      <button
+        onClick={onClose}
+        className="absolute top-1 right-1 w-[15px] h-[15px]"
+      >
+        <Image src="/close-x.svg" width={15} height={15} alt="project-logo" />
       </button>
     </div>
   );
