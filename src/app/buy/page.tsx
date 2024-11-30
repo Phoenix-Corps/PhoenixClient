@@ -246,9 +246,9 @@ const BuyPageWrapper = (props: Props) => {
             const approveTx = approveSpending(signer, currentPoolInfo!.token);
 
             setTxInProgressMessage(
-              "Waiting for Aprove spending transation to be completed"
+              "Waiting for Aprove spending transation to be completed."
             );
-            setTxSuccessMessage("Aprove spending transation completed");
+            setTxSuccessMessage("Aprove spending transation completed.");
             setTx(approveTx);
 
             await (await approveTx).wait();
@@ -262,7 +262,7 @@ const BuyPageWrapper = (props: Props) => {
             code
           );
 
-          setTxInProgressMessage("Waiting for Buy transation to be completed");
+          setTxInProgressMessage("Waiting for Buy transation to be completed.");
           setTxSuccessMessage("Purchase successful!");
           setTx(buyTx);
 
