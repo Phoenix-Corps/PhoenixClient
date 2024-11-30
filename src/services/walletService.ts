@@ -44,6 +44,7 @@ export interface PoolInfo {
     roundEnd: number;
     voucherPrice: string;
     goal: Decimal;
+    fundingGoal: Decimal;
     available: Decimal;
   };
 }
@@ -109,6 +110,9 @@ const processPoolInfo = (pool: any, rounds: any[]) => {
       roundEnd: currentRound.roundEnd,
       voucherPrice: price,
       goal: new Decimal(currentRound.voucherGoal.toString()),
+      fundingGoal: new Decimal(currentRound.fundingGoal.toString()).div(
+        tokenDecimals
+      ),
       available: new Decimal(currentRound.availableVouchers.toString())
     }
   };

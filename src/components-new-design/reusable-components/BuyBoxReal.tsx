@@ -3,13 +3,11 @@
 import { useBlockchainContext } from "@/context/BlockchainContext";
 import { PoolInfo } from "@/services/walletService";
 import PhoenixBlueBox from "@public/home/phoenix-logo-3.png";
-import { BigNumber } from "ethers";
 import Image from "next/image";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 // import "../../../components/projects/projects.css";
-import USDClogo from "@public/buy/usd-coin.svg";
 import ButtonHome from "./HomeButtonYellow";
+
 const ProjectCard: React.FC<PoolInfo> = ({
   id,
   projectInfo,
@@ -34,7 +32,7 @@ const ProjectCard: React.FC<PoolInfo> = ({
   };
 
   return (
-    <div className="flex flex-col start-project-box nm:w-[400px] w-full h-[448px] rounded py-[24px] px-[24px] text-[rgba(245,248,252,1)]">
+    <div className="flex flex-col start-project-box nm:w-[400px] w-full h-[484px] rounded py-[24px] px-[24px] text-[rgba(245,248,252,1)]">
       <div className="flex justify-between">
         <div>
           <div className="din text-[36px] text-white font-bold uppercase leading-[43px]">
@@ -65,7 +63,17 @@ const ProjectCard: React.FC<PoolInfo> = ({
         </div>
         <div className="flex justify-between aeroport font-normal text-[16px] leading-[20px] text-white">
           <div className="opacity-60">Round Price:</div>
-          <div>{currentRound.voucherPrice.toString()}</div>
+          <div className="flex">
+            <img src={token.logo} className="w-[20px] h-[20px] mr-1" />
+            {currentRound.voucherPrice.toString()}
+          </div>
+        </div>
+        <div className="flex justify-between aeroport font-normal text-[16px] leading-[20px] text-white">
+          <div className="opacity-60">Round Goal:</div>
+          <div className="flex">
+            <img src={token.logo} className="w-[20px] h-[20px] mr-1" />
+            {currentRound.fundingGoal.toString()}
+          </div>
         </div>
       </div>
       <div className="mini-blue-box-divider my-[24px]" />
