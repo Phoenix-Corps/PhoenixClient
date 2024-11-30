@@ -26,6 +26,7 @@ import { useEthersSigner } from "@/services/useEthersSigner";
 import LoadingOverlay from "./components/loadingOverlay";
 import TransactionHandler from "./components/transactionHandler";
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
+import VoucherICON from "@/../public/buy/phoenix-coin.png";
 import { BuyButton } from "./components/BuyButton";
 import { SellerLinkBar } from "./components/SellerLinkBar";
 
@@ -332,7 +333,7 @@ const BuyPageWrapper = (props: Props) => {
             <div className="relative buy-wrapper-main w-full">
               <Input tokenName={currentPoolInfo?.token.symbol} imageSrc={currentPoolInfo?.token.logo} amount={amount} amountUpdated={setAmount} />
               <div className="h-[5px]" />
-              <div className="phoenix-imgae-token-wrapper"><Input tokenName={"Voucher"} imageSrc={currentPoolInfo?.projectInfo?.logo} amount={amountVouchers} amountUpdated={setAmountVouchers} /></div>
+              <div className="phoenix-imgae-token-wrapper"><Input tokenName={"Voucher"} imageSrc={VoucherICON.src} amount={amountVouchers} amountUpdated={setAmountVouchers} /></div>
               <div className="aeroport text-xs mt-2 h-[40px] w-full flex flex-row items-between">
                 <div>
                   <div className="text-left z-10 w-[250px]">{conversionRateText}</div>

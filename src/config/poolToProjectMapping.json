@@ -2,7 +2,7 @@
   {
     "id": 4,
     "name": "Phoenix Beta",
-    "logo": "/buy/phoenix-coin.png",
+    "logo": "/images/phoenix.png",
     "description": "Participate in beta testing of the Phoenix platform, be the first to try it and earn rewards upon release.",
     "footerText": "Note: This project uses mock USDC as payment token, no real tokens required to participate. The vouchers purchased will not be redeamable!"
   }
