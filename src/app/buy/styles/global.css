@@ -62,18 +62,8 @@
 }
 
 .voucher-wrapper {
-  gap: 120px;
-  font-family: "K2D";
-  display: flex;
-  justify-content: center;
-  background: radial-gradient(
-    43.79% 91.34% at 23.97% -2.71%,
-    rgba(29, 74, 205, 0.5) 0%,
-    rgba(29, 74, 205, 0.17) 100%
-  );
-  flex-wrap: wrap;
-  border-radius: 15px;
-  border: 1.5px;
+  border-radius: 4px;
+  max-width: 1000px;
 }
 .voucher-text-in-image {
   display: flex;
@@ -96,16 +86,6 @@
   font-weight: 400;
   font-size: 17px;
   line-height: 22px;
-}
-.change-rate-text {
-  margin-top: 10px;
-  font-size: 10px;
-  font-weight: 400;
-  line-height: 13px;
-}
-.voucher-text-input-wrapper {
-  margin-top: 18px;
-  max-width: 390px;
 }
 .buy-heading-text {
   font-size: 51.16px;
@@ -139,7 +119,7 @@
 }
 .buy-wrapper-main {
   display: inline-block;
-  height: 61px;
+  /* height: 61px; */
 }
 .buy-button {
   margin-top: 30px;
@@ -179,6 +159,9 @@
   text-align: center;
   opacity: 60%;
   max-width: 542px;
+  @media (max-width: 880px) {
+    margin-bottom: 8px;
+  }
 }
 
 .buy-footer-wrapper {
@@ -190,16 +173,24 @@
 }
 .buy-icon-wrapper {
   width: 50px;
-    height: 50px;
-    /* background: radial-gradient(
+  height: 50px;
+  /* background: radial-gradient(
     93.63% 549.7% at 2.46% 8.98%,
     rgba(255, 255, 255, 0.08) 0%,
     rgba(196, 216, 234, 0.2) 100%
   );
-    */ background-color: rgba(255, 255, 255, 0.3);
-      border-radius: 25px;
+    */
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 25px;
   border: 0.32px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.voucher-text-input-wrapper {
+  max-width: 500px;
+  @media (max-width: 880px) {
+    max-width: 100%;
+  }
 }

@@ -1,20 +1,13 @@
 import React from "react";
 import Image from "next/image";
 import PhoenixLOGO from "@public/buy/phoenix-logo.png";
+import { Logo } from "@/components-new-design/reusable-components/Logo";
 
 const Header = () => {
   return (
-    <>
-      <header className="w-full mx-asuto flex justify-center items-center header-wrapper">
-        <Image
-          src={PhoenixLOGO}
-          alt="PhoenixLOGO"
-          className="phoenix-logo-image"
-          width={49}
-          height={60}
-        />
-      </header>
-    </>
+    <div className="p-10">
+      <Logo width={162} />
+    </div>
   );
 };
 

@@ -1,16 +1,17 @@
 .voucher-image-right {
   display: flex;
   background-image: url("../../public/images/voucher-image.png");
-  width: 300px;
-  height: 443px;
-  margin-bottom: 18px;
-  border: 1.5px solid;
-  border-radius: 13px;
-  margin-top: 90px;
+  /* width: 30%; */
+    flex-grow: 1;
+    height: 500px;
+    min-width: 300px;
 }
-
+.phoenix-imgae-token-wrapper img{
+border-radius: 100px;
+border: 1px solid rgba(169, 193, 239, 1)
+}
 .voucher-phoenix-image {
-  width: 149%;
+  width: 220%;
   height: 147%;
 
   position: absolute;
@@ -20,4 +21,8 @@
 
   right: 1px;
   bottom: -135px;
+  @media (max-width: 880px) {
+    right: -152px;
+    top: 0px;
+  }
 }
