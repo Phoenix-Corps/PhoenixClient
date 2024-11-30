@@ -290,14 +290,6 @@ const BuyPageWrapper = (props: Props) => {
     code
   ]);
 
-  if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center p-4">
-        {error}
-      </div>
-    );
-  }
-
   const conversionRateText = useMemo(() => {
     if (currentPoolInfo && currentPoolInfo.projectInfo) {
       return `1 ${currentPoolInfo?.projectInfo?.name} = ${currentPoolInfo?.currentRound.voucherPrice} ${currentPoolInfo?.token.name}`;
@@ -305,6 +297,15 @@ const BuyPageWrapper = (props: Props) => {
       return "Loading conversion rate...";
     }
   }, [currentPoolInfo]);
+
+  if (error) {
+    console.warn(error);
+    return (
+      <div className="flex flex-col items-center justify-center p-4">
+        {error}
+      </div>
+    );
+  }
 
   return (
     <div className=" m-4">
