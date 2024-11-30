@@ -12,14 +12,14 @@ export const SellerLinkBar = (props: {
         });
     }, [setIsCodeCopied]);
 
-    return <div className="w-[90%] md:w-[80%] max-w-[800px] flex md:flex-row flex-col din p-5 gap-[5px] items-center border rounded border-[rgba(255, 255, 255, 0.15)]">
-        <div className="text-[24px] md:w-[200px] w:full">
+    return <div className="w-full md:w-[80%] max-w-[800px] flex md:flex-row flex-col din p-5 gap-[5px] items-center border rounded border-[rgba(255, 255, 255, 0.15)] m-auto mt-5">
+        <div className="text-[24px] md:w-[200px] w:full text-left w-full">
             BEING A SELLER?
         </div>
         <div className="aeroport text-[10px] md:w-auto w-full">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.
         </div>
-        <button onClick={() => handleCopyCode(props.url)} >
+        <button onClick={() => handleCopyCode(props.url)}  className="md:w-auto w-full">
             <div className="relative p-2 md:w-[200px] text-[16px] flex flex-row gap-[5px] bg-[rgba(0,255,255,0.15)] w-full">
                 {props.url}
                 <Image

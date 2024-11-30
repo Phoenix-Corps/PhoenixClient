@@ -26,6 +26,7 @@ import { useEthersSigner } from "@/services/useEthersSigner";
 import LoadingOverlay from "./components/loadingOverlay";
 import TransactionHandler from "./components/transactionHandler";
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
+import PhoenixBlueBox from "@public/home/phoenix-logo-3.png";
 import VoucherICON from "@/../public/buy/phoenix-coin.png";
 import { BuyButton } from "./components/BuyButton";
 import { SellerLinkBar } from "./components/SellerLinkBar";
@@ -38,32 +39,34 @@ const Input = (props: {
   amountUpdated: (amount: number | null) => void;
   imageSrc?: string;
 }) => {
-  return <div className="flex flex-row items-center border border-[rgba(255, 255, 255, 0.3)] rounded w-full bg-gradient-to-b from-white/10 to-blue-300/20 p-2 ">
-    <input
-      className="flex-1 bg-transparent text-white text-lg font-bold placeholder-white/50 focus:outline-none px-4"
-      value={props.amount ?? ""}
-      placeholder="0.00"
-      onChange={(e: any) => props.amountUpdated(e.target.value || null)}
-    />
-    {/* <div className="h-8 w-px bg-white/50 mx-2"></div> */}
-    {props.imageSrc ? (
-      <>
-        <Image
-          src={props.imageSrc}
-          alt="Description of the image"
-          width={30}
-          height={30}
-          style={{ objectFit: "contain" }}
-        />
-        <div className="w-[60px] pl-4 aeroport text-[10px]">
-          {props.tokenName ?? ""}
-        </div>
-      </>
-    ) : (
-      <span className="text-sm text-white/50">...</span>
-    )}
-  </div>
-}
+  return (
+    <div className="flex flex-row items-center border border-[rgba(255, 255, 255, 0.3)] rounded w-full bg-gradient-to-b from-white/10 to-blue-300/20 p-2 ">
+      <input
+        className="flex-1 bg-transparent text-white text-lg font-bold placeholder-white/50 focus:outline-none px-4"
+        value={props.amount ?? ""}
+        placeholder="0.00"
+        onChange={(e: any) => props.amountUpdated(e.target.value || null)}
+      />
+      {/* <div className="h-8 w-px bg-white/50 mx-2"></div> */}
+      {props.imageSrc ? (
+        <>
+          <Image
+            src={props.imageSrc}
+            alt="Description of the image"
+            width={30}
+            height={30}
+            style={{ objectFit: "contain" }}
+          />
+          <div className="w-[60px] pl-4 aeroport text-[10px]">
+            {props.tokenName ?? ""}
+          </div>
+        </>
+      ) : (
+        <span className="text-sm text-white/50">...</span>
+      )}
+    </div>
+  );
+};
 
 const BuyPageWrapper = (props: Props) => {
   const [showWarning, setShowWarning] = useState(false);
@@ -80,7 +83,6 @@ const BuyPageWrapper = (props: Props) => {
   const [amount, setAmount] = useState<number | null>(null);
   const [amountVouchers, setAmountVouchers] = useState<number | null>(null);
   const [vouchersOwned, setVouchersOwned] = useState<BigNumber | null>(null);
-
 
   const { isConnected, address } = useAccount();
   const { disconnect } = useDisconnect();
@@ -118,7 +120,7 @@ const BuyPageWrapper = (props: Props) => {
       fetchUserInfo(walletAddress);
     }
   }, [walletAddress]);
-  
+
   const urlForCopy = useMemo(() => {
     if (userInfo?.referralCode && currentPoolInfo?.projectInfo?.id) {
       const { origin, pathname } = window.location;
@@ -131,11 +133,10 @@ const BuyPageWrapper = (props: Props) => {
       console.log(poolIdRefCode);
       return host + poolIdRefCode;
     } else {
-      return '';
+      return "";
     }
   }, [userInfo, currentPoolInfo]);
-  
-  
+
   useEffect(() => {
     if (provider && address && poolId && !buyInProgress) {
       getVoucherBalance(provider, parseInt(poolId), address)
@@ -213,86 +214,81 @@ const BuyPageWrapper = (props: Props) => {
     return amount <= parseFloat(normalizedBalance.toString());
   };
 
-  const handleSubmit = useCallback(
-    () => {
-      const runBuy = async () => {
-    // e.preventDefault();
-        setShowWarning(false);
-        setWarningMessage("");
+  const handleSubmit = useCallback(() => {
+    const runBuy = async () => {
+      // e.preventDefault();
+      setShowWarning(false);
+      setWarningMessage("");
 
-        if (!isAmountValid()) {
-          setShowWarning(true);
-          setWarningMessage(
-            "Incorrect input value / not enough funds in wallet!"
+      if (!isAmountValid()) {
+        setShowWarning(true);
+        setWarningMessage(
+          "Incorrect input value / not enough funds in wallet!"
+        );
+        return;
+      }
+      if (!code || code.length !== 8) {
+        setShowWarning(true);
+        setWarningMessage("Please enter referral code in proper format!");
+        return;
+      }
+
+      if (signer) {
+        try {
+          const hasApproval = await checkApproval(
+            signer,
+            address!,
+            currentPoolInfo!.token,
+            amount!
           );
-          return;
-        }
-        if (!code || code.length !== 8) {
-          setShowWarning(true);
-          setWarningMessage("Please enter referral code in proper format!");
-          return;
-        }
 
-        if (signer) {
-          try {
-            const hasApproval = await checkApproval(
-              signer,
-              address!,
-              currentPoolInfo!.token,
-              amount!
-            );
-
-            if (!hasApproval) {
-              const approveTx = approveSpending(signer, currentPoolInfo!.token);
-
-              setTxInProgressMessage(
-                "Waiting for Aprove spending transation to be completed"
-              );
-              setTxSuccessMessage("Aprove spending transation completed");
-              setTx(approveTx);
-
-              await (await approveTx).wait();
-            }
-
-            const buyTx = buy(
-              signer,
-              +poolId,
-              currentPoolInfo!.token,
-              amount!,
-              code
-            );
+          if (!hasApproval) {
+            const approveTx = approveSpending(signer, currentPoolInfo!.token);
 
             setTxInProgressMessage(
-              "Waiting for Buy transation to be completed"
+              "Waiting for Aprove spending transation to be completed"
             );
-            setTxSuccessMessage("Purchase successful!");
-            setTx(buyTx);
+            setTxSuccessMessage("Aprove spending transation completed");
+            setTx(approveTx);
 
-            await (await buyTx).wait();
-          } finally {
-            setBuyInProgress(false);
+            await (await approveTx).wait();
           }
-        }
-      };
 
-      runBuy();
-    },
-    [
-      isAmountValid,
-      setBuyInProgress,
-      setError,
-      setShowWarning,
-      setWarningMessage,
-      setTx,
-      setTxInProgressMessage,
-      setTxSuccessMessage,
-      signer,
-      poolId,
-      currentPoolInfo,
-      amount,
-      code
-    ]
-  );
+          const buyTx = buy(
+            signer,
+            +poolId,
+            currentPoolInfo!.token,
+            amount!,
+            code
+          );
+
+          setTxInProgressMessage("Waiting for Buy transation to be completed");
+          setTxSuccessMessage("Purchase successful!");
+          setTx(buyTx);
+
+          await (await buyTx).wait();
+        } finally {
+          setBuyInProgress(false);
+        }
+      }
+    };
+
+    runBuy();
+  }, [
+    isAmountValid,
+    setBuyInProgress,
+    setError,
+    setShowWarning,
+    setWarningMessage,
+    setTx,
+    setTxInProgressMessage,
+    setTxSuccessMessage,
+    signer,
+    poolId,
+    currentPoolInfo,
+    amount,
+    code
+  ]);
 
   if (error) {
     return (
@@ -311,79 +307,105 @@ const BuyPageWrapper = (props: Props) => {
   }, [currentPoolInfo]);
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 bg-[rgba(25,96,255,0.6)]">
-      {isConnected && (
-        <button
-          onClick={() => disconnect()}
-          className="buy-button absolute top-0 right-3 w-[100px] h-[40px] text-xs p-1"
-        >
-          Disconnect wallet
-        </button>
-      )}
-      <div className="voucher-wrapper din mb-[50px] flex w-full flex-wrap">
-        <div className="voucher-text-input-wrapper grow p-10 flex flex-col items-center max-w-[500px]">
-          <div className="buy-heading-text">
-            {currentPoolInfo?.projectInfo?.name || "Loading..."}
-          </div>
-          <div className="buy-main-text w-full aeroport text-justify">
-            {currentPoolInfo?.projectInfo?.description ||
-              "Loading description..."}
-          </div>
-          {isConnected ? (
-            <div className="relative buy-wrapper-main w-full">
-              <Input tokenName={currentPoolInfo?.token.symbol} imageSrc={currentPoolInfo?.token.logo} amount={amount} amountUpdated={setAmount} />
-              <div className="h-[5px]" />
-              <div className="phoenix-imgae-token-wrapper"><Input tokenName={"Voucher"} imageSrc={VoucherICON.src} amount={amountVouchers} amountUpdated={setAmountVouchers} /></div>
-              <div className="aeroport text-xs mt-2 h-[40px] w-full flex flex-row items-between">
-                <div>
-                  <div className="text-left z-10 w-[250px]">{conversionRateText}</div>
-                </div>
-                <div className="text-red-800 text-right">
-                  {showWarning ? warningMessage : ""}
-                </div>
+    <div className=" m-4">
+      <div className="flex flex-col items-center justify-center bg-[rgba(25,96,255,0.6)] md:0 rounded-[4px] w-fit md:m-auto">
+        {isConnected && (
+          <button
+            onClick={() => disconnect()}
+            className="buy-button absolute top-0 right-3 w-[100px] h-[40px] text-xs p-1"
+          >
+            Disconnect wallet
+          </button>
+        )}
+        <div className="voucher-wrapper din mb-0 flex w-full flex-wrap ">
+          <div className="voucher-text-input-wrapper grow md:p-10 p-6 flex flex-col items-center">
+            <div className="flex flex-row justify-start items-center w-full">
+              <div className="mini-blue-box w-[64px] h-[64px] rounded-full flex justify-center items-center">
+                <Image
+                  src={PhoenixBlueBox.src}
+                  width={37}
+                  height={43}
+                  alt="project-logo"
+                />
               </div>
-              <div className="w-full flex flex-row flex-wrap justify-between gap-y-2">
-                <div className="md:w-auto w-full">
-                  <input
-                    className="buy-input-main code-input mt-0 text-white placeholder-white/50 w-full"
-                    value={code ?? ""}
-                    placeholder="Referral Code"
-                    onChange={(e: any) => setCode(e.target.value || null)}
+              <div className="buy-heading-text ml-[24px]">
+                {currentPoolInfo?.projectInfo?.name || "Loading..."}
+              </div>
+            </div>
+            <div className="buy-main-text w-full aeroport text-justify">
+              {currentPoolInfo?.projectInfo?.description ||
+                "Loading description..."}
+            </div>
+            {isConnected ? (
+              <div className="relative buy-wrapper-main w-full">
+                <Input
+                  tokenName={currentPoolInfo?.token.symbol}
+                  imageSrc={currentPoolInfo?.token.logo}
+                  amount={amount}
+                  amountUpdated={setAmount}
+                />
+                <div className="h-[5px]" />
+                <div className="phoenix-imgae-token-wrapper">
+                  <Input
+                    tokenName={"Voucher"}
+                    imageSrc={VoucherICON.src}
+                    amount={amountVouchers}
+                    amountUpdated={setAmountVouchers}
                   />
                 </div>
-                <>
-                  <BuyButton onClick={handleSubmit} />
-                </>
-              </div>
-              <div className="text-under-code">
-                {currentPoolInfo?.projectInfo?.footerText}
-              </div>
-            </div>
-          ) : (
-            <div className="text-center items-center flex flex-col justify-center">
-              <p className="mb-4">Connect your wallet to continue</p>
-              <ConnectButtonCustom />
-            </div>
-          )}
-        </div>
-        <div className="voucher-image-right relative overflow-hidden">
-          {isConnected && (
-            <div className="voucher-text-in-image">
-              <div className="currency-and-text">
-                {vouchersOwned ? (
-                  <div className="voucher-text-number font-extrabold z-10">
-                    {vouchersOwned.toString()}
+                <div className="aeroport text-xs mt-2 h-[40px] w-full flex flex-row items-between">
+                  <div>
+                    <div className="text-left z-10 w-[250px]">
+                      {conversionRateText}
+                    </div>
                   </div>
-                ) : (
-                  <div>Loading vouchers...</div>
-                )}
-                <div className="voucher-text-text z-10">
-                  {currentPoolInfo?.projectInfo?.name}
+                  <div className="text-red-800 text-right">
+                    {showWarning ? warningMessage : ""}
+                  </div>
+                </div>
+                <div className="w-full flex flex-row flex-wrap justify-between gap-y-2">
+                  <div className="md:w-auto w-full">
+                    <input
+                      className="buy-input-main code-input mt-0 text-white placeholder-white/50 w-full"
+                      value={code ?? ""}
+                      placeholder="Referral Code"
+                      onChange={(e: any) => setCode(e.target.value || null)}
+                    />
+                  </div>
+                  <>
+                    <BuyButton onClick={handleSubmit} />
+                  </>
+                </div>
+                <div className="text-under-code text-left">
+                  {currentPoolInfo?.projectInfo?.footerText}
                 </div>
               </div>
-            </div>
-          )}
-          <div className="voucher-phoenix-image"></div>
+            ) : (
+              <div className="text-center items-center flex flex-col justify-center">
+                <p className="mb-4">Connect your wallet to continue</p>
+                <ConnectButtonCustom />
+              </div>
+            )}
+          </div>
+          <div className="voucher-image-right relative overflow-hidden md:h-auto h-[161px]">
+            {isConnected && (
+              <div className="voucher-text-in-image">
+                <div className="currency-and-text">
+                  {vouchersOwned ? (
+                    <div className="voucher-text-number font-extrabold z-10">
+                      {vouchersOwned.toString()}
+                    </div>
+                  ) : (
+                    <div>Loading vouchers...</div>
+                  )}
+                  <div className="voucher-text-text z-10">
+                    {currentPoolInfo?.projectInfo?.name}
+                  </div>
+                </div>
+              </div>
+            )}
+            <div className="voucher-phoenix-image "></div>
+          </div>
         </div>
       </div>
       {isConnected && (
