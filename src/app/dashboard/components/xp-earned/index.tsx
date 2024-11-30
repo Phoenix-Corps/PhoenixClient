@@ -105,7 +105,6 @@ const XPearned: React.FC = () => {
         successMessage={"Successfully upgrated rank"}
         txPromise={txPromise}
         onTxDone={upgradeLevelDone}
-        onClose={() => {}}
       />
     </div>
   );

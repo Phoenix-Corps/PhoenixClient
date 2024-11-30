@@ -218,7 +218,6 @@ const Home: NextPage = () => {
           successMessage={"Successfully registered user"}
           txPromise={registerPromise}
           onTxDone={registerDone}
-          onClose={() => {}}
         />
       </div>
     </>
