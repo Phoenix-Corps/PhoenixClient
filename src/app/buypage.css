@@ -21,7 +21,7 @@ border: 1px solid rgba(169, 193, 239, 1)
 
   right: 1px;
   bottom: -135px;
-  @media (max-width: 768px) {
+  @media (max-width: 880px) {
     right: -152px;
     top: 0px;
   }
