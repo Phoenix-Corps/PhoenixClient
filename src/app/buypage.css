@@ -6,7 +6,10 @@
     height: 500px;
     min-width: 300px;
 }
-
+.phoenix-imgae-token-wrapper img{
+border-radius: 100px;
+border: 1px solid rgba(169, 193, 239, 1)
+}
 .voucher-phoenix-image {
   width: 149%;
   height: 147%;

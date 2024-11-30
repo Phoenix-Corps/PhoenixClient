@@ -26,6 +26,7 @@ import { useEthersSigner } from "@/services/useEthersSigner";
 import LoadingOverlay from "./components/loadingOverlay";
 import TransactionHandler from "./components/transactionHandler";
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
+import VoucherICON from "@/../public/buy/phoenix-coin.png";
 import { BuyButton } from "./components/BuyButton";
 import { SellerLinkBar } from "./components/SellerLinkBar";
 
@@ -319,7 +320,7 @@ const BuyPageWrapper = (props: Props) => {
           Disconnect wallet
         </button>
       )}
-      <div className="voucher-wrapper din mb-[50px] flex w-full">
+      <div className="voucher-wrapper din mb-[50px] flex w-full flex-wrap">
         <div className="voucher-text-input-wrapper grow p-10 flex flex-col items-center max-w-[500px]">
           <div className="buy-heading-text">
             {currentPoolInfo?.projectInfo?.name || "Loading..."}
@@ -332,7 +333,7 @@ const BuyPageWrapper = (props: Props) => {
             <div className="relative buy-wrapper-main w-full">
               <Input tokenName={currentPoolInfo?.token.symbol} imageSrc={currentPoolInfo?.token.logo} amount={amount} amountUpdated={setAmount} />
               <div className="h-[5px]" />
-              <Input tokenName={"Voucher"} imageSrc={currentPoolInfo?.projectInfo?.logo} amount={amountVouchers} amountUpdated={setAmountVouchers} />
+              <div className="phoenix-imgae-token-wrapper"><Input tokenName={"Voucher"} imageSrc={VoucherICON.src} amount={amountVouchers} amountUpdated={setAmountVouchers} /></div>
               <div className="aeroport text-xs mt-2 h-[40px] w-full flex flex-row items-between">
                 <div>
                   <div className="text-left z-10 w-[250px]">{conversionRateText}</div>
@@ -341,18 +342,18 @@ const BuyPageWrapper = (props: Props) => {
                   {showWarning ? warningMessage : ""}
                 </div>
               </div>
-              <div className="w-full flex flex-row flex-wrap justify-between">
-                <div>
+              <div className="w-full flex flex-row flex-wrap justify-between gap-y-2">
+                <div className="md:w-auto w-full">
                   <input
-                    className="buy-input-main code-input mt-0 text-white placeholder-white/50"
+                    className="buy-input-main code-input mt-0 text-white placeholder-white/50 w-full"
                     value={code ?? ""}
                     placeholder="Referral Code"
                     onChange={(e: any) => setCode(e.target.value || null)}
                   />
                 </div>
-                <div>
+                <>
                   <BuyButton onClick={handleSubmit} />
-                </div>
+                </>
               </div>
               <div className="text-under-code">
                 {currentPoolInfo?.projectInfo?.footerText}
@@ -376,7 +377,7 @@ const BuyPageWrapper = (props: Props) => {
                 ) : (
                   <div>Loading vouchers...</div>
                 )}
-                <div className="voucher-text-text">
+                <div className="voucher-text-text z-10">
                   {currentPoolInfo?.projectInfo?.name}
                 </div>
               </div>
