@@ -1,7 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useMemo } from "react";
+import Image from "next/image";
+import CloseButton from "@public/close-x.svg";
 
 export interface ToastProps {
   message: string;
+  txHash?: string;
   type: "success" | "error" | "info" | "warning";
   position:
     | "top-right"
@@ -15,41 +18,11 @@ export interface ToastProps {
 
 const Toast: React.FC<ToastProps> = ({
   message,
+  txHash,
   type = "success",
   position = "top-right",
   onClose
 }) => {
-  const [progress, setProgress] = useState(0);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    startTimer();
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, []);
-
-  const startTimer = () => {
-    setProgress(0);
-    timerRef.current = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          onClose();
-          if (timerRef.current) clearInterval(timerRef.current);
-          return 100;
-        }
-        return prev + 1;
-      });
-    }, 30);
-  };
-
-  const handleMouseEnter = () => {
-    if (timerRef.current) clearInterval(timerRef.current);
-  };
-
-  const handleMouseLeave = () => {
-    startTimer();
-  };
 
   const typeStyles: Record<ToastProps["type"], string> = {
     success: "bg-green-500 text-white",
@@ -67,17 +40,31 @@ const Toast: React.FC<ToastProps> = ({
     "bottom-center": "bottom-4 left-1/2 transform -translate-x-1/2"
   };
 
+  const link = useMemo(() => {
+    if (txHash) {
+      return `https://polygonscan.com/tx/${txHash}`;
+    } else {
+      return "";
+    }
+  }, [txHash])
+
   return (
     <div
-      className={`fixed z-50 p-4 rounded shadow-lg ${typeStyles[type]} ${positionStyles[position]} transition-opacity duration-300 ease-in-out`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      className={`fixed z-50 p-4 rounded shadow-lg ${typeStyles[type]} ${positionStyles[position]} `}
     >
-      <div>{message}</div>
-      <div
-        className="absolute left-0 bottom-0 h-1 bg-gray-200"
-        style={{ width: `${progress}%`, transition: "width 0.1s linear" }}
-      />
+      <div>
+        {message}
+        &nbsp;
+        View transaction on <a href={link} target="_blank"><b>poligonscan</b></a>.
+      </div>
+      <button onClick={onClose} className="absolute top-1 right-1 w-[15px] h-[15px]">
+        <Image
+          src='/close-x.svg'
+          width={15}
+          height={15}
+          alt="project-logo"
+        />
+      </button>
     </div>
   );
 };
