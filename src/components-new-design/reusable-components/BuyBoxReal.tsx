@@ -30,7 +30,7 @@ const ProjectCard: React.FC<PoolInfo> = ({
     const day = date.getDate();
     const hour = date.getHours();
     const minut = date.getMinutes();
-    return `${month} ${day} - ${hour}:${minut}`;
+    return `${month} ${day} - ${hour}:${minut.toString().padStart(2, "0")}`;
   };
 
   return (
@@ -73,7 +73,7 @@ const ProjectCard: React.FC<PoolInfo> = ({
         <div className="flex justify-between items-center aeroport font-normal text-[16px] leading-[20px] text-white">
           <div className="opacity-60">Round Raised:</div>
           <div className="din font-bold leading-[48px] text-[40px] tracking-[-0.02px]">
-            {percentage.toString()}%
+            {percentage.toFixed(2)}%
           </div>
         </div>
 
