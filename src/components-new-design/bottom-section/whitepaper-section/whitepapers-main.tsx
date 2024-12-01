@@ -10,7 +10,7 @@ const WhitepapersSection: React.FC = () => {
         </h4>
       </div>
       <div className="pb-3 flex gap-2 flex-col justify-center items-center">
-        <Whitepaper text="FOR REPRESENTATIVES" />
+        <Whitepaper text="FOR REPRESENTATIVES" link="/home/phoenix_whitepaper.pdf" />
         <Whitepaper text="FOR PROJECTS AND STARTUPS" />
         <Whitepaper text="FOR INVESTORS" />
       </div>

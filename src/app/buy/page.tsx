@@ -358,7 +358,7 @@ const BuyPageWrapper = (props: Props) => {
                       {conversionRateText}
                     </div>
                   </div>
-                  <div className="text-red text-right">
+                  <div className="text-red-800 text-right">
                     {showWarning ? warningMessage : ""}
                   </div>
                 </div>
