@@ -1,9 +1,13 @@
 [
   {
     "id": 0,
-    "name": "Phoenix Beta",
-    "logo": "/images/phoenix.png",
-    "description": "Participate in beta testing of the Phoenix platform, be the first to try it and earn rewards upon release.",
-    "footerText": "Note: This project uses mock USDC as payment token, no real tokens required to participate. The vouchers purchased will not be redeamable!"
+    "name": "Immutable AI Labs",
+    "description": " Immutable Labs envisions a thriving, open, AI ecosystem. It offers a decentralized AI ecosystem powered by a decentralized computing network. Immutable Labs is expanding the AI landscape with a sustainable, ethical, and decentralized ecosystem owned by the community that is far more accessible from a cost and capabilities perspective.",
+    "footerText": "Immutable Labs operates on the Green Proof of Work framework to allow all this to happen",
+    "logo": "/images/immutable_ai_labs_logo.jpeg",
+    "website": "https://immu.ai/",
+    "discord": "https://discord.com/invite/YbP84Z9P",
+    "twitter": "https://x.com/ImmutableAILabs",
+    "telegram": "https://t.me/+3QyULAAZpNU3OGQ0"
   }
 ]

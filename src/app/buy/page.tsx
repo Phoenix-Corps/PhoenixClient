@@ -31,6 +31,7 @@ import VoucherICON from "@/../public/buy/phoenix-coin.png";
 import { BuyButton } from "./components/BuyButton";
 import { SellerLinkBar } from "./components/SellerLinkBar";
 import Decimal from "decimal.js";
+import Footer from "./components/footer";
 
 type Props = {};
 
@@ -48,7 +49,6 @@ const Input = (props: {
         placeholder="0.00"
         onChange={(e: any) => props.amountUpdated(e.target.value || null)}
       />
-      {/* <div className="h-8 w-px bg-white/50 mx-2"></div> */}
       {props.imageSrc ? (
         <>
           <Image
@@ -78,8 +78,6 @@ const BuyPageWrapper = (props: Props) => {
   const [txSuccessMessage, setTxSuccessMessage] = useState<string>("");
 
   const [buyInProgress, setBuyInProgress] = useState<boolean>(false);
-
-  const [isCodeCopied, setIsCodeCopied] = useState(false);
 
   const [amount, setAmount] = useState<number | null>(null);
   const [amountVouchers, setAmountVouchers] = useState<number | null>(null);
@@ -111,8 +109,6 @@ const BuyPageWrapper = (props: Props) => {
 
   const {
     data: balanceData,
-    isError,
-    isLoading
   } = useBalance({ address, token: currentPoolInfo?.token.address! as any });
   const normalizedBalance = balanceData ? parseFloat(balanceData.formatted) : 0;
 
@@ -322,12 +318,14 @@ const BuyPageWrapper = (props: Props) => {
           <div className="voucher-text-input-wrapper grow md:p-10 p-6 flex flex-col items-center">
             <div className="flex flex-row justify-start items-center w-full">
               <div className="mini-blue-box w-[64px] h-[64px] rounded-full flex justify-center items-center">
-                <Image
-                  src={PhoenixBlueBox.src}
-                  width={37}
-                  height={43}
-                  alt="project-logo"
-                />
+                <a href={currentPoolInfo?.projectInfo?.website} target="_blank" >
+                  <Image
+                    src={currentPoolInfo?.projectInfo?.logo ?? PhoenixBlueBox.src}
+                    width={37}
+                    height={43}
+                    alt="project-logo"
+                  />
+                </a>
               </div>
               <div className="buy-heading-text ml-[24px]">
                 {currentPoolInfo?.projectInfo?.name || "Loading..."}
@@ -349,7 +347,7 @@ const BuyPageWrapper = (props: Props) => {
                 <div className="phoenix-imgae-token-wrapper">
                   <Input
                     tokenName={"Voucher"}
-                    imageSrc={VoucherICON.src}
+                    imageSrc={currentPoolInfo?.projectInfo?.logo ?? VoucherICON.src}
                     amount={amountVouchers}
                     amountUpdated={setAmountVouchers}
                   />
@@ -360,7 +358,7 @@ const BuyPageWrapper = (props: Props) => {
                       {conversionRateText}
                     </div>
                   </div>
-                  <div className="text-red-800 text-right">
+                  <div className="text-red text-right">
                     {showWarning ? warningMessage : ""}
                   </div>
                 </div>
@@ -416,6 +414,7 @@ const BuyPageWrapper = (props: Props) => {
           )}
         </>
       )}
+      <Footer poolInfo={currentPoolInfo} />
       <TransactionHandler
         txPromise={tx}
         loadingMessage={txInProgressMessage}

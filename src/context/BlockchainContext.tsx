@@ -14,6 +14,7 @@ export interface BlockchainContextType {
   poolInfo: PoolInfo[];
   fetchPoolInfoById: (id: string) => Promise<PoolInfo | undefined>;
   fetchAllPoolInfo: () => Promise<PoolInfo[]>;
+  getPoolInfoById: (id: string) => PoolInfo | undefined;
   loading: boolean;
 }
 
@@ -46,7 +47,9 @@ export const BlockchainProvider: React.FC<{ children: ReactNode }> = ({
       setLoading(true);
       try {
         const data = await getPoolInfo(provider, parseInt(id));
-        setPoolInfoMap(prevMap => new Map(prevMap).set(id, data));
+        if (data) {
+          setPoolInfoMap(prevMap => new Map(prevMap).set(id, data));
+        }
         return data;
       } catch (error) {
         console.error("Error fetching pool info:", error);
@@ -57,6 +60,10 @@ export const BlockchainProvider: React.FC<{ children: ReactNode }> = ({
     },
     [poolInfoMap, provider]
   );
+
+  const getPoolInfoById = useCallback((id: string) => {
+    return poolInfoMap.get(id);
+  }, [poolInfoMap])
 
   const fetchAllPoolInfo = useCallback(async (): Promise<PoolInfo[]> => {
     if (!provider) {
@@ -92,6 +99,7 @@ export const BlockchainProvider: React.FC<{ children: ReactNode }> = ({
         poolInfo: Array.from(poolInfoMap.values()),
         fetchPoolInfoById,
         fetchAllPoolInfo,
+        getPoolInfoById,
         loading
       }}
     >

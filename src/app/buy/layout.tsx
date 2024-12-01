@@ -14,7 +14,6 @@ export default function RootLayout({
       <div className="min-h-screen main-air-wrapper text-white">
         <Header />
         {children}
-        <Footer />
       </div>
     </div>
   );

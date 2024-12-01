@@ -23,6 +23,10 @@ interface ProjectInfo {
   description: string;
   footerText: string;
   logo: string;
+  website: string;
+  discord: string;
+  twitter: string;
+  telegram: string;
 }
 
 interface TokenInfo {
