@@ -97,7 +97,7 @@ const RecruitMenu = ({ onClose }: RecruitMenuProps) => {
           <div className="text-4xl font-bold text-gray-800">{selectedRank?.hireCost.toString() ?? "N/A"}</div>
           <div className="text-gray-600 mb-8">Required XP</div>
           <div className="text-4xl font-bold text-gray-800">{selectedRank?.vouchers ?? "N/A"}</div>
-          <div className="text-gray-600">Vouchers</div>
+          <div className="text-gray-600">Free Recruitments</div>
         </div>
 
         <div className="w-2/3 bg-gradient-to-r from-[#1F354F] to-[#28425D] p-6 flex flex-col items-center">
