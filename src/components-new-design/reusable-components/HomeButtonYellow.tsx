@@ -10,6 +10,7 @@ type Props = {
   onClick?: () => void,
   miniBox?: boolean;
   width?: number;
+  target?: string;
 };
 
 const ButtonYellow: React.FC<Props> = ({
@@ -18,12 +19,13 @@ const ButtonYellow: React.FC<Props> = ({
   link,
   onClick,
   miniBox,
-  width
+  width,
+  target,
 }) => {
   const widthClass = `w-[${width ?? 300}px]`;
   return (
     <div>
-      <Link href={link ?? ""}>
+      <Link href={link ?? ""} target={target}>
         <button
           className={`
             flex din button-front-yellow justify-center items-center text-[28px] p-4 rounded w-[300px]

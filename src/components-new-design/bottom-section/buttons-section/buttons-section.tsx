@@ -16,8 +16,8 @@ export const ButtonsSection = () => {
         <div className="flex flex-col md:flex-row w-full justify-between flex-wrap gap-10  items-center">
             <div className="flex flex-col flex-wrap gap-5 md:flex-row items-center">
                 <ButtonYellow width={280} mainText={"Open Dashboard"} link={"/dashboard"} rightText={"Sign Up"} />
-                <ButtonYellow width={280} mainText={"Project / Startup"} link={"/"} rightText={"Sign Up"} />
-                <ButtonYellow width={280} mainText={"Manage a team"} link={"/"} rightText={"Apply"} />
+                <ButtonYellow width={280} mainText={"Project / Startup"} link="https://forms.gle/SMdyUtL5EmpYqhUs9" target="_blank" rightText={"Sign Up"} />
+                <ButtonYellow width={280} mainText={"Manage a team"} link="https://forms.gle/YeXAcFQCXRtkhiCa7" target="_blank" rightText={"Apply"} />
             </div>
             <div className="text-[#00ffff]">
                 <ButtonHollow mainText={"READ THE DOCS"} link={"/"} />

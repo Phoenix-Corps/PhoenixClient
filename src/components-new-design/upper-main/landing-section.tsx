@@ -17,7 +17,8 @@ export const LandingSection = () => {
             <ButtonYellow
                 mainText="PROJECT / START UP"
                 rightText="SIGN UP"
-                link={"/dashboard"}
+                link={"https://forms.gle/SMdyUtL5EmpYqhUs9"}
+                target="_blank"
             />
         </div>
         <div className=" mt-4 flex justify-center">
