@@ -54,7 +54,9 @@ const RecruitMenu = ({ onClose }: RecruitMenuProps) => {
     if (!userInfo || !selectedRank) {
       return false;
     }
-    return userInfo.canHire && userInfo.currentXP > selectedRank.hireCost;
+    const xpOk = userInfo.currentXP > selectedRank.hireCost;
+    const vouchersOk = selectedRank?.vouchers > 0;
+    return userInfo.canHire && (xpOk || vouchersOk);
   }, [hireInProgress, recruitAddressValid, userInfo, selectedRank]);
 
   const handleDropdownToggle = () => {
