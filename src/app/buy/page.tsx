@@ -122,18 +122,17 @@ const BuyPageWrapper = (props: Props) => {
   }, [walletAddress]);
 
   const urlForCopy = useMemo(() => {
-    if (userInfo?.referralCode && currentPoolInfo?.projectInfo?.id) {
+    if (userInfo?.referralCode && poolId) {
       const { origin, pathname } = window.location;
       const host = origin + pathname;
       const poolIdRefCode =
         "?poolId=" +
-        currentPoolInfo.projectInfo.id +
+        poolId +
         "&code=" +
         userInfo.referralCode;
-      console.log(poolIdRefCode);
       return host + poolIdRefCode;
     } else {
-      return "";
+      return null;
     }
   }, [userInfo, currentPoolInfo]);
 
@@ -386,16 +385,18 @@ const BuyPageWrapper = (props: Props) => {
                     <BuyButton onClick={handleSubmit} />
                   </>
                 </div>
-                <div className="text-left flex flex-row gap-[5px] p-1">
-                  <Checkbox className="w-[20px] h-[20px] p-1 border border-white" checked={termsAccepted} required={true} onCheckedChange={(checked) => setTermsAccepted(checked == "indeterminate" ? false : checked)} />
-                  <div>
-                    I agree to the <a href="/termsofagreement_general.html" target="_blank"><b><u>terms of agreement</u></b></a>.
+                <div className="text-xs" >
+                  <div className="text-left flex flex-row gap-[5px] p-1">
+                    <Checkbox className="w-[15px] h-[15px] p-1 border border-white" checked={termsAccepted} required={true} onCheckedChange={(checked) => setTermsAccepted(checked == "indeterminate" ? false : checked)} />
+                    <div>
+                      I agree to the <a href="/terms.html" target="_blank"><b><u>terms of agreement</u></b></a>.
+                    </div>
                   </div>
-                </div>
-                <div className="text-left flex flex-row gap-[5px] p-1">
-                  <Checkbox className="w-[20px] h-[20px] p-1 border border-white" checked={countryAccepted} required={true} onCheckedChange={(checked) => setCountryAccepted(checked == "indeterminate" ? false : checked)} />
-                  <div>
-                    I confirm that I am not located in or associated with OFAC-sanctioned countries and agree to the terms and conditions <a href="/termsofagreement_country.html" target="_blank"><b><u>[Read More]</u></b></a>.
+                  <div className="text-left flex flex-row gap-[5px] p-1">
+                    <Checkbox className="w-[15px] h-[15px] p-1 border border-white" checked={countryAccepted} required={true} onCheckedChange={(checked) => setCountryAccepted(checked == "indeterminate" ? false : checked)} />
+                    <div>
+                      I confirm that I am not located in or associated with OFAC-sanctioned countries and agree to the terms and conditions <a href="/countryrestrictions.html" target="_blank"><b><u>[Read More]</u></b></a>.
+                    </div>
                   </div>
                 </div>
                 <div className="text-under-code text-left">
@@ -432,7 +433,7 @@ const BuyPageWrapper = (props: Props) => {
       </div>
       {isConnected && (
         <>
-          {currentPoolInfo?.currentRound.id && userInfo?.referralCode && (
+          {urlForCopy && (
             <SellerLinkBar url={urlForCopy} />
           )}
         </>
