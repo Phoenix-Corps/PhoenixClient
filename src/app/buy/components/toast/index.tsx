@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import Image from "next/image";
 import CloseButton from "@public/close-x.svg";
+import { useAccount } from "wagmi";
 
 export interface ToastProps {
   message: string;
@@ -39,13 +40,15 @@ const Toast: React.FC<ToastProps> = ({
     "bottom-center": "bottom-4 left-1/2 transform -translate-x-1/2"
   };
 
+  const acc = useAccount();
+
   const link = useMemo(() => {
     if (txHash) {
-      return `https://basescan.org/tx/${txHash}`;
+      return `${acc.chain?.blockExplorers?.default.apiUrl}/tx/${txHash}`;
     } else {
       return "";
     }
-  }, [txHash]);
+  }, [txHash, acc]);
 
   return (
     <div
