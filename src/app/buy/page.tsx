@@ -32,6 +32,7 @@ import { BuyButton } from "./components/BuyButton";
 import { SellerLinkBar } from "./components/SellerLinkBar";
 import Decimal from "decimal.js";
 import Footer from "./components/footer";
+import { Checkbox } from "@radix-ui/themes";
 
 type Props = {};
 
@@ -78,6 +79,8 @@ const BuyPageWrapper = (props: Props) => {
   const [txSuccessMessage, setTxSuccessMessage] = useState<string>("");
 
   const [buyInProgress, setBuyInProgress] = useState<boolean>(false);
+  const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
+  const [countryAccepted, setCountryAccepted] = useState<boolean>(false);
 
   const [amount, setAmount] = useState<number | null>(null);
   const [amountVouchers, setAmountVouchers] = useState<number | null>(null);
@@ -216,6 +219,14 @@ const BuyPageWrapper = (props: Props) => {
       // e.preventDefault();
       setShowWarning(false);
       setWarningMessage("");
+
+      if (!termsAccepted || !countryAccepted) {
+        setShowWarning(true);
+        setWarningMessage(
+          "Please accept the terms of use!"
+        );
+        return;
+      }
 
       if (!isAmountValid()) {
         setShowWarning(true);
@@ -358,7 +369,7 @@ const BuyPageWrapper = (props: Props) => {
                       {conversionRateText}
                     </div>
                   </div>
-                  <div className="text-red-800 text-right">
+                  <div className="text-red-300 text-right">
                     {showWarning ? warningMessage : ""}
                   </div>
                 </div>
@@ -374,6 +385,18 @@ const BuyPageWrapper = (props: Props) => {
                   <>
                     <BuyButton onClick={handleSubmit} />
                   </>
+                </div>
+                <div className="text-left flex flex-row gap-[5px] p-1">
+                  <Checkbox className="w-[20px] h-[20px] p-1 border border-white" checked={termsAccepted} required={true} onCheckedChange={(checked) => setTermsAccepted(checked == "indeterminate" ? false : checked)} />
+                  <div>
+                    I agree to the <a href="/termsofagreement_general.html" target="_blank"><b><u>terms of agreement</u></b></a>.
+                  </div>
+                </div>
+                <div className="text-left flex flex-row gap-[5px] p-1">
+                  <Checkbox className="w-[20px] h-[20px] p-1 border border-white" checked={countryAccepted} required={true} onCheckedChange={(checked) => setCountryAccepted(checked == "indeterminate" ? false : checked)} />
+                  <div>
+                    I confirm that I am not located in or associated with OFAC-sanctioned countries and agree to the terms and conditions <a href="/termsofagreement_country.html" target="_blank"><b><u>[Read More]</u></b></a>.
+                  </div>
                 </div>
                 <div className="text-under-code text-left">
                   {currentPoolInfo?.projectInfo?.footerText}
