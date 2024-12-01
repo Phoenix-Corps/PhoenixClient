@@ -20,7 +20,7 @@ import React, {
   useState
 } from "react";
 import { useAccount, useBalance, useDisconnect } from "wagmi";
-import ConnectButtonCustom from "./components/connectButtonCustom";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { BigNumber } from "ethers";
 import { useEthersSigner } from "@/services/useEthersSigner";
 import LoadingOverlay from "./components/loadingOverlay";
@@ -384,7 +384,7 @@ const BuyPageWrapper = (props: Props) => {
             ) : (
               <div className="text-center items-center flex flex-col justify-center">
                 <p className="mb-4">Connect your wallet to continue</p>
-                <ConnectButtonCustom />
+                <ConnectButton />
               </div>
             )}
           </div>
