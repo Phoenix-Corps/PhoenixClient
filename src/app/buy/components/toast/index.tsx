@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import Image from "next/image";
-import CloseButton from "@public/close-x.svg";
 import { useAccount } from "wagmi";
 
 export interface ToastProps {
@@ -66,7 +65,12 @@ const Toast: React.FC<ToastProps> = ({
         onClick={onClose}
         className="absolute top-1 right-1 w-[15px] h-[15px]"
       >
-        <Image src="/close-x.svg" width={15} height={15} alt="project-logo" />
+        <Image
+          src="/icons/close-x.svg"
+          width={15}
+          height={15}
+          alt="project-logo"
+        />
       </button>
     </div>
   );

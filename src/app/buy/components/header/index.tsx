@@ -1,5 +1,5 @@
 import React from "react";
-import { Logo } from "@/components-new-design/reusable-components/Logo";
+import { Logo } from "@/components/reusable-components/Logo";
 
 const Header = () => {
   return (

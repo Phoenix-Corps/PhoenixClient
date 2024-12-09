@@ -1,7 +1,7 @@
 "use client";
 
-import { useBlockchainContext } from "@/context/BlockchainContext";
-import { useDashboardContext } from "@/context/DashboardContext";
+import { useBlockchainContext } from "@/components/context/BlockchainContext";
+import { useDashboardContext } from "@/components/context/DashboardContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
 import {
   PoolInfo,
@@ -31,7 +31,7 @@ import VoucherICON from "@/../public/buy/phoenix-coin.png";
 import { BuyButton } from "./components/BuyButton";
 import { SellerLinkBar } from "./components/SellerLinkBar";
 import Decimal from "decimal.js";
-import Footer from "./components/footer";
+import Footer from "./components/footer/Footer";
 import { Checkbox } from "@radix-ui/themes";
 
 type Props = {};
@@ -110,9 +110,10 @@ const BuyPageWrapper = (props: Props) => {
     undefined
   );
 
-  const {
-    data: balanceData,
-  } = useBalance({ address, token: currentPoolInfo?.token.address! as any });
+  const { data: balanceData } = useBalance({
+    address,
+    token: currentPoolInfo?.token.address! as any
+  });
   const normalizedBalance = balanceData ? parseFloat(balanceData.formatted) : 0;
 
   useEffect(() => {
@@ -126,10 +127,7 @@ const BuyPageWrapper = (props: Props) => {
       const { origin, pathname } = window.location;
       const host = origin + pathname;
       const poolIdRefCode =
-        "?poolId=" +
-        poolId +
-        "&code=" +
-        userInfo.referralCode;
+        "?poolId=" + poolId + "&code=" + userInfo.referralCode;
       return host + poolIdRefCode;
     } else {
       return null;
@@ -221,9 +219,7 @@ const BuyPageWrapper = (props: Props) => {
 
       if (!termsAccepted || !countryAccepted) {
         setShowWarning(true);
-        setWarningMessage(
-          "Please accept the terms of use!"
-        );
+        setWarningMessage("Please accept the terms of use!");
         return;
       }
 
@@ -328,9 +324,11 @@ const BuyPageWrapper = (props: Props) => {
           <div className="voucher-text-input-wrapper grow md:p-10 p-6 flex flex-col items-center">
             <div className="flex flex-row justify-start items-center w-full">
               <div className="mini-blue-box w-[64px] h-[64px] rounded-full flex justify-center items-center">
-                <a href={currentPoolInfo?.projectInfo?.website} target="_blank" >
+                <a href={currentPoolInfo?.projectInfo?.website} target="_blank">
                   <Image
-                    src={currentPoolInfo?.projectInfo?.logo ?? PhoenixBlueBox.src}
+                    src={
+                      currentPoolInfo?.projectInfo?.logo ?? PhoenixBlueBox.src
+                    }
                     width={37}
                     height={43}
                     alt="project-logo"
@@ -357,7 +355,9 @@ const BuyPageWrapper = (props: Props) => {
                 <div className="phoenix-imgae-token-wrapper">
                   <Input
                     tokenName={"Voucher"}
-                    imageSrc={currentPoolInfo?.projectInfo?.logo ?? VoucherICON.src}
+                    imageSrc={
+                      currentPoolInfo?.projectInfo?.logo ?? VoucherICON.src
+                    }
                     amount={amountVouchers}
                     amountUpdated={setAmountVouchers}
                   />
@@ -385,17 +385,49 @@ const BuyPageWrapper = (props: Props) => {
                     <BuyButton onClick={handleSubmit} />
                   </>
                 </div>
-                <div className="text-xs" >
+                <div className="text-xs">
                   <div className="text-left flex flex-row gap-[5px] p-1">
-                    <Checkbox className="w-[15px] h-[15px] p-1 border border-white" checked={termsAccepted} required={true} onCheckedChange={(checked) => setTermsAccepted(checked == "indeterminate" ? false : checked)} />
+                    <Checkbox
+                      className="w-[15px] h-[15px] p-1 border border-white"
+                      checked={termsAccepted}
+                      required={true}
+                      onCheckedChange={checked =>
+                        setTermsAccepted(
+                          checked == "indeterminate" ? false : checked
+                        )
+                      }
+                    />
                     <div>
-                      I agree to the <a href="/terms.html" target="_blank"><b><u>terms of agreement</u></b></a>.
+                      I agree to the{" "}
+                      <a href="/terms.html" target="_blank">
+                        <b>
+                          <u>terms of agreement</u>
+                        </b>
+                      </a>
+                      .
                     </div>
                   </div>
                   <div className="text-left flex flex-row gap-[5px] p-1">
-                    <Checkbox className="w-[15px] h-[15px] p-1 border border-white" checked={countryAccepted} required={true} onCheckedChange={(checked) => setCountryAccepted(checked == "indeterminate" ? false : checked)} />
+                    <Checkbox
+                      className="w-[15px] h-[15px] p-1 border border-white"
+                      checked={countryAccepted}
+                      required={true}
+                      onCheckedChange={checked =>
+                        setCountryAccepted(
+                          checked == "indeterminate" ? false : checked
+                        )
+                      }
+                    />
                     <div>
-                      I confirm that I am not located in or associated with OFAC-sanctioned countries and agree to the terms and conditions <a href="/countryrestrictions.html" target="_blank"><b><u>[Read More]</u></b></a>.
+                      I confirm that I am not located in or associated with
+                      OFAC-sanctioned countries and agree to the terms and
+                      conditions{" "}
+                      <a href="/countryrestrictions.html" target="_blank">
+                        <b>
+                          <u>[Read More]</u>
+                        </b>
+                      </a>
+                      .
                     </div>
                   </div>
                 </div>
@@ -431,13 +463,7 @@ const BuyPageWrapper = (props: Props) => {
           </div>
         </div>
       </div>
-      {isConnected && (
-        <>
-          {urlForCopy && (
-            <SellerLinkBar url={urlForCopy} />
-          )}
-        </>
-      )}
+      {isConnected && <>{urlForCopy && <SellerLinkBar url={urlForCopy} />}</>}
       <Footer poolInfo={currentPoolInfo} />
       <TransactionHandler
         txPromise={tx}

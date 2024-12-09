@@ -7,14 +7,14 @@ import phoenixLogo from "@/app/dashboard/public/images/phoenix-logo.png";
 import GRADIENT_LINE from "@/app/dashboard/public/my-profile/Line 1.png";
 import HeaderLogo from "@/app/dashboard/public/images/headerLogo.png";
 import { useDisconnect, useAccount, useCall } from "wagmi";
-import { useDashboardContext } from "@/context/DashboardContext";
+import { useDashboardContext } from "@/components/context/DashboardContext";
 import DivisionGrpoup from "@/../public/dashboard/division-group.png";
 
 import { usePathname } from "next/navigation";
 
 const Header = () => {
   const pathname = usePathname();
-  const { userInfo,disconnectUserInfo } = useDashboardContext();
+  const { userInfo, disconnectUserInfo } = useDashboardContext();
   const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const [isCollapsed, setCollapsed] = useState(false);

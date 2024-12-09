@@ -42,15 +42,18 @@
 }
 
 @import url("./home.css");
-@import url("../components/hero/hero.css");
-@import url("../components/footer/footer.css");
-@import url("../components/dropdown/dropdown.css");
-@import url("../components/heading/heading.css");
-@import url("../components/community/community.css");
-@import url("../components/representative/representative.css");
-@import url("../components/components.css");
-@import url("./buypage.css");
-@import url("../components-new-design/upper-main/upper-main.css");
-@import url("../components-new-design/benefits-main/benefits-main.css");
-@import url("../components-new-design/community-main/community-main.css");
-@import url("../components-new-design/bottom-section/bottom-section.css");
+@import url("../components/pages/home/upper-main/upper-main.css");
+@import url("../components/pages/home/benefits-main/benefits-main.css");
+@import url("../components/pages/home/community-main/community-main.css");
+@import url("../components/pages/home/bottom-section/bottom-section.css");
+
+@import url("./buy/buypage.css");
+
+
+@import url("../OLD-components/hero/hero.css");
+@import url("../OLD-components/footer/footer.css");
+@import url("../OLD-components/dropdown/dropdown.css");
+@import url("../OLD-components/heading/heading.css");
+@import url("../OLD-components/community/community.css");
+@import url("../OLD-components/representative/representative.css");
+@import url("../OLD-components/components.css");

@@ -2,26 +2,25 @@
 import React, { ReactNode, use, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useDashboardContext } from "@/context/DashboardContext";
+import { useDashboardContext } from "@/components/context/DashboardContext";
 type Props = {
   children: ReactNode;
 };
 
 const TeamWrapper: React.FC<Props> = ({ children }) => {
-  const {  userInfo, walletAddress, fetchUserInfo } =
-    useDashboardContext();
+  const { userInfo, walletAddress, fetchUserInfo } = useDashboardContext();
 
   const [error, setError] = useState<string>("");
   const { isConnected } = useAccount();
   const [imageWidth, setImageWidth] = useState(1440);
   const [imageHeight, setImageHeight] = useState(2579);
-  useEffect(() => { 
+  useEffect(() => {
     if (walletAddress) {
       fetchUserInfo(walletAddress).catch(e => {
         setError(e.message);
       });
     }
-  }, [isConnected,userInfo]);
+  }, [isConnected, userInfo]);
   const [containerHeight, setContainerHeight] = useState(0);
 
   useEffect(() => {

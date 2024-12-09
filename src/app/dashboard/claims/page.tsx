@@ -6,12 +6,10 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import ClaimsTable from "./ClaimsTable";
 
-import { useDashboardContext } from "@/context/DashboardContext";
+import { useDashboardContext } from "@/components/context/DashboardContext";
 const Claims = () => {
-
-  const { userInfo } =
-    useDashboardContext();
-    console.log(userInfo);
+  const { userInfo } = useDashboardContext();
+  console.log(userInfo);
   // useEffect(() => {
   //   if (walletAddress) {
   //     fetchUserInfo(walletAddress);

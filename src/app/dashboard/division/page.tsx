@@ -2,12 +2,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import "./division.css";
-import { useDashboardContext } from "@/context/DashboardContext";
+import { useDashboardContext } from "@/components/context/DashboardContext";
 import DivisionTable from "./DivisionTable";
 import RecruitMenu from "./RecruitMenu";
 
 const Division = () => {
-
   const [showRecruitMenu, setShowRecruitMenu] = useState(false);
   return (
     <div className="mt-28 md:mt-20 lg:mt-36 px-4 md:px-24">
@@ -27,7 +26,7 @@ const Division = () => {
       {showRecruitMenu && (
         <RecruitMenu onClose={() => setShowRecruitMenu(false)} />
       )}
-  
+
       <DivisionTable />
     </div>
   );

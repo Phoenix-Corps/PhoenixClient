@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState, useMemo, useCallback } from "react";
 import Image from "next/image";
 import { claim, PoolInfo } from "@/services/walletService";
-import { useBlockchainContext } from "@/context/BlockchainContext";
-import { useDashboardContext } from "@/context/DashboardContext";
+import { useBlockchainContext } from "@/components/context/BlockchainContext";
+import { useDashboardContext } from "@/components/context/DashboardContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
 import Decimal from "decimal.js";
 import TransactionHandler from "@/app/buy/components/transactionHandler";
@@ -10,7 +10,8 @@ import { useEthersSigner } from "@/services/useEthersSigner";
 
 const ClaimsTable: React.FC = () => {
   const { fetchAllPoolInfo } = useBlockchainContext();
-  const { fetchClaimInfo, resetClaimInfo, claimInfo, userInfo } = useDashboardContext();
+  const { fetchClaimInfo, resetClaimInfo, claimInfo, userInfo } =
+    useDashboardContext();
   const provider = useEthersProvider();
   const signer = useEthersSigner();
   const [projects, setProjects] = useState<PoolInfo[]>([]);
@@ -23,10 +24,10 @@ const ClaimsTable: React.FC = () => {
       fetchClaimInfo(userInfo.address);
     }
     fetchAllPoolInfo()
-      .then((poolData) => {
+      .then(poolData => {
         setProjects(poolData);
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
   }, [userInfo, provider]);
@@ -34,9 +35,9 @@ const ClaimsTable: React.FC = () => {
   const claimsData = useMemo(() => {
     if (claimInfo && projects && claimInfo.length > 0 && projects.length > 0) {
       return projects.map((project, index) => {
-        const projClaim = claimInfo[index]; 
+        const projClaim = claimInfo[index];
         if (!projClaim) {
-          return null; 
+          return null;
         }
         let status = "";
         let color = "";
@@ -66,13 +67,15 @@ const ClaimsTable: React.FC = () => {
           amount = totalPayment;
         }
 
-        const amountFormatted = amount.dividedBy(Decimal.pow(10, tokenDecimals));
+        const amountFormatted = amount.dividedBy(
+          Decimal.pow(10, tokenDecimals)
+        );
 
         return {
           project,
           status,
           color,
-          amount: amountFormatted,
+          amount: amountFormatted
         };
       });
     } else {
@@ -80,21 +83,27 @@ const ClaimsTable: React.FC = () => {
     }
   }, [claimInfo, projects]);
 
-  const triggerClaim = useCallback((id: number) => {
-    if (signer) {
-      setClaimInProgress(true);
-      const tx = claim(signer, id);
-      setClaimTx(tx);
-    }
-  }, [signer, setClaimInProgress, setClaimTx]);
+  const triggerClaim = useCallback(
+    (id: number) => {
+      if (signer) {
+        setClaimInProgress(true);
+        const tx = claim(signer, id);
+        setClaimTx(tx);
+      }
+    },
+    [signer, setClaimInProgress, setClaimTx]
+  );
 
-  const onClaimDone = useCallback((success: boolean) => {
-    if (success && userInfo) {
-      resetClaimInfo(userInfo.address);
-    }
-    setClaimTx(undefined);
-    setClaimInProgress(false);
-  }, [userInfo, resetClaimInfo, setClaimInProgress, setClaimTx]);
+  const onClaimDone = useCallback(
+    (success: boolean) => {
+      if (success && userInfo) {
+        resetClaimInfo(userInfo.address);
+      }
+      setClaimTx(undefined);
+      setClaimInProgress(false);
+    },
+    [userInfo, resetClaimInfo, setClaimInProgress, setClaimTx]
+  );
 
   return (
     <>
@@ -119,7 +128,9 @@ const ClaimsTable: React.FC = () => {
                 (data, index) =>
                   data && (
                     <tr key={index} className="border-b">
-                      <td className="p-4 pl-0">{data.project.projectInfo?.name}</td>
+                      <td className="p-4 pl-0">
+                        {data.project.projectInfo?.name}
+                      </td>
                       <td className="p-4 pl-0 flex flex-wrap gap-4">
                         <div
                           key={data.project.id}
@@ -140,7 +151,13 @@ const ClaimsTable: React.FC = () => {
                       <td key={index}>
                         <div className={`btn-${data.color}-grad-container`}>
                           {data.status === "CLAIMABLE" ? (
-                            <button disabled={claimInProgress} className={`btn-${data.color}-grad px-10`} onClick={() => { triggerClaim(data.project.id); }}>
+                            <button
+                              disabled={claimInProgress}
+                              className={`btn-${data.color}-grad px-10`}
+                              onClick={() => {
+                                triggerClaim(data.project.id);
+                              }}
+                            >
                               <span className={`btn-${data.color}-grad-text`}>
                                 {data.status}
                               </span>
@@ -160,7 +177,12 @@ const ClaimsTable: React.FC = () => {
           </tbody>
         </table>
       </div>
-      <TransactionHandler txPromise={claimTx} loadingMessage={"Claim in progress..."} successMessage={"Claim successful!"} onTxDone={onClaimDone} />
+      <TransactionHandler
+        txPromise={claimTx}
+        loadingMessage={"Claim in progress..."}
+        successMessage={"Claim successful!"}
+        onTxDone={onClaimDone}
+      />
     </>
   );
 };

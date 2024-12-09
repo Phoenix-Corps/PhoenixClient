@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 //import xp-earned.css
 import "./xp-earned.css";
 import Decimal from "decimal.js";
-import { useDashboardContext } from "@/context/DashboardContext";
+import { useDashboardContext } from "@/components/context/DashboardContext";
 import { upgradeRank } from "@/services/walletService";
 import { useEthersSigner } from "@/services/useEthersSigner";
 import TransactionHandler from "@/app/buy/components/transactionHandler";

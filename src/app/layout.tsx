@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Noto_Serif } from "next/font/google";
+import { Providers } from "@/components/context/Providers";
+
 import "./globals.css";
-import { Providers } from "@/app/providers";
 
 export const metadata: Metadata = {
   title: "Phoenix"

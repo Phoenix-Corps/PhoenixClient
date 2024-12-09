@@ -1,21 +1,22 @@
 import { BigNumber, ethers } from "ethers";
 import Decimal from "decimal.js";
 
-import contracts from "../contracts/contracts.json";
-import launchpadAbi from "../contracts/ABIs/Launchpad.json";
-import paymentPluginAbi from "../contracts/ABIs/PaymentPlugin.json";
-import voucherPluginAbi from "../contracts/ABIs/VoucherPlugin.json";
-import erc20Abi from "../contracts/ABIs/ERC20.json";
+import contracts from "../config/contracts.json";
+import rankNames from "../config/rankNames.json";
 
-import rankToNameMappingSolo from "../config/rankToNameMappingSolo.json";
-import rankToNameMappingTeam from "../config/rankToNameMappingTeam.json";
+import launchpadAbi from "../ABIs/Launchpad.json";
+import paymentPluginAbi from "../ABIs/PaymentPlugin.json";
+import voucherPluginAbi from "../ABIs/VoucherPlugin.json";
+import erc20Abi from "../ABIs/ERC20.json";
+
 import poolToProjectMapping from "../config/poolToProjectMapping.json";
 import tokenMapping from "../config/tokenMapping.json";
 import { RoundInfo } from "@/types/types";
 
+const oneEther = new Decimal(10).pow(18);
 const paymentPercentDecimals = 5000000;
-const voucherDecimals = new Decimal("1000000000000000000");
-const xpDecimals = new Decimal(10).pow(18);
+const voucherDecimals = oneEther;
+const xpDecimals = oneEther;
 
 interface ProjectInfo {
   id: number;
@@ -180,7 +181,7 @@ export const getHireRankInfo = async (
   return rankIds.map((rankId, index) => {
     const rank = ranks.team[rankId];
     return {
-      name: rankToNameMappingTeam[rankId],
+      name: rankNames.team[rankId],
       id: rankId,
       level: rankId + 1,
       vouchers: results.at(index).toNumber(),
@@ -212,9 +213,7 @@ export const getUserInfo = async (
 
   const isTeamUser = userTierInfo.team;
   const userRanks = isTeamUser ? ranks.team : ranks.solo;
-  const rankMapping = isTeamUser
-    ? rankToNameMappingTeam
-    : rankToNameMappingSolo;
+  const rankMapping = isTeamUser ? rankNames.team : rankNames.solo;
   const userRankId = userTierInfo.rank.toNumber();
 
   const currentRank = userRanks[userRankId];
@@ -399,7 +398,7 @@ export const getDivision = async (
       code: referralCodes[index],
       address: recruit[0],
       rankId: recruit[1],
-      rankName: rankToNameMappingTeam[recruit[1]]
+      rankName: rankNames.team[recruit[1]]
     };
   });
 

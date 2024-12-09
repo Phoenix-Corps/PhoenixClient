@@ -1,7 +1,8 @@
-import BenefitsMain from "@/components-new-design/benefits-main/benefits-main";
-import CommunityMain from "@/components-new-design/community-main/community-main";
-import Main from "@/components-new-design/upper-main/upper-main";
-import { BottomSection } from "@/components-new-design/bottom-section/bottom-section";
+import { BenefitsMain } from "@/components/pages/home/benefits-main/benefits-main";
+import { CommunityMain } from "@/components/pages/home/community-main/community-main";
+import { Main } from "@/components/pages/home/upper-main/upper-main";
+import { BottomSection } from "@/components/pages/home/bottom-section/bottom-section";
+
 export default function Home() {
   return (
     <>

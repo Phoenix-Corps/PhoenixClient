@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { formatAddress } from "@/app/dashboard/utils/formatAddress";
 import { useEthersSigner } from "@/services/useEthersSigner";
-import { useDashboardContext } from "@/context/DashboardContext";
+import { useDashboardContext } from "@/components/context/DashboardContext";
 
 import XPearned from "./components/xp-earned";
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
@@ -114,10 +114,10 @@ const Home: NextPage = () => {
                         <Image
                           src={
                             userInfo.isTeamUser
-                              ? `/Army Ranks/Lvl-${
+                              ? `/images/ranks/team/Lvl-${
                                   userInfo && userInfo?.currentRank?.level
                                 }.png`
-                              : `/Shinobi Alliance Ranks/Lvl-${
+                              : `/images/ranks/solo/Lvl-${
                                   userInfo && userInfo?.currentRank?.level
                                 }.png`
                           }

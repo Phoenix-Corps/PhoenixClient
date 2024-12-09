@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
-import { useDashboardContext } from "@/context/DashboardContext";
+import { useDashboardContext } from "@/components/context/DashboardContext";
 import { getDivision, Recruit } from "@/services/walletService";
 import { useEthersProvider } from "@/services/useEthersProvider";
 import { formatAddress } from "../utils/formatAddress";
@@ -21,16 +21,19 @@ const DivisionTable = () => {
       const team = await getDivision(provider!, userInfo!.address, 0, 100);
       setRecruits(team);
       setLoadingRecruits(false);
-    }
+    };
 
     loadRecruits();
   }, [userInfo, setLoadingRecruits, setRecruits]);
 
-  const handleCopy = useCallback((text: string, index: number) => {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopyIndex(index);
-    });
-  }, [setCopyIndex, recruits]);
+  const handleCopy = useCallback(
+    (text: string, index: number) => {
+      navigator.clipboard.writeText(text).then(() => {
+        setCopyIndex(index);
+      });
+    },
+    [setCopyIndex, recruits]
+  );
 
   return (
     <div className="table-gradient-container p-8 mt-8 rounded-tl-[40px] md:p-12 md:rounded-tl-[60px] lg:p-14 lg:rounded-tl-[80px] overflow-x-auto">
@@ -53,38 +56,39 @@ const DivisionTable = () => {
         </thead>
         <tbody>
           {loadingRecruits && "LOADING..."}
-          {!loadingRecruits && recruits.map((recruit, index) => {
-            return <tr className="border-b text-lg leading-6">
-              <td className="p-5 pl-0">1</td>
-              <td>
-                <div>{recruit.code}</div>
-              </td>
-              <td>
-                <div className="flex">
-                  <div>{formatAddress(recruit.address)}</div>
-                  <button
-                    onClick={() =>
-                      handleCopy(recruit.address, index)
-                    }
-                  >
-                    <COPY_ICON />
-                  </button>
-                  {copyIndex === index && (
-                    <p
-                      // className="flex added-fade-out absolute right-0 top-0"
-                      className="flex added-fade-out -left-3 -top-4"
-                      onAnimationEnd={() => setCopyIndex(null)}
-                    >
-                      Copied!
-                    </p>
-                  )}
-                </div>
-              </td>
-              <td>
-                <div>{recruit.rankName}</div>
-              </td>
-            </tr>
-          })}
+          {!loadingRecruits &&
+            recruits.map((recruit, index) => {
+              return (
+                <tr className="border-b text-lg leading-6">
+                  <td className="p-5 pl-0">1</td>
+                  <td>
+                    <div>{recruit.code}</div>
+                  </td>
+                  <td>
+                    <div className="flex">
+                      <div>{formatAddress(recruit.address)}</div>
+                      <button
+                        onClick={() => handleCopy(recruit.address, index)}
+                      >
+                        <COPY_ICON />
+                      </button>
+                      {copyIndex === index && (
+                        <p
+                          // className="flex added-fade-out absolute right-0 top-0"
+                          className="flex added-fade-out -left-3 -top-4"
+                          onAnimationEnd={() => setCopyIndex(null)}
+                        >
+                          Copied!
+                        </p>
+                      )}
+                    </div>
+                  </td>
+                  <td>
+                    <div>{recruit.rankName}</div>
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>

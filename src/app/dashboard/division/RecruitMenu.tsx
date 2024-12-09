@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import ArrowIcon from "@public/dashboard/Vector 1.svg";
+
 import { getHireRankInfo, HireRank, recruit } from "@/services/walletService";
-import { useDashboardContext } from "@/context/DashboardContext";
+import { useDashboardContext } from "@/components/context/DashboardContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
 import { useEthersSigner } from "@/services/useEthersSigner";
 import TransactionHandler from "@/app/buy/components/transactionHandler";
 import { ethers } from "ethers";
+
+import ArrowIcon from "@public/dashboard/Vector 1.svg";
 
 type RecruitMenuProps = {
   onClose: () => void;
@@ -28,7 +30,11 @@ const RecruitMenu = ({ onClose }: RecruitMenuProps) => {
 
   const getHireInfo = useCallback(async () => {
     if (userInfo && provider) {
-      const loadedRanks = await getHireRankInfo(provider, userInfo.address, [0, 4, 9]);
+      const loadedRanks = await getHireRankInfo(
+        provider,
+        userInfo.address,
+        [0, 4, 9]
+      );
       setRanks(loadedRanks);
     }
   }, [userInfo, setRanks]);
@@ -46,7 +52,7 @@ const RecruitMenu = ({ onClose }: RecruitMenuProps) => {
 
   const canHire = useMemo(() => {
     if (hireInProgress) {
-      return false
+      return false;
     }
     if (!recruitAddressValid) {
       return false;
@@ -68,9 +74,12 @@ const RecruitMenu = ({ onClose }: RecruitMenuProps) => {
     setDropdownOpen(false);
   };
 
-  const handleRecruitAddressChange = useCallback((e: any) => {
-    setRecruitAddress(e.target.value);
-  }, [setRecruitAddress]);
+  const handleRecruitAddressChange = useCallback(
+    (e: any) => {
+      setRecruitAddress(e.target.value);
+    },
+    [setRecruitAddress]
+  );
 
   const hire = useCallback(() => {
     if (selectedRank && signer) {
@@ -83,7 +92,7 @@ const RecruitMenu = ({ onClose }: RecruitMenuProps) => {
   const onHireComplete = useCallback(() => {
     setHireInProgress(false);
     setHireTx(undefined);
-  }, [setHireInProgress, setHireTx])
+  }, [setHireInProgress, setHireTx]);
 
   return (
     <>
@@ -92,11 +101,17 @@ const RecruitMenu = ({ onClose }: RecruitMenuProps) => {
         style={{ padding: 0, borderWidth: 0, maxWidth: "1030px" }}
       >
         <div className="w-1/3 p-4 text-center">
-          <div className="text-4xl font-bold text-gray-800">{userInfo?.currentXP.toFixed(2).toString() ?? "N/A"}</div>
+          <div className="text-4xl font-bold text-gray-800">
+            {userInfo?.currentXP.toFixed(2).toString() ?? "N/A"}
+          </div>
           <div className="text-gray-600 mb-8">Spendable XP</div>
-          <div className="text-4xl font-bold text-gray-800">{selectedRank?.hireCost.toString() ?? "N/A"}</div>
+          <div className="text-4xl font-bold text-gray-800">
+            {selectedRank?.hireCost.toString() ?? "N/A"}
+          </div>
           <div className="text-gray-600 mb-8">Required XP</div>
-          <div className="text-4xl font-bold text-gray-800">{selectedRank?.vouchers ?? "N/A"}</div>
+          <div className="text-4xl font-bold text-gray-800">
+            {selectedRank?.vouchers ?? "N/A"}
+          </div>
           <div className="text-gray-600">Free Recruitments</div>
         </div>
 
@@ -118,8 +133,9 @@ const RecruitMenu = ({ onClose }: RecruitMenuProps) => {
             >
               <div>{selectedRank?.name ?? "Desired rank for new recruit"}</div>
               <ArrowIcon
-                className={`transition-transform ${dropdownOpen ? "rotate-180" : ""
-                  }`}
+                className={`transition-transform ${
+                  dropdownOpen ? "rotate-180" : ""
+                }`}
                 style={{ marginLeft: "auto" }}
               />
             </div>
@@ -136,12 +152,14 @@ const RecruitMenu = ({ onClose }: RecruitMenuProps) => {
                 }}
               >
                 {ranks.map((rank, index) => {
-                  return <div
-                    className="p-3 text-white hover:bg-[#3F5269] cursor-pointer flex justify-center items-center"
-                    onClick={() => handleSelectRank(index)}
-                  >
-                    {rank.name}
-                  </div>
+                  return (
+                    <div
+                      className="p-3 text-white hover:bg-[#3F5269] cursor-pointer flex justify-center items-center"
+                      onClick={() => handleSelectRank(index)}
+                    >
+                      {rank.name}
+                    </div>
+                  );
                 })}
               </div>
             )}
@@ -165,7 +183,12 @@ const RecruitMenu = ({ onClose }: RecruitMenuProps) => {
           </button>
         </div>
       </div>
-      <TransactionHandler txPromise={hireTx} loadingMessage="Hiring in progress..." successMessage="Hire successful!" onTxDone={onHireComplete} />
+      <TransactionHandler
+        txPromise={hireTx}
+        loadingMessage="Hiring in progress..."
+        successMessage="Hire successful!"
+        onTxDone={onHireComplete}
+      />
     </>
   );
 };
