@@ -25,7 +25,7 @@ const Dropdown = () => {
             fontSize: "12px",
             fontWeight: "700",
             lineHeight: "16.34px",
-            textAlign: "left",
+            textAlign: "left"
           }}
         >
           SELECT LANGUAGE

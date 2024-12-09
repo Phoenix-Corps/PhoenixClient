@@ -33,24 +33,24 @@ a {
   font-family: "SourceSansPro";
   font-style: normal;
   font-weight: 400;
-  src: url("../../../../public/dashboard/SourceSansPro-Regular.ttf")
+  src: url("../../../../public/fonts/SourceSansPro-Regular.ttf")
     format("truetype");
 }
 
 .solo-background {
-  background-image: url("../../../../public/dashboard/shinobi-bg.png");
+  background-image: url("../../../../public/pages/dashboard/shinobi-bg.png");
 
   background-size: 100% 100%;
 }
 .army-background {
-  background-image: url("../../../../public/dashboard/army-bg.png");
+  background-image: url("../../../../public/pages/dashboard/army-bg.png");
   background-size: 100% 100%;
 }
 .army-background-path {
-  background-image: url("../../../../public/dashboard/army-bg.png");
+  background-image: url("../../../../public/pages/dashboard/army-bg.png");
 }
 .background-image-test {
-  background-image: url("../../../../public/dashboard/shinobi-bg.png");
+  background-image: url("../../../../public/pages/dashboard/shinobi-bg.png");
 
   width: 1024px;
   height: 100vh;
@@ -82,8 +82,8 @@ a {
 }
 
 .footer-background-image {
-  background-image: url("../../../../public/dashboard/side-bg.png"),
-    url("../../../../public/dashboard/footer-bg.png");
+  background-image: url("../../../../public/pages/dashboard/side-bg.png"),
+    url("../../../../public/pages/dashboard/footer-bg.png");
   /* width: 1440px; */
   height: 160px;
   background-size: auto 137px, cover;

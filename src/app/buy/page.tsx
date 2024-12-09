@@ -1,17 +1,5 @@
 "use client";
 
-import { useBlockchainContext } from "@/components/context/BlockchainContext";
-import { useDashboardContext } from "@/components/context/DashboardContext";
-import { useEthersProvider } from "@/services/useEthersProvider";
-import {
-  PoolInfo,
-  approveSpending,
-  buy,
-  checkApproval,
-  getVoucherBalance
-} from "@/services/walletService";
-import Image from "next/image";
-import { useSearchParams } from "next/navigation";
 import React, {
   Suspense,
   useCallback,
@@ -19,20 +7,37 @@ import React, {
   useMemo,
   useState
 } from "react";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+
+import Decimal from "decimal.js";
 import { useAccount, useBalance, useDisconnect } from "wagmi";
+
+import { Checkbox } from "@radix-ui/themes";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { BigNumber } from "ethers";
+
 import { useEthersSigner } from "@/services/useEthersSigner";
+import { useEthersProvider } from "@/services/useEthersProvider";
+
+import {
+  PoolInfo,
+  approveSpending,
+  buy,
+  checkApproval,
+  getVoucherBalance
+} from "@/services/walletService";
+
 import LoadingOverlay from "./components/loadingOverlay";
 import TransactionHandler from "./components/transactionHandler";
-import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
-import PhoenixBlueBox from "@public/home/phoenix-logo-3.png";
-import VoucherICON from "@/../public/buy/phoenix-coin.png";
 import { BuyButton } from "./components/BuyButton";
 import { SellerLinkBar } from "./components/SellerLinkBar";
-import Decimal from "decimal.js";
-import Footer from "./components/footer/Footer";
-import { Checkbox } from "@radix-ui/themes";
+import { Footer } from "./components/footer/Footer";
+
+import { useBlockchainContext } from "@/components/context/BlockchainContext";
+import { useDashboardContext } from "@/components/context/DashboardContext";
+
+import PhoenixBlueBox from "@public/pages/home/phoenix-logo-3.png";
+import VoucherICON from "@public/pages/buy/phoenix-coin.png";
 
 type Props = {};
 
@@ -317,7 +322,7 @@ const BuyPageWrapper = (props: Props) => {
             onClick={() => disconnect()}
             className="buy-button absolute top-0 right-3 w-[100px] h-[40px] text-xs p-1"
           >
-            Disconnect wallet
+            Disconnect Wallet
           </button>
         )}
         <div className="voucher-wrapper din mb-0 flex w-full flex-wrap ">
@@ -352,7 +357,7 @@ const BuyPageWrapper = (props: Props) => {
                   amountUpdated={setAmount}
                 />
                 <div className="h-[5px]" />
-                <div className="phoenix-imgae-token-wrapper">
+                <div className="phoenix-image-token-wrapper">
                   <Input
                     tokenName={"Voucher"}
                     imageSrc={
@@ -459,7 +464,7 @@ const BuyPageWrapper = (props: Props) => {
                 </div>
               </div>
             )}
-            <div className="voucher-phoenix-image "></div>
+            <div className="voucher-phoenix-image" />
           </div>
         </div>
       </div>

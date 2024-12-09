@@ -52,15 +52,6 @@
   background-color: rgba(24, 44, 69, 0.13);
 }
 
-.eng-flag-image {
-  object-fit: cover;
-  width: 19px;
-  height: 19px;
-  border-radius: 35px;
-  border: 1px;
-  object-position: center;
-}
-
 .voucher-wrapper {
   border-radius: 4px;
   max-width: 1000px;

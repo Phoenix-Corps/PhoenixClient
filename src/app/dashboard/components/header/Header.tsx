@@ -3,16 +3,18 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+
+import { useDisconnect, useAccount } from "wagmi";
+
+import { useDashboardContext } from "@/components/context/DashboardContext";
+
+import DivisionGrpoup from "@/../public/pages/dashboard/division-group.png";
 import phoenixLogo from "@/app/dashboard/public/images/phoenix-logo.png";
 import GRADIENT_LINE from "@/app/dashboard/public/my-profile/Line 1.png";
 import HeaderLogo from "@/app/dashboard/public/images/headerLogo.png";
-import { useDisconnect, useAccount, useCall } from "wagmi";
-import { useDashboardContext } from "@/components/context/DashboardContext";
-import DivisionGrpoup from "@/../public/dashboard/division-group.png";
 
-import { usePathname } from "next/navigation";
-
-const Header = () => {
+export const Header = () => {
   const pathname = usePathname();
   const { userInfo, disconnectUserInfo } = useDashboardContext();
   const { isConnected } = useAccount();
@@ -125,5 +127,3 @@ const Header = () => {
     </header>
   );
 };
-
-export default Header;

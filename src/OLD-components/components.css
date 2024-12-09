@@ -41,30 +41,33 @@ src/components/components.css
   border-style: solid;
   box-shadow: 0px 4px 4px 0px rgba(20, 35, 52, 0.2);
 }
+
 .slide-item1 {
   background: radial-gradient(
       93.63% 549.7% at 2.46% 8.98%,
       rgba(196, 216, 234, 0.315) 0%,
       rgba(255, 255, 255, 0.35) 100%
     ),
-    url("../../public/images/SLIDE_1.png");
+    url("../../public/pages/home/SLIDE_1.png");
   background-repeat: no-repeat;
   background-position: center left, top right;
   mix-blend-mode: overlay;
   background-blend-mode: overlay;
 }
+
 .slide-item2 {
   background: radial-gradient(
       93.63% 549.7% at 2.46% 8.98%,
       rgba(196, 216, 234, 0.315) 0%,
       rgba(255, 255, 255, 0.35) 100%
     ),
-    url("../../public/images/SLIDE_2.png");
+    url("../../public/pages/home/SLIDE_2.png");
   background-repeat: no-repeat;
   background-position: center left, top right;
   mix-blend-mode: overlay;
   background-blend-mode: overlay;
 }
+
 .slide-item3 {
   background-repeat: no-repeat;
   background-position: center left, 70% 130%;
@@ -108,7 +111,7 @@ src/components/components.css
         rgba(196, 216, 234, 0.315) 0%,
         rgba(255, 255, 255, 0.35) 100%
       ),
-      url("../../public/images/SLIDE_1.png");
+      url("../../public/pages/home/SLIDE_1.png");
     background-repeat: no-repeat;
     background-size: auto, 200px;
     background-position: center left, top right;
@@ -133,7 +136,7 @@ src/components/components.css
         rgba(196, 216, 234, 0.315) 0%,
         rgba(255, 255, 255, 0.35) 100%
       ),
-      url("../../public/images/SLIDE_1.png");
+      url("../../public/pages/home/SLIDE_1.png");
     background-repeat: no-repeat;
     background-size: auto, 300px;
     background-position: center left, top right;

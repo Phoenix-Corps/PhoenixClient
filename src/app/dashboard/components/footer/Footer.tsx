@@ -1,6 +1,6 @@
 import React from "react";
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <>
       <footer className="w-full mx-auto flex justify-center items-center footer-background-image">
@@ -11,5 +11,3 @@ const Footer = () => {
     </>
   );
 };
-
-export default Footer;
