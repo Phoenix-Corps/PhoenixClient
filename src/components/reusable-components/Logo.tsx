@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import PhoenixMini from "@public/images/logo.png";
+import PhoenixMini from "@public/images/Logo.png";
 
 export const Logo = (props: { width: number }) => {
   const width = props.width;
