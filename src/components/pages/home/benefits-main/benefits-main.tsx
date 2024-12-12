@@ -2,6 +2,8 @@ import React from "react";
 import BenefitsIcon from "@public/pages/home/benefits-icon.svg";
 import BenefitsPercentage from "@public/pages/home/benefits-percentage.svg";
 
+import "./benefits-main.css";
+
 export const BenefitsMain: React.FC = () => {
   return (
     <section className="bg-[#F6F9FFD9]/85 md:py-20 md:px-40 xs:px-10 xs:py-10">

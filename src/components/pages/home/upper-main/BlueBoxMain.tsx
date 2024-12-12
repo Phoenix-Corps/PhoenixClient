@@ -12,7 +12,7 @@ export const BlueBoxMain: React.FC<Props> = ({
   description
 }) => {
   return (
-    <div className="flex start-project-box nm:w-[296px] w-full max-w-[296px] h-[334px] rounded py-[24px] px-[24px] pt-[50px] text-[rgba(245,248,252,1)] nm:flex-col flex-row">
+    <div className="flex blurred-box nm:w-[296px] w-full max-w-[296px] h-[334px] rounded py-[24px] px-[24px] pt-[50px] text-[rgba(245,248,252,1)] nm:flex-col flex-row">
       <div className="din text-[130px] box-letter w-fit flex nm:items-start items-center">
         {number}
       </div>

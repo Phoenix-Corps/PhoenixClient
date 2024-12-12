@@ -1,4 +1,4 @@
-import { SocialButton } from "@/components/reusable-components/SocialButton";
+import { SocialButton } from "@/components/Buttons/SocialButton";
 
 export const Socials = (props: {
   discord: string;

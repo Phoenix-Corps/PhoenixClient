@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { ButtonYellow } from "@/components/reusable-components/ButtonYellow";
+import { ButtonYellow } from "@/components/Buttons/ButtonYellow";
 
 import DownArrow from "@public/pages/home/down-arrow.png";
 
@@ -23,7 +23,7 @@ export const LandingSection = () => {
           target="_blank"
         />
       </div>
-      <div className=" mt-4 flex justify-center">
+      <div className="mt-4 flex justify-center">
         <Image src={DownArrow.src} width={23} height={26} alt="down-arrow" />
       </div>
     </div>

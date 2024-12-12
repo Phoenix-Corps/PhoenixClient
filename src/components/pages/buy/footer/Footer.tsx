@@ -1,6 +1,8 @@
 import React from "react";
-import { Socials } from "@/components/reusable-components/Socials";
+import { Socials } from "@/components/Socials";
 import { PoolInfo } from "@/services/walletService";
+
+import pageConfig from "@/config/page.json";
 
 export const Footer = (props: { poolInfo?: PoolInfo }) => {
   return (
@@ -8,16 +10,13 @@ export const Footer = (props: { poolInfo?: PoolInfo }) => {
       <footer className="w-full mx-auto flex justify-center items-center footer-background-image p-5">
         <Socials
           discord={
-            props.poolInfo?.projectInfo?.discord ??
-            "https://discord.gg/f8WQJyZGy8"
+            props.poolInfo?.projectInfo?.discord ?? pageConfig.socials.discord
           }
           twitter={
-            props.poolInfo?.projectInfo?.twitter ??
-            "https://x.com/PhoenixCorpsHQ"
+            props.poolInfo?.projectInfo?.twitter ?? pageConfig.socials.twitter
           }
           telegram={
-            props.poolInfo?.projectInfo?.telegram ??
-            "https://t.me/PhoenixcorpsOfficial"
+            props.poolInfo?.projectInfo?.telegram ?? pageConfig.socials.telegram
           }
         />
       </footer>

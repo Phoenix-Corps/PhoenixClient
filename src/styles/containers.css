@@ -1,0 +1,9 @@
+.blurred-box {
+    backdrop-filter: blur(55px);
+    background: var(--color_blur);
+}
+
+.box-divider {
+    backdrop-filter: blur(55px);
+    border: 1px solid var(--color_blur);    
+}

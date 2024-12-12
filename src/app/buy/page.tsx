@@ -27,16 +27,15 @@ import {
   getVoucherBalance
 } from "@/services/walletService";
 
-import LoadingOverlay from "./components/loadingOverlay";
+import LoadingOverlay from "../../components/pages/buy/loadingOverlay";
 import TransactionHandler from "./components/transactionHandler";
-import { BuyButton } from "./components/BuyButton";
-import { SellerLinkBar } from "./components/SellerLinkBar";
+import { BuyButton } from "../../components/pages/buy/BuyButton";
+import { SellerLinkBar } from "../../components/pages/buy/SellerLinkBar";
 import { Footer } from "./components/footer/Footer";
 
 import { useBlockchainContext } from "@/components/context/BlockchainContext";
 import { useDashboardContext } from "@/components/context/DashboardContext";
 
-import PhoenixBlueBox from "@public/images/phoenix-logo-3.png";
 import VoucherICON from "@public/pages/buy/phoenix-coin.png";
 
 type Props = {};
@@ -300,7 +299,7 @@ const BuyPageWrapper = (props: Props) => {
 
   const conversionRateText = useMemo(() => {
     if (currentPoolInfo && currentPoolInfo.projectInfo) {
-      return `1 ${currentPoolInfo?.projectInfo?.name} = ${currentPoolInfo?.currentRound.voucherPrice} ${currentPoolInfo?.token.name}`;
+      return `1 Voucher = ${currentPoolInfo?.currentRound.voucherPrice} ${currentPoolInfo?.token.name}`;
     } else {
       return "Loading conversion rate...";
     }
@@ -317,28 +316,23 @@ const BuyPageWrapper = (props: Props) => {
   return (
     <div className=" m-4">
       <div className="flex flex-col items-center justify-center bg-[rgba(25,96,255,0.6)] md:0 rounded-[4px] w-fit md:m-auto">
-        {isConnected && (
-          <button
-            onClick={() => disconnect()}
-            className="buy-button absolute top-0 right-3 w-[100px] h-[40px] text-xs p-1"
-          >
-            Disconnect Wallet
-          </button>
-        )}
         <div className="voucher-wrapper din mb-0 flex w-full flex-wrap ">
           <div className="voucher-text-input-wrapper grow md:p-10 p-6 flex flex-col items-center">
             <div className="flex flex-row justify-start items-center w-full">
-              <div className="mini-blue-box w-[64px] h-[64px] rounded-full flex justify-center items-center">
-                <a href={currentPoolInfo?.projectInfo?.website} target="_blank">
-                  <Image
-                    src={
-                      currentPoolInfo?.projectInfo?.logo ?? PhoenixBlueBox.src
-                    }
-                    width={37}
-                    height={43}
-                    alt="project-logo"
-                  />
-                </a>
+              <div className="blurred-box w-[64px] h-[64px] rounded-full flex justify-center items-center">
+                {!!currentPoolInfo?.projectInfo?.logo && (
+                  <a
+                    href={currentPoolInfo?.projectInfo?.website}
+                    target="_blank"
+                  >
+                    <Image
+                      src={currentPoolInfo?.projectInfo?.logo!}
+                      width={37}
+                      height={43}
+                      alt="project-logo"
+                    />
+                  </a>
+                )}
               </div>
               <div className="buy-heading-text ml-[24px]">
                 {currentPoolInfo?.projectInfo?.name || "Loading..."}
@@ -458,9 +452,7 @@ const BuyPageWrapper = (props: Props) => {
                   ) : (
                     <div>Loading vouchers...</div>
                   )}
-                  <div className="voucher-text-text z-10">
-                    {currentPoolInfo?.projectInfo?.name}
-                  </div>
+                  <div className="voucher-text-text z-10">Vouchers</div>
                 </div>
               </div>
             )}

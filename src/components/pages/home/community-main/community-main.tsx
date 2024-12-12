@@ -2,6 +2,8 @@ import React, { ReactNode } from "react";
 
 import ArrowBullet from "@public/pages/home/arrow-bullet.svg";
 
+import "./community-main.css";
+
 const Item = (props: { children: ReactNode[] }) => {
   return (
     <div className="item-row flex items-center text-justify">

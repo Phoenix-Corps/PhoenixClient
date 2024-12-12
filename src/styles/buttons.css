@@ -1,0 +1,51 @@
+.button-front-yellow {
+    background: var(--color_accent);
+    border-width: 1px;
+    border-color: var(--color_accent);
+}
+
+.button-front-yellow:hover {
+    transition: all 0.3s ease;
+    filter: brightness(1.1);
+    transform: scale(1.05);
+}
+
+.button-front-hollow {
+    border-width: 1px;
+    border-color: var(--color_text);
+}
+
+.button-front-hollow:hover {
+    transition: all 0.3s ease;
+    filter: brightness(1.1);
+    transform: scale(1.05);
+}
+
+.main-text-button-front {
+    color: var(--color_textAccent);
+}
+
+.right-text-button-front {
+    color: var(--color_textAccent);
+    opacity: 20%;
+}
+
+.walletConnect-button {
+    margin-top: 30px;
+    max-width: 390px;
+
+    background: linear-gradient(84.77deg, var(--gradient_yellow1) 20.9%, var(--gradient_yellow2) 79.73%);
+    border-radius: 8px;
+
+    color: rgba(40, 55, 150, 1);
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 800;
+}
+
+.walletConnect-button:hover {
+    background: linear-gradient(84.77deg, var(--gradient_yellow1) 20.9%, var(--gradient_yellow2) 79.73%),
+        linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
+    background-blend-mode: overlay;
+    /* Optional: to blend the gradients as needed */
+}

@@ -1,8 +1,0 @@
-.title-container {
-}
-
-@media (min-width: 320px) and (max-width: 767px) {
-  .title-container {
-    margin-top: 150px;
-  }
-}

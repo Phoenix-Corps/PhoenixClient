@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import Vector from "@public/pages/home/Vector_right.png";
 
-type Props = {
+export type ButtonProps = {
   mainText: string;
   rightText?: string;
   link?: string;
@@ -12,27 +12,27 @@ type Props = {
   miniBox?: boolean;
   width?: number;
   target?: string;
+  colorClass?: string;
 };
 
-export const ButtonYellow: React.FC<Props> = ({
+export const ButtonBase: React.FC<ButtonProps> = ({
   mainText,
   rightText,
   link,
   onClick,
   miniBox,
   width,
-  target
+  target,
+  colorClass
 }) => {
   const widthClass = `w-[${width ?? 300}px]`;
   return (
     <div>
       <Link href={link ?? ""} target={target}>
         <button
-          className={`
-            flex din button-front-yellow justify-center items-center text-[28px] p-4 rounded w-[300px]
-            ${widthClass}
-            ${miniBox && "flex justify-between w-full"}
-          `}
+          className={`flex din justify-center items-center text-[28px] p-4 rounded ${colorClass} ${widthClass} ${
+            miniBox ? "flex justify-between w-full" : ""
+          }`}
           onClick={onClick}
         >
           <div className="main-text-button-front h-[34px]">{mainText}</div>

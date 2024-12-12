@@ -1,0 +1,19 @@
+:root {
+    --color_primary: #2958FF;
+    --color_secondary: #7098FF;
+    --color_accent: #F2E63D;
+    --color_text: #F5F8FC;
+    --color_textSecondary: rgb(216, 227, 244);
+    --color_textAccent: #184863;
+
+    --gradient_blue1: #55c0f2;
+    --gradient_blue2: #62D2e0;
+
+    --gradient_orange1: #ff5e3b;
+    --gradient_orange2: #ff876d;
+
+    --gradient_yellow1: #ffd061;
+    --gradient_yellow2: #fffa6d;
+
+    --color_blur: rgba(255, 255, 255, 0.15);
+}
