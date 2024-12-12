@@ -1,5 +1,4 @@
 .footer {
-  background-image: url("../../../public/images/Footer.png");
   width: 100%;
   min-height: 541px;
   background-position: bottom;
@@ -154,7 +153,6 @@
 @media (min-width: 320px) and (max-width: 767px) {
   .footer {
     padding-top: 80px;
-    background-image: url("../../../public/images/bg-footer.png");
     background-position: top center;
     background-size: cover;
     height: auto;

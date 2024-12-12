@@ -1,11 +1,14 @@
 "use client";
 
 import React from "react";
-import { useKeenSlider } from "keen-slider/react";
-import "keen-slider/keen-slider.min.css";
-import NextArrow from "../../../public/images/Next.png";
-import PrevArrow from "../../../public/images/Back.png";
 import Image from "next/image";
+
+import { useKeenSlider } from "keen-slider/react";
+
+import NextArrow from "@public/images/Next.png";
+import PrevArrow from "@public/images/Back.png";
+
+import "keen-slider/keen-slider.min.css";
 
 const Slider = () => {
   const [ref, slider] = useKeenSlider<HTMLDivElement>({
@@ -23,7 +26,7 @@ const Slider = () => {
         slides: { perView: 3, spacing: 30 }
       }
     },
-    slides: { perView: 1,spacing:15 }
+    slides: { perView: 1, spacing: 15 }
   });
   const handlePrev = () => {
     slider2.current?.prev();

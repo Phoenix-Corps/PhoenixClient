@@ -36,7 +36,7 @@ import { Footer } from "./components/footer/Footer";
 import { useBlockchainContext } from "@/components/context/BlockchainContext";
 import { useDashboardContext } from "@/components/context/DashboardContext";
 
-import PhoenixBlueBox from "@public/pages/home/phoenix-logo-3.png";
+import PhoenixBlueBox from "@public/images/phoenix-logo-3.png";
 import VoucherICON from "@public/pages/buy/phoenix-coin.png";
 
 type Props = {};

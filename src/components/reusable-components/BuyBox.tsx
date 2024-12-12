@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import { ButtonYellow } from "./ButtonYellow";
 
-import PhoenixBlueBox from "@public/pages/home/phoenix-logo-3.png";
+import PhoenixBlueBox from "@public/images/phoenix-logo-3.png";
 
 import "./projects.css";
 

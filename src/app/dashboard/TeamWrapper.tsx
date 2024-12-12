@@ -1,8 +1,12 @@
 "use client";
-import React, { ReactNode, use, useEffect, useState } from "react";
+
+import React, { ReactNode, useEffect, useState } from "react";
+
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+
 import { useDashboardContext } from "@/components/context/DashboardContext";
+
 type Props = {
   children: ReactNode;
 };

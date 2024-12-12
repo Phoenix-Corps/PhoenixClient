@@ -5,11 +5,11 @@ import Image from "next/image";
 import Head from "next/head";
 import { useCallback, useEffect, useState } from "react";
 
-import { formatAddress } from "@/app/dashboard/utils/formatAddress";
+import { formatAddress } from "@/utils/format";
 import { useEthersSigner } from "@/services/useEthersSigner";
 import { useDashboardContext } from "@/components/context/DashboardContext";
 
-import XPearned from "./components/xp-earned";
+import { XpEarned } from "../../components/pages/dashboard/profile/XpEarned";
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
 import LoadingOverlay from "../buy/components/loadingOverlay";
 import { registerUser } from "@/services/walletService";
@@ -130,7 +130,7 @@ const Home: NextPage = () => {
                     ) : null}
                   </div>
                   {/* Edit Profile */}
-                  <XPearned />
+                  <XpEarned />
                 </div>
               ) : null}
               {/* Numbers */}

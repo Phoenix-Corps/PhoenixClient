@@ -1,9 +1,0 @@
-.upgrade-button {
-  color: rgba(40, 55, 150, 1);
-  background: linear-gradient(84.77deg, #fffa6d 20.9%, #ffd061 79.73%);
-}
-.upgrade-button:hover {
-  background: linear-gradient(84.77deg, #fffa6d 20.9%, #ffd061 79.73%),
-    linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
-  background-blend-mode: overlay;
-}

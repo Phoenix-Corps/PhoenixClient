@@ -110,7 +110,7 @@ a {
 @import url("@/app/dashboard/styles/common.css");
 @import url("@/app/dashboard/styles/my-profile.css");
 @import url("@/app/dashboard/styles/quick-overview.css");
-@import url("@/app/dashboard/components/header/header.css");
+@import url("@/components/pages/dashboard/header.css");
 
 @import url("@/app/dashboard/claims/claims.css");
 

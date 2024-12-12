@@ -8,7 +8,8 @@ import { PoolInfo } from "@/services/walletService";
 
 import { ButtonYellow } from "./ButtonYellow";
 
-import PhoenixBlueBox from "@public/pages/home/phoenix-logo-3.png";
+import PhoenixBlueBox from "@public/images/phoenix-logo-3.png";
+import { formatDate } from "@/utils/format";
 
 const ProjectCard: React.FC<PoolInfo> = ({
   id,
@@ -22,16 +23,7 @@ const ProjectCard: React.FC<PoolInfo> = ({
   const available = currentRound.available;
   const goal = currentRound.goal;
   const raised = goal.sub(available);
-
   const percentage = goal.gt(0) ? raised.div(goal).mul(100) : 0;
-
-  const getDateString = (date: Date) => {
-    const month = date.toLocaleString("default", { month: "short" });
-    const day = date.getDate();
-    const hour = date.getHours();
-    const minut = date.getMinutes();
-    return `${month} ${day} - ${hour}:${minut.toString().padStart(2, "0")}`;
-  };
 
   return (
     <div className="flex flex-col start-project-box nm:w-[400px] w-full h-[484px] rounded py-[24px] px-[24px] text-[rgba(245,248,252,1)]">
@@ -57,11 +49,11 @@ const ProjectCard: React.FC<PoolInfo> = ({
       <div className="flex gap-4 flex-col">
         <div className="flex justify-between aeroport font-normal text-[16px] leading-[20px] text-white">
           <div className="opacity-60">Round Start:</div>
-          <div>{getDateString(roundStartDate)}</div>
+          <div>{formatDate(roundStartDate)}</div>
         </div>
         <div className="flex justify-between aeroport font-normal text-[16px] leading-[20px] text-white">
           <div className="opacity-60">Round End:</div>
-          <div>{getDateString(roundEndDate)}</div>
+          <div>{formatDate(roundEndDate)}</div>
         </div>
         <div className="flex justify-between aeroport font-normal text-[16px] leading-[20px] text-white">
           <div className="opacity-60">Round Price:</div>

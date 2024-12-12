@@ -1,10 +1,11 @@
 "use client";
+
 import React, { useState } from "react";
-import Image from "next/image";
+
+import { DivisionTable } from "@/components/pages/dashboard/division/DivisionTable";
+import { RecruitMenu } from "@/components/pages/dashboard/division/RecruitMenu";
+
 import "./division.css";
-import { useDashboardContext } from "@/components/context/DashboardContext";
-import DivisionTable from "./DivisionTable";
-import RecruitMenu from "./RecruitMenu";
 
 const Division = () => {
   const [showRecruitMenu, setShowRecruitMenu] = useState(false);
