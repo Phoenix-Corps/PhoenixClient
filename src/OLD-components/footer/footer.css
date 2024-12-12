@@ -1,0 +1,176 @@
+.footer {
+  width: 100%;
+  min-height: 541px;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-top: -100px;
+  padding-top: 99px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Social Media Section */
+.social-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 164px;
+  margin-bottom: 80px;
+}
+
+.social-link {
+  text-decoration: none;
+}
+
+.social-icon-wrapper {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 50%;
+}
+
+.social-icon-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.3)
+  );
+  border-radius: 50%;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.social-icon-wrapper:hover {
+  transform: translateY(-4px);
+}
+
+.social-icon-wrapper:hover::before {
+  opacity: 1;
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
+}
+
+.social-icon {
+  transition: all 0.3s ease;
+  filter: brightness(0.9);
+}
+
+.social-icon:hover {
+  transition: all 0.3s ease;
+  filter: brightness(1.1);
+  transform: scale(1.05);
+}
+.social-icon-wrapper:hover .social-icon {
+  filter: brightness(1.1);
+  transform: scale(1.05);
+}
+
+/* Footer Buttons Section */
+.footer-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Documentation Button */
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.docs-button {
+  width: 220px;
+  background: linear-gradient(
+    135deg,
+    rgba(75, 75, 75, 0.4),
+    rgba(50, 50, 50, 0.4)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 24px;
+  border-radius: 24px;
+  color: #e5e5e5;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.docs-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.docs-button:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(85, 85, 85, 0.4),
+    rgba(60, 60, 60, 0.4)
+  );
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+}
+
+.docs-button:hover::before {
+  transform: translateX(100%);
+}
+
+.docs-button:active {
+  transform: translateY(0);
+}
+
+.docs-button-text {
+  position: relative;
+  z-index: 1;
+}
+
+.copyright-notice {
+  margin-top: 80px;
+  color: rgba(9, 8, 8, 0.6);
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+/* Mobile Responsiveness */
+@media (min-width: 320px) and (max-width: 767px) {
+  .footer {
+    padding-top: 80px;
+    background-position: top center;
+    background-size: cover;
+    height: auto;
+    margin-top: -60px;
+  }
+
+  .footer-btns {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .social-wrapper {
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+
+  .social-icon-wrapper {
+    transform: scale(0.9);
+  }
+}

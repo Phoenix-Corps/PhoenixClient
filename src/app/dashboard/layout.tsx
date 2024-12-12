@@ -1,16 +1,18 @@
+import { Metadata } from "next";
+
+import { Footer } from "@/components/pages/dashboard/Footer";
+import { Header } from "@/components/pages/dashboard/Header";
+
+import TeamWrapper from "./TeamWrapper";
+
 import "@/app/dashboard/styles/globals.css";
-import { Theme } from "@radix-ui/themes";
+
 import "@radix-ui/themes/styles.css";
 import "@rainbow-me/rainbowkit/styles.css";
 
-import Footer from "@/app/dashboard/components/footer";
-import Header from "@/app/dashboard/components/header";
-import { Metadata } from "next";
-import TeamWrapper from "./TeamWrapper";
-
 export const metadata: Metadata = {
-  title: "Phoenix Shinobi",
-  description: "Phoenix Shinobi"
+  title: "Phoenix Dashboard",
+  description: "Phoenix Dashboard"
 };
 
 export default function RootLayout({

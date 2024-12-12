@@ -12,7 +12,7 @@
   font-family: "SourceSansPro";
   font-style: normal;
   font-weight: 400;
-  src: url("../public/fonts/source-sans-pro/SourceSansPro-Regular.ttf")
+  src: url("../../../../public/fonts/SourceSansPro-Regular.ttf")
     format("truetype");
 }
 

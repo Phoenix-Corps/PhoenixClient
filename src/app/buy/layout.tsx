@@ -1,7 +1,7 @@
 import "@/app/buy/styles/globals.css";
 import "@/app/buy/styles/global.css";
-import Header from "@/app/buy/components/header";
-import Footer from "@/app/buy/components/footer";
+import { Header } from "@/app/buy/components/header/Header";
+import { Footer } from "@/app/buy/components/footer/Footer";
 export default function RootLayout({
   children
 }: Readonly<{

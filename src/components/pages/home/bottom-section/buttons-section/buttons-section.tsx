@@ -1,0 +1,46 @@
+import { Logo } from "@/components/reusable-components/Logo";
+import { Socials } from "@/components/reusable-components/Socials";
+import { ButtonYellow } from "@/components/reusable-components/ButtonYellow";
+import { ButtonHollow } from "@/components/reusable-components/ButtonHollow";
+
+export const ButtonsSection = () => {
+  return (
+    <div className="w-[80%] pt-20">
+      <div className="flex flex-col w-full items-center justify-between flex-wrap pb-20 md:items-end md:flex-row">
+        <Logo width={519} />
+        <Socials
+          discord="https://discord.gg/f8WQJyZGy8"
+          twitter="https://x.com/PhoenixCorpsHQ"
+          telegram="https://t.me/PhoenixcorpsOfficial"
+        />
+      </div>
+      <div className="flex flex-col md:flex-row w-full justify-between flex-wrap gap-10  items-center">
+        <div className="flex flex-col flex-wrap gap-5 md:flex-row items-center">
+          <ButtonYellow
+            width={280}
+            mainText={"Open Dashboard"}
+            link={"/dashboard"}
+            rightText={"Sign Up"}
+          />
+          <ButtonYellow
+            width={280}
+            mainText={"Project / Startup"}
+            link="https://forms.gle/SMdyUtL5EmpYqhUs9"
+            target="_blank"
+            rightText={"Sign Up"}
+          />
+          <ButtonYellow
+            width={280}
+            mainText={"Manage a team"}
+            link="https://forms.gle/YeXAcFQCXRtkhiCa7"
+            target="_blank"
+            rightText={"Apply"}
+          />
+        </div>
+        <div className="text-[#00ffff]">
+          <ButtonHollow mainText={"READ THE DOCS"} link={"/"} />
+        </div>
+      </div>
+    </div>
+  );
+};
