@@ -7,7 +7,7 @@ import { useEthersSigner } from "@/services/useEthersSigner";
 import TransactionHandler from "@/app/buy/components/transactionHandler";
 import { ethers } from "ethers";
 
-import ArrowIcon from "@public/dashboard/Vector 1.svg";
+import ArrowIcon from "@public/pages/dashboard/Vector 1.svg";
 
 type RecruitMenuProps = {
   onClose: () => void;
