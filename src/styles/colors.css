@@ -17,3 +17,11 @@
 
     --color_blur: rgba(255, 255, 255, 0.15);
 }
+
+.color_text {
+    color: var(--color_text);
+}
+
+.color_textAccent {
+    color: var(--color_textAccent);
+}

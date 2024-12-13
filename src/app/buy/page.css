@@ -1,7 +1,6 @@
 .voucher-image-right {
   display: flex;
   flex-grow: 1;
-  height: 500px;
   min-width: 300px;
   background-image: url("../../../public/pages/buy/voucher-bg.png");
 }
@@ -177,7 +176,6 @@
   font-weight: 700;
   line-height: 24px;
   text-align: center;
-  margin-top: 51px;
 }
 
 .text-under-code {

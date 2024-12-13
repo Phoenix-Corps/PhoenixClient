@@ -1,18 +1,18 @@
 "use client";
 
+import { useCallback, useEffect, useState } from "react";
+
 import type { NextPage } from "next";
 import Image from "next/image";
 import Head from "next/head";
-import { useCallback, useEffect, useState } from "react";
 
 import { formatAddress } from "@/utils/format";
 import { useEthersSigner } from "@/services/useEthersSigner";
-import { useDashboardContext } from "@/components/context/DashboardContext";
-
-import { XpEarned } from "../../components/pages/dashboard/profile/XpEarned";
-
-import LoadingOverlay from "../../components/LoadingOverlay";
 import { registerUser } from "@/services/walletService";
+
+import { useDashboardContext } from "@/components/context/DashboardContext";
+import { XpEarned } from "@/components/pages/dashboard/profile/XpEarned";
+import { LoadingOverlay } from "@/components/LoadingOverlay";
 import { TransactionHandler } from "@/components/TransactionHandler";
 
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";

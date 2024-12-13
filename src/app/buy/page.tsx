@@ -94,7 +94,6 @@ const BuyPageWrapper = (props: Props) => {
   const [vouchersOwned, setVouchersOwned] = useState<Decimal | null>(null);
 
   const { isConnected, address } = useAccount();
-  const { disconnect } = useDisconnect();
 
   const searchParams = useSearchParams();
   const provider = useEthersProvider();

@@ -1,0 +1,9 @@
+.bg-solo {
+    background-image: url("../../../public/pages/dashboardV2/bg_solo_big.png");
+    background-size: 100% 100%;
+}
+
+.bg-team {
+    background-image: url("../../../public/pages/dashboardV2/bg_team_big.png");
+    background-size: 100% 100%;
+}
