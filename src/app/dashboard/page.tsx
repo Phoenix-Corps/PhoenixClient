@@ -10,10 +10,12 @@ import { useEthersSigner } from "@/services/useEthersSigner";
 import { useDashboardContext } from "@/components/context/DashboardContext";
 
 import { XpEarned } from "../../components/pages/dashboard/profile/XpEarned";
-import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
-import LoadingOverlay from "../../components/pages/buy/loadingOverlay";
+
+import LoadingOverlay from "../../components/LoadingOverlay";
 import { registerUser } from "@/services/walletService";
-import TransactionHandler from "../buy/components/transactionHandler";
+import { TransactionHandler } from "@/components/TransactionHandler";
+
+import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
 
 const Home: NextPage = () => {
   const {

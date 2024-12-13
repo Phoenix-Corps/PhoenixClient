@@ -16,7 +16,7 @@ export interface ToastProps {
   onClose: () => void;
 }
 
-const Toast: React.FC<ToastProps> = ({
+export const Toast: React.FC<ToastProps> = ({
   message,
   txHash,
   type = "success",
@@ -75,5 +75,3 @@ const Toast: React.FC<ToastProps> = ({
     </div>
   );
 };
-
-export default Toast;

@@ -4,7 +4,9 @@ interface LoadingOverlayProps {
   isLoading: boolean;
 }
 
-const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ isLoading }) => {
+export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
+  isLoading
+}) => {
   if (!isLoading) return null;
 
   return (
@@ -13,5 +15,3 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ isLoading }) => {
     </div>
   );
 };
-
-export default LoadingOverlay;

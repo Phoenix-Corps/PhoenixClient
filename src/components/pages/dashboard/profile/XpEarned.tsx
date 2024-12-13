@@ -3,7 +3,7 @@ import Decimal from "decimal.js";
 import { useDashboardContext } from "@/components/context/DashboardContext";
 import { upgradeRank } from "@/services/walletService";
 import { useEthersSigner } from "@/services/useEthersSigner";
-import TransactionHandler from "@/app/buy/components/transactionHandler";
+import { TransactionHandler } from "@/components/TransactionHandler";
 
 import "./XpEarned.css";
 

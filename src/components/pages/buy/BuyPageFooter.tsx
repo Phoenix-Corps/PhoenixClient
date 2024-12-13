@@ -4,7 +4,7 @@ import { PoolInfo } from "@/services/walletService";
 
 import pageConfig from "@/config/page.json";
 
-export const Footer = (props: { poolInfo?: PoolInfo }) => {
+export const BuyPageFooter = (props: { poolInfo?: PoolInfo }) => {
   return (
     <>
       <footer className="w-full mx-auto flex justify-center items-center footer-background-image p-5">

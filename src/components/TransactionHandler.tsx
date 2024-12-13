@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import Toast from "../toast";
+import React, { useEffect, useState } from "react";
+
+import { Toast } from "./Toast";
 
 export interface TransactionHandlerProps {
   loadingMessage: string;
@@ -8,11 +9,13 @@ export interface TransactionHandlerProps {
   onTxDone: (success: boolean) => void;
 }
 
-const TransactionHandler = (props: TransactionHandlerProps) => {
+export const TransactionHandler = (props: TransactionHandlerProps) => {
   const [showToast, setShowToast] = useState(false);
   const [message, setMessage] = useState("");
   const [txHash, setTxHash] = useState<string | undefined>(undefined);
-  const [type, setType] = useState<"info" | "success" | "warning" | "error">("info");
+  const [type, setType] = useState<"info" | "success" | "warning" | "error">(
+    "info"
+  );
 
   useEffect(() => {
     const waitForTx = async () => {
@@ -33,20 +36,19 @@ const TransactionHandler = (props: TransactionHandlerProps) => {
         setType("success");
         success = true;
       } catch (error: any) {
-        let message = "Transaction failed."
+        let message = "Transaction failed.";
         setMessage(message);
         setType("error");
         success = false;
       } finally {
         props.onTxDone(success);
       }
-    }
+    };
 
     if (props.txPromise) {
       waitForTx();
     }
   }, [props.txPromise, setMessage, setType, setTxHash]);
-
 
   return (
     <>
@@ -56,10 +58,9 @@ const TransactionHandler = (props: TransactionHandlerProps) => {
           txHash={txHash}
           type={type}
           position={"bottom-right"}
-          onClose={() => setShowToast(false)} />
+          onClose={() => setShowToast(false)}
+        />
       )}
     </>
   );
-}
-
-export default TransactionHandler;
+};
