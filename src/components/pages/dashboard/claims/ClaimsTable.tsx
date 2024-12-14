@@ -5,7 +5,7 @@ import { useBlockchainContext } from "@/components/context/BlockchainContext";
 import { useDashboardContext } from "@/components/context/DashboardContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
 import Decimal from "decimal.js";
-import TransactionHandler from "@/app/buy/components/transactionHandler";
+import { TransactionHandler } from "@/components/TransactionHandler";
 import { useEthersSigner } from "@/services/useEthersSigner";
 
 export const ClaimsTable: React.FC = () => {

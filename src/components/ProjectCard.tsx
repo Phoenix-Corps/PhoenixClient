@@ -3,11 +3,10 @@
 import React from "react";
 import Image from "next/image";
 
-import { PoolInfo } from "@/services/walletService";
-
 import { ButtonYellow } from "@/components/Buttons/ButtonYellow";
 
 import { formatDate } from "@/utils/format";
+import { PoolInfo } from "@/types/types";
 
 export const ProjectCard: React.FC<PoolInfo> = ({
   id,

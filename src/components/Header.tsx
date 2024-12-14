@@ -11,7 +11,7 @@ export const Header = () => {
       <div className="absolute top-10 left-10">
         <Logo width={162} />
       </div>
-      <ButtonConnect />
+      <ButtonConnect className="absolute top-0 right-3" />
     </div>
   );
 };

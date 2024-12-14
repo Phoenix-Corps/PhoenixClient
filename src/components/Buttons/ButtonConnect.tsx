@@ -5,7 +5,10 @@ import { useAccount } from "wagmi";
 
 import { formatAddress } from "@/utils/format";
 
-export const ButtonConnect = (props: { showAddress?: boolean }) => {
+export const ButtonConnect = (props: {
+  showAddress?: boolean;
+  className?: string;
+}) => {
   const acc = useAccount();
   const { openConnectModal } = useConnectModal();
   const { openAccountModal } = useAccountModal();
@@ -13,7 +16,9 @@ export const ButtonConnect = (props: { showAddress?: boolean }) => {
   return (
     <button
       onClick={acc.isConnected ? openAccountModal : openConnectModal}
-      className="walletConnect-button absolute top-0 right-3 w-[100px] h-[40px] text-xs p-1"
+      className={`walletConnect-button w-[100px] h-[40px] text-xs p-1 ${
+        props.className ?? ""
+      }`}
     >
       {acc.isConnected
         ? !!props.showAddress

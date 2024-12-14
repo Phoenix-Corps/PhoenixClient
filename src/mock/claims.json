@@ -1,0 +1,26 @@
+[
+    {
+        "name": "SamurAI",
+        "logo": "/clients/Immutable_AI_Labs/logo.jpeg",
+        "token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "claimable": 1,
+        "claimed": 0,
+        "total": 1
+    },
+    {
+        "name": "Project BabyNana",
+        "logo": "/clients/Immutable_AI_Labs/logo.jpeg",
+        "token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "claimable": 0,
+        "claimed": 0.5,
+        "total": 1
+    },
+    {
+        "name": "Project Firebirb",
+        "logo": "/clients/Immutable_AI_Labs/logo.jpeg",
+        "token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "claimable": 0,
+        "claimed": 1,
+        "total": 1
+    }
+]

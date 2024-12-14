@@ -21,13 +21,6 @@
     padding: 5px;
 }
 
-.profile-badge-outer {
-    background: rgba(var(--color_textAccent), 1);
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-}
-
 .badge-rank {
     background: white;
     border-radius: 25px;

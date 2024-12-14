@@ -3,11 +3,12 @@
 import React, { useEffect, useState } from "react";
 
 import { useBlockchainContext } from "@/components/context/BlockchainContext";
-import { PoolInfo } from "@/services/walletService";
 import { ProjectCard } from "./ProjectCard";
+import { PoolInfo } from "@/types/types";
 
 export const ProjectsSection: React.FC = () => {
   const { fetchAllPoolInfo } = useBlockchainContext();
+
   const [projects, setProjects] = useState<PoolInfo[]>([]);
 
   useEffect(() => {

@@ -1,0 +1,21 @@
+.gridItem-container {
+    background: #31315A4D;
+    backdrop-filter: blur(20px);
+}
+
+.gridItem {
+    border-top: 1px solid;
+    border-color: #FFFFFF26;
+}
+
+.column_project {
+    width: 200px;
+}
+
+.column_amount {
+    flex-grow: 1;
+}
+
+.column_status {
+    width: 100px;
+}

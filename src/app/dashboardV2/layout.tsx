@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useCallback, useEffect } from "react";
+import { ReactNode, useCallback, useEffect, useMemo } from "react";
 
 import { useAccount } from "wagmi";
 
@@ -21,23 +21,32 @@ type Props = {
 };
 
 const TeamWrapper: React.FC<Props> = ({ children }) => {
-  const { userInfo } = useDashboardContext();
+  const { userInfo, walletAddress, fetchUserInfo } = useDashboardContext();
   const { isConnected } = useAccount();
 
+  const bg = useMemo(() => {
+    if (!isConnected) return "main-air-wrapper";
+    if (userInfo?.isTeamUser) return "bg-team";
+    else return "bg-solo";
+  }, [userInfo?.isTeamUser, isConnected]);
+
+  useEffect(() => {
+    if (walletAddress) fetchUserInfo(walletAddress);
+  }, [walletAddress, isConnected]);
+
   return (
-    <div
-      className={`relative min-h-screen p-4 bg-center bg-no-repeat bg-${
-        userInfo?.isTeamUser ? "team" : "solo"
-      }`}
-    >
+    <div className={`relative min-h-screen p-4 bg-center bg-no-repeat ${bg}`}>
       <>
         {!isConnected ? (
-          <div className="main-air-wrapper text-center items-center flex flex-col justify-center h-screen">
-            <p className="mb-4 text-white">Connect your wallet to continue</p>
-            <div className="z-20">
+          <>
+            <Header />
+            <div className="card flex flex-col items-center justify-center m-auto mt-4 w-[300px]">
+              <p className="din color_textAccent text-3xl text-center">
+                Connect your wallet to continue
+              </p>
               <ButtonConnect />
             </div>
-          </div>
+          </>
         ) : (
           <>{children}</>
         )}

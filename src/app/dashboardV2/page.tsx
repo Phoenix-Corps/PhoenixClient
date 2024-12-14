@@ -6,10 +6,13 @@ import Decimal from "decimal.js";
 
 import { useDashboardContext } from "@/components/context/DashboardContext";
 
-import { ButtonYellow } from "@/components/Buttons/ButtonYellow";
+import { ButtonState } from "@/components/Buttons/ButtonState";
 import { XpBar } from "@/components/pages/dashboardV2/XpBar";
 
 import { formatAddress } from "@/utils/format";
+
+import { useEthersSigner } from "@/services/useEthersSigner";
+import { upgradeRank } from "@/services/walletService";
 
 import Icon_Copy from "@public/icons/copy.svg";
 import Icon_Profile from "@public/icons/profile.svg";
@@ -21,11 +24,11 @@ const RankBadge = (props: { rank: number; team: boolean }) => {
     <div className="badge-rank flex items-center pl-2 pr-2">
       <div className="flex items-end">
         <div className="text-base pr-1">LVL. </div>
-        <div className="text-lg pr-1">{props.rank + 1}</div>
+        <div className="text-lg pr-1">{props.rank}</div>
       </div>
       <Image
         src={`/images/ranks/${props.team ? "team" : "solo"}/Lvl-${
-          props.rank + 1
+          props.rank
         }.png`}
         alt="Rank"
         width={32}
@@ -84,10 +87,20 @@ const ProfileInfo = (props: { walletAddress: string; rankName?: string }) => {
 };
 
 export default function Page() {
+  const signer = useEthersSigner();
   const { walletAddress, userInfo } = useDashboardContext();
 
   const handleCopyClipboard = (code: string) => {
     navigator.clipboard.writeText(code);
+  };
+  const upgradeLevel = () => {
+    if (
+      signer &&
+      (userInfo?.nextRank?.requiredXP?.comparedTo(userInfo?.currentXP!) ?? 1) <=
+        0
+    ) {
+      upgradeRank(signer);
+    }
   };
 
   return (
@@ -98,7 +111,15 @@ export default function Page() {
             walletAddress={walletAddress!}
             rankName={userInfo?.currentRank.name}
           />
-          <ButtonYellow mainText="UPGRADE" />
+          <ButtonState
+            enabled={
+              (userInfo?.nextRank?.requiredXP?.comparedTo(
+                userInfo?.currentXP!
+              ) ?? 1) <= 0
+            }
+            mainText="UPGRADE"
+            onClick={upgradeLevel}
+          />
         </div>
 
         <RankXpInfo

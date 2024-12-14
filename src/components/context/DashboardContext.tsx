@@ -5,16 +5,17 @@ import {
   useCallback,
   ReactNode
 } from "react";
+
+import { useAccount } from "wagmi";
+
 import {
   getUserInfo,
-  UserInfo,
   getUserClaimInfo,
-  ClaimInfo,
   getHireRankInfo
 } from "@/services/walletService";
-
 import { useEthersProvider } from "@/services/useEthersProvider";
-import { useAccount } from "wagmi";
+
+import { UserInfo, ClaimInfo } from "@/types/types";
 
 export interface DashboardContextType {
   userInfo: UserInfo | null;

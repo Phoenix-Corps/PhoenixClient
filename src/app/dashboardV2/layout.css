@@ -7,3 +7,10 @@
     background-image: url("../../../public/pages/dashboardV2/bg_team_big.png");
     background-size: 100% 100%;
 }
+
+.card {
+    background: #FFFFFFCC;
+    backdrop-filter: blur(55px);
+    border-radius: 4px;
+    padding: 25px 40px;
+}
