@@ -1,9 +1,21 @@
 import Decimal from "decimal.js";
 
-import { ClaimInfo, PoolInfo } from "@/types/types";
+import { findToken } from "@/services/walletService";
+
+import { ClaimInfo, PoolInfo, Recruit } from "@/types/types";
+
+import configRanks from "@/config/rankNames.json";
 
 import mockClaims from "@/mock/claims.json";
-import { findToken } from "@/services/walletService";
+import mockRecruits from "@/mock/recruits.json";
+
+[
+  {
+    code: "123456",
+    address: "0x0",
+    rank: 0
+  }
+];
 
 export const mock_claim_projects = (): PoolInfo[] => {
   return mockClaims.map(
@@ -31,4 +43,13 @@ export const mock_claim_claimInfo = (): { id: number; claim: ClaimInfo }[] => {
       }
     };
   });
+};
+
+export const mock_division_recruits = (): Recruit[] => {
+  return mockRecruits.map(r => ({
+    code: r.code,
+    address: r.address,
+    rankName: configRanks.team[r.rank],
+    rankId: r.rank + 1
+  }));
 };
