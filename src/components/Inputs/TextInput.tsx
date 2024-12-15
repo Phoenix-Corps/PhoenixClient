@@ -7,7 +7,7 @@ type Props = {
 export const TextInput: React.FC<Props> = (props: Props) => {
   return (
     <input
-      className="p-3 rounded-lg bg-[#3F5269] text-white focus:outline-none outline outline-white outline-1 outline-offset-1"
+      className="p-3 rounded-lg bg-[transparent] text-white focus:outline-none outline outline-white outline-1 outline-offset-1"
       type="text"
       placeholder={props.placeholder}
       value={props.value}

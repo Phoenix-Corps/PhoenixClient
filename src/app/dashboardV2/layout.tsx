@@ -9,12 +9,12 @@ import { registerUser } from "@/services/walletService";
 import { Header } from "@/components/Header";
 import { ButtonConnect } from "@/components/Buttons/ButtonConnect";
 import { LoadingOverlay } from "@/components/LoadingOverlay";
+import { ButtonYellow } from "@/components/Buttons/ButtonYellow";
 
 import { useEthersSigner } from "@/services/useEthersSigner";
 import { useDashboardContext } from "@/components/context/DashboardContext";
 
 import "./layout.css";
-import { ButtonYellow } from "@/components/Buttons/ButtonYellow";
 
 type Props = {
   children: ReactNode;

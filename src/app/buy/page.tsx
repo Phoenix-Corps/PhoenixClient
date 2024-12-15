@@ -11,7 +11,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 
 import Decimal from "decimal.js";
-import { useAccount, useBalance, useDisconnect } from "wagmi";
+import { useAccount, useBalance } from "wagmi";
 
 import { Checkbox } from "@radix-ui/themes";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -20,7 +20,6 @@ import { useEthersSigner } from "@/services/useEthersSigner";
 import { useEthersProvider } from "@/services/useEthersProvider";
 
 import {
-  PoolInfo,
   approveSpending,
   buy,
   checkApproval,
@@ -28,14 +27,17 @@ import {
 } from "@/services/walletService";
 
 import { LoadingOverlay } from "@/components/LoadingOverlay";
-import { TransactionHandler } from "@/components/TransactionHandler";
-import { BuyButton } from "../../components/pages/buy/BuyButton";
-import { SellerLinkBar } from "../../components/pages/buy/SellerLinkBar";
+import { BuyButton } from "@/components/pages/buy/BuyButton";
+import { SellerLinkBar } from "@/components/pages/buy/SellerLinkBar";
 import { BuyPageFooter } from "@/components/pages/buy/BuyPageFooter";
 import { Header } from "@/components/Header";
+import { NumberInput } from "@/components/Inputs/NumberInputs";
 
 import { useBlockchainContext } from "@/components/context/BlockchainContext";
 import { useDashboardContext } from "@/components/context/DashboardContext";
+import { useTransactionHandler } from "@/components/context/TransactionHandlerContext";
+
+import { PoolInfo } from "@/types/types";
 
 import Icon_Voucher from "@public/pages/buy/phoenix-coin.png";
 
@@ -43,47 +45,11 @@ import "./page.css";
 
 type Props = {};
 
-const Input = (props: {
-  amount: number | null;
-  tokenName?: string;
-  amountUpdated: (amount: number | null) => void;
-  imageSrc?: string;
-}) => {
-  return (
-    <div className="flex flex-row items-center border border-[rgba(255, 255, 255, 0.3)] rounded w-full bg-gradient-to-b from-white/10 to-blue-300/20 p-2 ">
-      <input
-        className="flex-1 bg-transparent text-white text-lg font-bold placeholder-white/50 focus:outline-none px-4"
-        value={props.amount ?? ""}
-        placeholder="0.00"
-        onChange={(e: any) => props.amountUpdated(e.target.value || null)}
-      />
-      {props.imageSrc ? (
-        <>
-          <Image
-            src={props.imageSrc}
-            alt="Description of the image"
-            width={30}
-            height={30}
-            style={{ objectFit: "contain" }}
-          />
-          <div className="w-[60px] pl-4 aeroport text-[10px]">
-            {props.tokenName ?? ""}
-          </div>
-        </>
-      ) : (
-        <span className="text-sm text-white/50">...</span>
-      )}
-    </div>
-  );
-};
-
 const BuyPageWrapper = (props: Props) => {
+  const { setTx } = useTransactionHandler();
+
   const [showWarning, setShowWarning] = useState(false);
   const [warningMessage, setWarningMessage] = useState<string>("");
-
-  const [tx, setTx] = useState<Promise<any> | undefined>(undefined);
-  const [txInProgressMessage, setTxInProgressMessage] = useState<string>("");
-  const [txSuccessMessage, setTxSuccessMessage] = useState<string>("");
 
   const [buyInProgress, setBuyInProgress] = useState<boolean>(false);
   const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
@@ -252,17 +218,17 @@ const BuyPageWrapper = (props: Props) => {
           );
 
           if (!hasApproval) {
+            // approve
             const approveTx = approveSpending(signer, currentPoolInfo!.token);
-
-            setTxInProgressMessage(
-              "Waiting for Aprove spending transation to be completed."
+            setTx(
+              "Waiting for Approve spending transation to be completed.",
+              "Approve spending transation completed.",
+              approveTx
             );
-            setTxSuccessMessage("Aprove spending transation completed.");
-            setTx(approveTx);
-
             await (await approveTx).wait();
           }
 
+          // buy
           const buyTx = buy(
             signer,
             +poolId,
@@ -270,11 +236,11 @@ const BuyPageWrapper = (props: Props) => {
             amount!,
             code
           );
-
-          setTxInProgressMessage("Waiting for Buy transation to be completed.");
-          setTxSuccessMessage("Purchase successful!");
-          setTx(buyTx);
-
+          setTx(
+            "Waiting for Buy transaction to be completed.",
+            "Purchase successful!",
+            buyTx
+          );
           await (await buyTx).wait();
         } finally {
           setBuyInProgress(false);
@@ -290,8 +256,6 @@ const BuyPageWrapper = (props: Props) => {
     setShowWarning,
     setWarningMessage,
     setTx,
-    setTxInProgressMessage,
-    setTxSuccessMessage,
     signer,
     poolId,
     currentPoolInfo,
@@ -348,7 +312,7 @@ const BuyPageWrapper = (props: Props) => {
               </div>
               {isConnected ? (
                 <div className="relative buy-wrapper-main w-full">
-                  <Input
+                  <NumberInput
                     tokenName={currentPoolInfo?.token.symbol}
                     imageSrc={currentPoolInfo?.token.logo}
                     amount={amount}
@@ -356,7 +320,7 @@ const BuyPageWrapper = (props: Props) => {
                   />
                   <div className="h-[5px]" />
                   <div className="phoenix-image-token-wrapper">
-                    <Input
+                    <NumberInput
                       tokenName={"Voucher"}
                       imageSrc={
                         currentPoolInfo?.projectInfo?.logo ?? Icon_Voucher.src
@@ -466,12 +430,6 @@ const BuyPageWrapper = (props: Props) => {
         </div>
         {isConnected && <>{urlForCopy && <SellerLinkBar url={urlForCopy} />}</>}
         <BuyPageFooter poolInfo={currentPoolInfo} />
-        <TransactionHandler
-          txPromise={tx}
-          loadingMessage={txInProgressMessage}
-          successMessage={txSuccessMessage}
-          onTxDone={() => {}}
-        />
         <LoadingOverlay isLoading={buyInProgress} />
       </div>
     </div>

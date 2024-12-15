@@ -1,6 +1,8 @@
 import React from "react";
+
 import { Socials } from "@/components/Socials";
-import { PoolInfo } from "@/services/walletService";
+
+import { PoolInfo } from "@/types/types";
 
 import pageConfig from "@/config/page.json";
 

@@ -4,6 +4,7 @@ import { ButtonBase, ButtonProps } from "./ButtonBase";
 
 type ButtonStateProps = ButtonProps & {
   enabled: boolean;
+  className?: string;
 };
 
 export const ButtonState: React.FC<ButtonStateProps> = (
@@ -11,8 +12,10 @@ export const ButtonState: React.FC<ButtonStateProps> = (
 ) => {
   return (
     <ButtonBase
-      colorClass={props.enabled ? "button-front-yellow" : "button-front-hollow"}
       {...props}
+      className={`${
+        props.enabled ? "button-front-yellow" : "button-front-hollow"
+      } ${props.className ?? ""}`}
     />
   );
 };

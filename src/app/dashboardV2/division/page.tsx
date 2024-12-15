@@ -18,6 +18,8 @@ import { mock_division_recruits } from "@/mock/mockUtils";
 
 import "./page.css";
 import { TextInput } from "@/components/Inputs/TextInput";
+import { ButtonHollow } from "@/components/Buttons/ButtonHollow";
+import { ButtonState } from "@/components/Buttons/ButtonState";
 
 const Item = (props: Recruit) => {
   return (
@@ -75,7 +77,12 @@ const RecruitmentMenu = () => {
         </div>
       </div>
 
-      <ButtonYellow mainText="RECRUIT" width={150} />
+      <ButtonState
+        enabled={true}
+        mainText="RECRUIT"
+        width={150}
+        className="!p-2"
+      />
     </div>
   );
 };

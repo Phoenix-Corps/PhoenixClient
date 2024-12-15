@@ -6,6 +6,7 @@ import { WagmiProvider } from "wagmi";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { BlockchainProvider } from "@/components/context/BlockchainContext";
 import { DashboardProvider } from "@/components/context/DashboardContext";
+import { TransactionHandlerProvider } from "./TransactionHandlerContext";
 
 import { wagmiConfig } from "@/config/wagmi";
 
@@ -19,7 +20,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <QueryClientProvider client={queryClient}>
         <BlockchainProvider>
           <DashboardProvider>
-            <RainbowKitProvider>{children}</RainbowKitProvider>
+            <RainbowKitProvider>
+              <TransactionHandlerProvider>
+                {children}
+              </TransactionHandlerProvider>
+            </RainbowKitProvider>
           </DashboardProvider>
         </BlockchainProvider>
       </QueryClientProvider>

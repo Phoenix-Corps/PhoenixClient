@@ -6,7 +6,7 @@ export interface TransactionHandlerProps {
   loadingMessage: string;
   successMessage: string;
   txPromise?: Promise<any>;
-  onTxDone: (success: boolean) => void;
+  onTxDone?: (success: boolean) => void;
 }
 
 export const TransactionHandler = (props: TransactionHandlerProps) => {
@@ -41,7 +41,7 @@ export const TransactionHandler = (props: TransactionHandlerProps) => {
         setType("error");
         success = false;
       } finally {
-        props.onTxDone(success);
+        props.onTxDone?.(success);
       }
     };
 

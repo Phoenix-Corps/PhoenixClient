@@ -3,7 +3,7 @@
 import { useCallback, useMemo } from "react";
 import Image from "next/image";
 
-import { ButtonYellow } from "@/components/Buttons/ButtonYellow";
+import { ButtonHollow } from "@/components/Buttons/ButtonHollow";
 
 import { useEthersSigner } from "@/services/useEthersSigner";
 import { claim } from "@/services/walletService";
@@ -44,32 +44,37 @@ const Item = (props: { pool: PoolInfo; claimInfo: ClaimInfo }) => {
   );
 
   return (
-    <div className="gridItem flex h-[50px] items-center py-10">
+    <div className="gridItem flex items-center">
       <div className="text-xl column_project">
         {props.pool.projectInfo!.name}
       </div>
-      <div className="flex column_amount">
-        <div className="flex rounded-full bg-white color_textAccent py-1 px-3">
-          <Image
-            src={props.pool.token.logo}
-            alt={props.pool.token.symbol}
-            width={24}
-            height={24}
-            className="mr-2"
-          />
-          {amount.toString()} {props.pool.token.symbol}
+      <div className="flex column_amount justify-between items-center">
+        <div className="smallVisible">Amount</div>
+        <div className="flex">
+          <div className="flex rounded-full bg-white color_textAccent py-1 px-3">
+            <Image
+              src={props.pool.token.logo}
+              alt={props.pool.token.symbol}
+              width={24}
+              height={24}
+              className="mr-2"
+            />
+            {amount.toString()} {props.pool.token.symbol}
+          </div>
         </div>
       </div>
-      <div className="column_status text-right text-xl">
+      <div className="flex column_status text-right justify-between items-center">
+        <div className="smallVisible">Status</div>
         {claimType === -1 && (
-          <ButtonYellow
+          <ButtonHollow
             mainText="CLAIM"
             width={100}
+            className="!p-2 color_text stroke_text"
             onClick={() => handleClaim(props.pool.id)}
           />
         )}
-        {claimType === 0 && <div className=" opacity-60">Pending</div>}
-        {claimType === 1 && <>Claimed</>}
+        {claimType === 0 && <div className="text-xl opacity-60">Pending</div>}
+        {claimType === 1 && <div className="text-xl">Claimed</div>}
       </div>
     </div>
   );
@@ -80,13 +85,15 @@ export default function Page() {
   const claimInfo = useMemo(() => mock_claim_claimInfo(), []);
 
   return (
-    <div className="din color_text m-auto w-[1200px]">
+    <div className="din color_text page-container flex flex-col items-center">
       <div className="text-5xl mb-5">MY CLAIMS</div>
       <div className="gridItem-container rounded px-5">
-        <div className="flex h-[50px] items-center py-3 text-base opacity-60">
-          <div className="column_project">Project</div>
-          <div className="column_amount">Amount</div>
-          <div className="column_status text-right">Status</div>
+        <div className="smallHidden">
+          <div className="flex h-[50px] items-center py-3 text-base opacity-60">
+            <div className="column_project">Project</div>
+            <div className="column_amount">Amount</div>
+            <div className="column_status text-right">Status</div>
+          </div>
         </div>
 
         {claimInfo.map(c => (

@@ -21,15 +21,10 @@ export const Select: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <div
-      className="space-y-4 flex flex-col items-center"
-      style={{ width: "100%" }}
-    >
+    <div className="relative space-y-4 flex flex-col items-center">
       <div
-        className="p-3 bg-[#3F5269] text-white cursor-pointer outline outline-white outline-1 outline-offset-1 rounded-tl-lg rounded-tr-lg flex justify-between items-center"
+        className="p-3 bg-[transparent] text-white cursor-pointer outline outline-white outline-1 outline-offset-1 rounded-tl-lg rounded-tr-lg flex justify-between items-center"
         style={{
-          maxWidth: "500px",
-          width: "100%",
           borderBottomLeftRadius: dropdownOpen ? 0 : "0.5rem",
           borderBottomRightRadius: dropdownOpen ? 0 : "0.5rem",
           marginBottom: dropdownOpen ? 0 : undefined
@@ -45,7 +40,7 @@ export const Select: React.FC<Props> = (props: Props) => {
 
       {dropdownOpen && (
         <div
-          className="bg-[#1F354F] rounded-bl-lg rounded-br-lg shadow-lg outline outline-white outline-1 outline-offset-1"
+          className="absolute right-0 top-10 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-non" //absolute right-0 z-10 mt-2 w-56 origin-top-right bg-[transparent] rounded-bl-lg rounded-br-lg shadow-lg outline outline-white outline-1 outline-offset-1"
           style={{
             maxWidth: "500px",
             width: "100%",
@@ -54,16 +49,18 @@ export const Select: React.FC<Props> = (props: Props) => {
             marginTop: 0
           }}
         >
-          {props.options.map((text, index) => {
-            return (
-              <div
-                className="p-3 text-white hover:bg-[#3F5269] cursor-pointer flex justify-center items-center"
-                onClick={() => handleSelect(index)}
-              >
-                {text}
-              </div>
-            );
-          })}
+          <div className="py-1">
+            {props.options.map((text, index) => {
+              return (
+                <div
+                  className="p-3 text-white hover:bg-[#3F5269] cursor-pointer flex justify-center items-center"
+                  onClick={() => handleSelect(index)}
+                >
+                  {text}
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>

@@ -5,6 +5,7 @@
     --color_text: #F5F8FC;
     --color_textSecondary: rgb(216, 227, 244);
     --color_textAccent: #184863;
+    --colorT_textAccent: #18486333;
 
     --gradient_blue1: #55c0f2;
     --gradient_blue2: #62D2e0;
@@ -19,13 +20,23 @@
 }
 
 .color_text {
-    color: var(--color_text);
+    color: var(--color_text) !important;
 }
 
 .color_textSecondary {
-    color: var(--color_textSecondary);
+    color: var(--color_textSecondary) !important;
 }
 
 .color_textAccent {
-    color: var(--color_textAccent);
+    color: var(--color_textAccent) !important;
+}
+
+.stroke_text,
+.stroke_text SVG {
+    stroke: var(--color_text) !important;
+}
+
+.stroke_textAccent,
+.stroke_textAccent SVG{
+    stroke: var(--color_textAccent) !important;
 }

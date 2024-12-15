@@ -5,16 +5,17 @@ import Image from "next/image";
 import Decimal from "decimal.js";
 
 import { useDashboardContext } from "@/components/context/DashboardContext";
+import { useTransactionHandler } from "@/components/context/TransactionHandlerContext";
 
 import { ButtonState } from "@/components/Buttons/ButtonState";
 import { XpBar } from "@/components/pages/dashboardV2/XpBar";
+import { CopyField } from "@/components/Inputs/CopyField";
 
 import { formatAddress } from "@/utils/format";
 
 import { useEthersSigner } from "@/services/useEthersSigner";
 import { upgradeRank } from "@/services/walletService";
 
-import Icon_Copy from "@public/icons/copy.svg";
 import Icon_Profile from "@public/icons/profile.svg";
 
 import "./page.css";
@@ -63,10 +64,6 @@ const RankXpInfo = (props: {
 };
 
 const ProfileInfo = (props: { walletAddress: string; rankName?: string }) => {
-  const handleCopyClipboard = (code: string) => {
-    navigator.clipboard.writeText(code);
-  };
-
   return (
     <div className="flex gap-5">
       <div className="profile-badge flex items-center justify-center">
@@ -75,12 +72,10 @@ const ProfileInfo = (props: { walletAddress: string; rankName?: string }) => {
 
       <div className="flex flex-col">
         <div className="text-3xl uppercase">{props.rankName}</div>
-        <div className="flex items-center">
-          <div className="text-xs">{formatAddress(props.walletAddress)}</div>
-          <button onClick={() => handleCopyClipboard(props.walletAddress)}>
-            <Icon_Copy />
-          </button>
-        </div>
+        <CopyField
+          value={formatAddress(props.walletAddress)}
+          className="aeroport text-xs stroke_textAccent items-start"
+        />
       </div>
     </div>
   );
@@ -89,17 +84,19 @@ const ProfileInfo = (props: { walletAddress: string; rankName?: string }) => {
 export default function Page() {
   const signer = useEthersSigner();
   const { walletAddress, userInfo } = useDashboardContext();
+  const { setTx } = useTransactionHandler();
 
-  const handleCopyClipboard = (code: string) => {
-    navigator.clipboard.writeText(code);
-  };
   const upgradeLevel = () => {
     if (
       signer &&
       (userInfo?.nextRank?.requiredXP?.comparedTo(userInfo?.currentXP!) ?? 1) <=
         0
     ) {
-      upgradeRank(signer);
+      setTx(
+        "Upgrading rank",
+        "Successfully upgrated rank",
+        upgradeRank(signer)
+      );
     }
   };
 
@@ -118,6 +115,8 @@ export default function Page() {
               ) ?? 1) <= 0
             }
             mainText="UPGRADE"
+            width={200}
+            className="!p-2"
             onClick={upgradeLevel}
           />
         </div>
@@ -128,20 +127,20 @@ export default function Page() {
           currentXP={userInfo?.currentXP!}
           maxXP={userInfo?.nextRank?.requiredXP}
         />
-      </div>
 
+        <div className="aeroport flex items-end justify-between pt-3">
+          <div className="text-base font-normal">Your current commission:</div>
+          <div className="text-xl px-1">
+            {userInfo?.currentRank.paymentPercent.toFixed(0)}%
+          </div>
+        </div>
+      </div>
       <div className="card flex flex-col items-center">
         <div className="text-center">My code</div>
-        <div className="referral-box text-4xl text-center p-1">
-          {userInfo?.referralCode}{" "}
-          <button
-            onClick={() =>
-              handleCopyClipboard(userInfo?.referralCode as string)
-            }
-          >
-            <Icon_Copy />
-          </button>
-        </div>
+        <CopyField
+          value={userInfo?.referralCode!}
+          className="referral-box text-4xl text-center stroke_textAccent"
+        />
       </div>
     </div>
   );

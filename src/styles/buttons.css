@@ -3,6 +3,11 @@
     border-width: 1px;
     border-color: var(--color_accent);
     line-height: 1.5;
+    color: var(--color_textAccent);
+    
+}
+.button-front-yellow SVG{
+    stroke: var(--colorT_textAccent);
 }
 
 .button-front-yellow:hover {
@@ -15,6 +20,12 @@
     border-width: 1px;
     border-color: var(--color_text);
     line-height: 1.5;
+    color: var(--color_textAccent);
+    stroke: var(--color_textAccent);
+}
+
+.button-front-hollow SVG {
+    stroke: var(--colorT_textAccent);
 }
 
 .button-front-hollow:hover {
@@ -24,11 +35,10 @@
 }
 
 .main-text-button-front {
-    color: var(--color_textAccent);
+    
 }
 
 .right-text-button-front {
-    color: var(--color_textAccent);
     opacity: 20%;
 }
 

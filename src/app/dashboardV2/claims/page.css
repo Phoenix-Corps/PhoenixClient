@@ -1,11 +1,28 @@
+.page-container {
+    min-width: 600px;
+}
+
+.smallVisible {
+    display: none;
+}
+
+.smallHidden {
+    display: inherit
+}
+
 .gridItem-container {
     background: #31315A4D;
     backdrop-filter: blur(20px);
+    max-width: 1200px;
+    width: 100%;
 }
 
 .gridItem {
     border-top: 1px solid;
     border-color: #FFFFFF26;
+    min-height: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .column_project {
@@ -18,4 +35,43 @@
 
 .column_status {
     width: 100px;
+}
+
+@media only screen and (max-width: 600px) {
+    .page-container {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .smallVisible {
+        display: inherit;
+    }
+
+    .smallHidden {
+        display: none;
+    }
+
+    .gridItem-container {
+        width: 100%;
+    }
+
+    .gridItem {
+        width: 100%;
+        flex-direction: column;
+        padding-top: 0;
+        padding-bottom: 10px;
+        gap: 10px;
+    }
+
+    .column_project {
+        width: 100%;
+    }
+
+    .column_amount {
+        width: 100%;
+    }
+
+    .column_status {
+        width: 100%;
+    }
 }

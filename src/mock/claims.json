@@ -10,7 +10,7 @@
     {
         "name": "Project BabyNana",
         "logo": "/clients/Immutable_AI_Labs/logo.jpeg",
-        "token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token": "0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2",
         "claimable": 0,
         "claimed": 0.5,
         "total": 1
@@ -18,7 +18,7 @@
     {
         "name": "Project Firebirb",
         "logo": "/clients/Immutable_AI_Labs/logo.jpeg",
-        "token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token": "0x4200000000000000000000000000000000000006",
         "claimable": 0,
         "claimed": 1,
         "total": 1

@@ -1,8 +1,7 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 
-import Vector from "@public/pages/home/Vector_right.png";
+import Icon_Right from "@public/icons/right.svg";
 
 export type ButtonProps = {
   mainText: string;
@@ -12,7 +11,7 @@ export type ButtonProps = {
   miniBox?: boolean;
   width?: number;
   target?: string;
-  colorClass?: string;
+  className?: string;
 };
 
 export const ButtonBase: React.FC<ButtonProps> = ({
@@ -23,16 +22,16 @@ export const ButtonBase: React.FC<ButtonProps> = ({
   miniBox,
   width,
   target,
-  colorClass
+  className
 }) => {
   const widthClass = `w-[${width ?? 300}px]`;
   return (
     <div>
       <Link href={link ?? ""} target={target}>
         <button
-          className={`flex din justify-center items-center text-[28px] p-4 rounded ${colorClass} ${widthClass} ${
+          className={`flex din justify-center items-center text-[28px] p-4 rounded ${widthClass} ${
             miniBox ? "flex justify-between w-full" : ""
-          }`}
+          } ${className ?? ""}`}
           onClick={onClick}
         >
           <div className="main-text-button-front h-[34px]">{mainText}</div>
@@ -41,11 +40,10 @@ export const ButtonBase: React.FC<ButtonProps> = ({
               {rightText}
             </div>
           )}
-          <Image
+          <Icon_Right
             className="ml-[12px]"
-            src={Vector.src}
-            width={7}
-            height={16}
+            width={16}
+            height={12}
             alt="right"
           />
         </button>
