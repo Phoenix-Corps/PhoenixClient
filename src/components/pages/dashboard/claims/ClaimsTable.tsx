@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import Image from "next/image";
-import { claim, PoolInfo } from "@/services/walletService";
+import { claim } from "@/services/walletService";
 import { useBlockchainContext } from "@/components/context/BlockchainContext";
 import { useDashboardContext } from "@/components/context/DashboardContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
 import Decimal from "decimal.js";
 import { TransactionHandler } from "@/components/TransactionHandler";
 import { useEthersSigner } from "@/services/useEthersSigner";
+import { PoolInfo } from "@/types/types";
 
 export const ClaimsTable: React.FC = () => {
   const { fetchAllPoolInfo } = useBlockchainContext();

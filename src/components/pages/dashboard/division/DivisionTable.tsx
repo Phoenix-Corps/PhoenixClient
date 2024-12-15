@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import { useDashboardContext } from "@/components/context/DashboardContext";
-import { getDivision, Recruit } from "@/services/walletService";
+import { getDivision } from "@/services/walletService";
 import { useEthersProvider } from "@/services/useEthersProvider";
 
 import { formatAddress } from "@/utils/format";
 
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
+import { Recruit } from "@/types/types";
 
 export const DivisionTable = () => {
   const provider = useEthersProvider();

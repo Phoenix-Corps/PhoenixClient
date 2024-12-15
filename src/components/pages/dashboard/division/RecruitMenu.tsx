@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
-import { getHireRankInfo, HireRank, recruit } from "@/services/walletService";
+import { getHireRankInfo, recruit } from "@/services/walletService";
 import { useDashboardContext } from "@/components/context/DashboardContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
 import { useEthersSigner } from "@/services/useEthersSigner";
-import TransactionHandler from "@/app/buy/components/transactionHandler";
+import { TransactionHandler } from "@/components/TransactionHandler";
 import { ethers } from "ethers";
 
 import ArrowIcon from "@public/pages/dashboard/Vector 1.svg";
+import { HireRank } from "@/types/types";
 
 type RecruitMenuProps = {
   onClose: () => void;
