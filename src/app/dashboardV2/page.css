@@ -13,6 +13,12 @@
     padding: 25px 40px;
 }
 
+.profile-header {
+    flex-direction: row;
+    gap: 5px;
+    align-items: flex-start;
+}
+
 .profile-badge {
     background: var(--color_textAccent);
     width: 60px;
@@ -32,4 +38,27 @@
     background: #4D7C9622;
     border-radius: 2px;
     width: 200px;
+}
+
+@media only screen and (max-width: 800px) {
+    .card-container {
+        position: relative;
+        top: 0;
+        margin-left: 0;
+    }
+
+    .card {
+        width: 100%;
+    }
+    .referral-box {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .profile-header {
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
+    }
 }
