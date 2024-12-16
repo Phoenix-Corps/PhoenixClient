@@ -58,13 +58,21 @@
     .gridItem {
         width: 100%;
         flex-direction: column;
-        padding-top: 0;
+        padding-top: 10px;
         padding-bottom: 10px;
         gap: 10px;
     }
 
+    .first {
+        border-top: 0px;
+    }
+
     .column_project {
         width: 100%;
+
+        /* 3XL */
+        font-size: 1.875rem;
+        line-height: 2.25rem;            
     }
 
     .column_amount {

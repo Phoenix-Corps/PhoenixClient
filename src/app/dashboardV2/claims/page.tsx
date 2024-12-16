@@ -14,7 +14,11 @@ import { mock_claim_claimInfo, mock_claim_projects } from "@/mock/mockUtils";
 
 import "./page.css";
 
-const Item = (props: { pool: PoolInfo; claimInfo: ClaimInfo }) => {
+const Item = (props: {
+  pool: PoolInfo;
+  claimInfo: ClaimInfo;
+  index: number;
+}) => {
   const signer = useEthersSigner();
 
   const claimType = useMemo(() => {
@@ -44,8 +48,12 @@ const Item = (props: { pool: PoolInfo; claimInfo: ClaimInfo }) => {
   );
 
   return (
-    <div className="gridItem flex items-center">
-      <div className="text-xl column_project">
+    <div
+      className={`gridItem flex items-center ${
+        props.index === 0 ? "first" : ""
+      }`}
+    >
+      <div className="text-3xl column_project">
         {props.pool.projectInfo!.name}
       </div>
       <div className="flex column_amount justify-between items-center">
@@ -96,9 +104,10 @@ export default function Page() {
           </div>
         </div>
 
-        {claimInfo.map(c => (
+        {claimInfo.map((c, idx) => (
           <Item
             key={c.id}
+            index={idx}
             pool={pools.find(p => p.id == c.id)!}
             claimInfo={c.claim}
           />
