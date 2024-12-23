@@ -33,7 +33,7 @@ const ProjectCard: React.FC<PoolInfo> = ({
             {projectInfo?.name}
           </div>
           <div className="din text-[24px] text-white font-bold uppercase leading-[28px]">
-            Round {roundId}
+            Upcoming
           </div>
         </div>
         <div className="mini-blue-box w-[80px] h-[80px] rounded flex justify-center items-center">
@@ -49,24 +49,24 @@ const ProjectCard: React.FC<PoolInfo> = ({
       <div className="flex gap-4 flex-col">
         <div className="flex justify-between aeroport font-normal text-[16px] leading-[20px] text-white">
           <div className="opacity-60">Round Start:</div>
-          <div>{formatDate(roundStartDate)}</div>
+          <div>???</div>
         </div>
         <div className="flex justify-between aeroport font-normal text-[16px] leading-[20px] text-white">
           <div className="opacity-60">Round End:</div>
-          <div>{formatDate(roundEndDate)}</div>
+          <div>???</div>
         </div>
         <div className="flex justify-between aeroport font-normal text-[16px] leading-[20px] text-white">
           <div className="opacity-60">Round Price:</div>
           <div className="flex">
             <img src={token.logo} className="w-[20px] h-[20px] mr-1" />
-            {currentRound.voucherPrice.toString()}
+            ???
           </div>
         </div>
         <div className="flex justify-between aeroport font-normal text-[16px] leading-[20px] text-white">
           <div className="opacity-60">Round Goal:</div>
           <div className="flex">
             <img src={token.logo} className="w-[20px] h-[20px] mr-1" />
-            {currentRound.fundingGoal.toString()}
+            ???
           </div>
         </div>
       </div>
@@ -75,15 +75,11 @@ const ProjectCard: React.FC<PoolInfo> = ({
         <div className="flex justify-between items-center aeroport font-normal text-[16px] leading-[20px] text-white">
           <div className="opacity-60">Round Raised:</div>
           <div className="din font-bold leading-[48px] text-[40px] tracking-[-0.02px]">
-            {percentage.toFixed(2)}%
+            ???
           </div>
         </div>
 
-        <ButtonYellow
-          mainText="BUY NOW"
-          link={`/buy?poolId=${id}`}
-          miniBox={true}
-        />
+        <ButtonYellow mainText="Upcoming" miniBox={true} />
       </div>
     </div>
   );
