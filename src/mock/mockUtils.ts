@@ -9,14 +9,6 @@ import configRanks from "@/config/rankNames.json";
 import mockClaims from "@/mock/claims.json";
 import mockRecruits from "@/mock/recruits.json";
 
-[
-  {
-    code: "123456",
-    address: "0x0",
-    rank: 0
-  }
-];
-
 export const mock_claim_projects = (): PoolInfo[] => {
   return mockClaims.map(
     (v, idx) =>

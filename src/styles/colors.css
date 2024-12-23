@@ -37,6 +37,11 @@
 }
 
 .stroke_textAccent,
-.stroke_textAccent SVG{
+.stroke_textAccent SVG {
     stroke: var(--color_textAccent) !important;
+}
+
+.fill_textAccent,
+.fill_textAccent SVG {
+    fill: var(--color_textAccent) !important;
 }

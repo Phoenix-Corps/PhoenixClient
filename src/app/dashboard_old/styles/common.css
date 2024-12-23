@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap");
+
+.font-noto-serif {
+  font-family: "Noto Serif", serif;
+}
+
+.font-source-sans-pro {
+  font-family: "SourceSansPro", sans-serif;
+}
+
+@font-face {
+  font-family: "SourceSansPro";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../../../../public/fonts/SourceSansPro-Regular.ttf")
+    format("truetype");
+}
+
+.background-image {
+  
+  background-image: url("../public/common/shinobi-bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.footer-background-image {
+  width: 1440px;
+  height: 160px;
+  background-image: url("../public/common/side-bg.png"),
+    url("../public/common/footer-bg.png");
+  background-size: auto 137px, cover;
+  background-repeat: no-repeat, no-repeat;
+  background-position: right bottom, center;
+  
+}
+
+.added-fade-out {
+  opacity: 1;
+  animation: fadeOut 1s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}

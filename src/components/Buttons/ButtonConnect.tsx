@@ -5,6 +5,8 @@ import { useAccount } from "wagmi";
 
 import { formatAddress } from "@/utils/format";
 
+import Icon_Wallet from "@public/icons/wallet.svg";
+
 export const ButtonConnect = (props: {
   showAddress?: boolean;
   className?: string;
@@ -16,16 +18,18 @@ export const ButtonConnect = (props: {
   return (
     <button
       onClick={acc.isConnected ? openAccountModal : openConnectModal}
-      className={`walletConnect-button w-[100px] h-[40px] text-xs p-1 ${
+      className={`menu-button h-[40px] text-xs p-3 flex items-center justify-center gap-2 stroke_textAccent ${
         props.className ?? ""
       }`}
     >
-      {acc.isConnected
-        ? !!props.showAddress
-          ? formatAddress(acc.address!)
-          : "Disconnect"
-        : "Connect"}{" "}
-      Wallet
+      <Icon_Wallet />
+      <div className="menu-button-text color_textAccent aeroport">
+        {acc.isConnected
+          ? !!props.showAddress
+            ? formatAddress(acc.address!)
+            : "Disconnect Wallet"
+          : "Connect Wallet"}
+      </div>
     </button>
   );
 };

@@ -42,22 +42,30 @@
     opacity: 20%;
 }
 
-.walletConnect-button {
-    margin-top: 30px;
-    max-width: 390px;
-
-    background: linear-gradient(84.77deg, var(--gradient_yellow1) 20.9%, var(--gradient_yellow2) 79.73%);
-    border-radius: 8px;
-
-    color: rgba(40, 55, 150, 1);
-    font-size: 0.75rem;
-    line-height: 1rem;
-    font-weight: 800;
+@media only screen and (max-width: 600px) {
+    .menu-button-text {
+        display: none;
+    }
 }
 
-.walletConnect-button:hover {
+.menu-button {
+    margin-top: 30px;
+    border-radius: 999px;
+    background: linear-gradient(84.77deg, var(--gradient_yellow1) 20.9%, var(--gradient_yellow2) 79.73%);
+}
+
+.menu-button:hover {
     background: linear-gradient(84.77deg, var(--gradient_yellow1) 20.9%, var(--gradient_yellow2) 79.73%),
         linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
     background-blend-mode: overlay;
     /* Optional: to blend the gradients as needed */
+}
+
+.menuBlurred {
+    background: #7098FFAA;
+    backdrop-filter: blur(10px);
+}
+
+.menuItem:hover {
+    background: #FFFFFF55;
 }
