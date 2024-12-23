@@ -1,16 +1,18 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 
 import { ButtonHollow } from "@/components/Buttons/ButtonHollow";
+
+import { useTransactionHandler } from "@/components/context/TransactionHandlerContext";
+import { useDashboardContext } from "@/components/context/DashboardContext";
+import { useBlockchainContext } from "@/components/context/BlockchainContext";
 
 import { useEthersSigner } from "@/services/useEthersSigner";
 import { claim } from "@/services/walletService";
 
 import { ClaimInfo, PoolInfo } from "@/types/types";
-
-import { mock_claim_claimInfo, mock_claim_projects } from "@/mock/mockUtils";
 
 import "./page.css";
 
@@ -20,6 +22,8 @@ const Item = (props: {
   index: number;
 }) => {
   const signer = useEthersSigner();
+  const txHandler = useTransactionHandler();
+  const { resetClaimInfo, userInfo } = useDashboardContext();
 
   const claimType = useMemo(() => {
     if (!props.claimInfo.claimable.isZero()) return -1; // claimable
@@ -38,11 +42,21 @@ const Item = (props: {
     return props.claimInfo.totalPayment;
   }, [claimType, props.claimInfo]);
 
+  const onClaimDone = useCallback(
+    (success: boolean) => {
+      if (success && userInfo) resetClaimInfo(userInfo.address);
+    },
+    [userInfo, resetClaimInfo]
+  );
   const handleClaim = useCallback(
     (id: number) => {
-      if (signer) {
-        const tx = claim(signer, id);
-      }
+      if (signer)
+        txHandler.setTx(
+          "Claiming payment",
+          "Payment claimed",
+          claim(signer, id),
+          onClaimDone
+        );
     },
     [signer]
   );
@@ -89,8 +103,19 @@ const Item = (props: {
 };
 
 export default function Page() {
-  const pools = useMemo(() => mock_claim_projects(), []);
-  const claimInfo = useMemo(() => mock_claim_claimInfo(), []);
+  const { fetchAllPoolInfo } = useBlockchainContext();
+  const { fetchClaimInfo, claimInfo, userInfo } = useDashboardContext();
+
+  //const pools = useMemo(() => mock_claim_projects(), []);
+  //const claimInfo = useMemo(() => mock_claim_claimInfo().map(c => c.claim), []);
+  const [pools, setPools] = useState<PoolInfo[]>([]);
+
+  useEffect(() => {
+    if (userInfo) fetchClaimInfo(userInfo.address);
+    fetchAllPoolInfo()
+      .then((poolData: PoolInfo[]) => setPools(poolData))
+      .catch((err: any) => console.error(err));
+  }, [userInfo]);
 
   return (
     <div className="din color_text page-container flex flex-col items-center">
@@ -104,14 +129,10 @@ export default function Page() {
           </div>
         </div>
 
-        {claimInfo.map((c, idx) => (
-          <Item
-            key={c.id}
-            index={idx}
-            pool={pools.find(p => p.id == c.id)!}
-            claimInfo={c.claim}
-          />
-        ))}
+        {claimInfo &&
+          claimInfo.map((c, idx) => (
+            <Item key={idx} index={idx} pool={pools[idx]} claimInfo={c} />
+          ))}
       </div>
     </div>
   );

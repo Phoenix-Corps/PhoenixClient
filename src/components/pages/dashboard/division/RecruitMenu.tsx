@@ -4,7 +4,7 @@ import { getHireRankInfo, recruit } from "@/services/walletService";
 import { useDashboardContext } from "@/components/context/DashboardContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
 import { useEthersSigner } from "@/services/useEthersSigner";
-import { TransactionHandler } from "@/components/TransactionHandler";
+import { TransactionHandler } from "@/components/Page/TransactionHandler";
 import { ethers } from "ethers";
 
 import ArrowIcon from "@public/pages/dashboard/Vector 1.svg";

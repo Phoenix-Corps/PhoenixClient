@@ -1,6 +1,11 @@
 import { useState } from "react";
 
+import { useFloating, autoUpdate } from "@floating-ui/react";
+import { FloatingPortal } from "@floating-ui/react";
+
 import Icon_Dropdown from "@public/icons/dropdown.svg";
+
+import styles from "./Inputs.module.css";
 
 type Props = {
   options: string[];
@@ -9,51 +14,48 @@ type Props = {
 };
 
 export const Select: React.FC<Props> = (props: Props) => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const handleDropdownToggle = () => {
-    setDropdownOpen(prev => !prev);
-  };
+  const [isOpen, setIsOpen] = useState(false);
+  const { refs, floatingStyles } = useFloating({
+    whileElementsMounted: autoUpdate,
+    placement: "bottom-end",
+    strategy: "absolute"
+  });
 
   const handleSelect = (index: number) => {
     props.onSelect?.(index);
-    setDropdownOpen(false);
+    setIsOpen(false);
+  };
+  const handleToggleDropDown = () => {
+    setIsOpen(prev => !prev);
   };
 
   return (
-    <div className="relative space-y-4 flex flex-col items-center">
+    <>
       <div
-        className="p-3 bg-[transparent] text-white cursor-pointer outline outline-white outline-1 outline-offset-1 rounded-tl-lg rounded-tr-lg flex justify-between items-center"
+        ref={refs.setReference}
+        onClick={handleToggleDropDown}
+        className={`p-3 bg-[transparent] text-white cursor-pointer outline outline-white outline-1 rounded-tl-lg rounded-tr-lg flex justify-between items-center gap-2`}
         style={{
-          borderBottomLeftRadius: dropdownOpen ? 0 : "0.5rem",
-          borderBottomRightRadius: dropdownOpen ? 0 : "0.5rem",
-          marginBottom: dropdownOpen ? 0 : undefined
+          borderBottomLeftRadius: isOpen ? 0 : "0.5rem",
+          borderBottomRightRadius: isOpen ? 0 : "0.5rem",
+          marginBottom: isOpen ? 0 : undefined
         }}
-        onClick={handleDropdownToggle}
       >
-        <div>{props.placeholder ?? ""}</div>
-        <Icon_Dropdown
-          className={`transition-transform ${dropdownOpen ? "rotate-180" : ""}`}
-          style={{ marginLeft: "auto" }}
-        />
+        <div className="opacity-60">{props.placeholder ?? ""}</div>
+        <Icon_Dropdown style={{ marginLeft: "auto" }} />
       </div>
 
-      {dropdownOpen && (
-        <div
-          className="absolute right-0 top-10 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-non" //absolute right-0 z-10 mt-2 w-56 origin-top-right bg-[transparent] rounded-bl-lg rounded-br-lg shadow-lg outline outline-white outline-1 outline-offset-1"
-          style={{
-            maxWidth: "500px",
-            width: "100%",
-            borderTopLeftRadius: 0,
-            borderTopRightRadius: 0,
-            marginTop: 0
-          }}
-        >
-          <div className="py-1">
+      {isOpen && (
+        <FloatingPortal>
+          <div
+            ref={refs.setFloating}
+            style={floatingStyles}
+            className={`fixed top-0 left-0 w-max outline outline-white outline-1 color_accent bg-white rounded`}
+          >
             {props.options.map((text, index) => {
               return (
                 <div
-                  className="p-3 text-white hover:bg-[#3F5269] cursor-pointer flex justify-center items-center"
+                  className="p-3 hover:bg-[#3F5269] cursor-pointer flex justify-center items-center"
                   onClick={() => handleSelect(index)}
                 >
                   {text}
@@ -61,8 +63,8 @@ export const Select: React.FC<Props> = (props: Props) => {
               );
             })}
           </div>
-        </div>
+        </FloatingPortal>
       )}
-    </div>
+    </>
   );
 };

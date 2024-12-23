@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import Image from "next/image";
 
-import { ButtonYellow } from "@/components/Buttons/ButtonYellow";
 import { Select } from "@/components/Inputs/Select";
+import { TextInput } from "@/components/Inputs/TextInput";
+import { ButtonState } from "@/components/Buttons/ButtonState";
 
 import { useDashboardContext } from "@/components/context/DashboardContext";
 
@@ -17,9 +17,6 @@ import { HireRank, Recruit } from "@/types/types";
 import { mock_division_recruits } from "@/mock/mockUtils";
 
 import "./page.css";
-import { TextInput } from "@/components/Inputs/TextInput";
-import { ButtonHollow } from "@/components/Buttons/ButtonHollow";
-import { ButtonState } from "@/components/Buttons/ButtonState";
 
 const Item = (props: Recruit) => {
   return (
@@ -57,7 +54,7 @@ const RecruitmentMenu = () => {
   }, [walletAddress]);
 
   return (
-    <div className="gridItem-container rounded p-5 mb-5 flex">
+    <div className="gridItem-container rounded p-5 mb-5 flex justify-between gap-2">
       <div>
         <div className="text-2xl">RECRUITMENT</div>
         <div className="flex text-s">
@@ -67,7 +64,10 @@ const RecruitmentMenu = () => {
       </div>
 
       <Select placeholder="DESIRED RANK" options={ranks.map(r => r.name)} />
-      <TextInput placeholder="NEW RECRUIT'S WALLET ADDRESS" />
+      <TextInput
+        placeholder="NEW RECRUIT'S WALLET ADDRESS"
+        className="w-[300px]"
+      />
 
       <div className="w-[200px] flex flex-col items-center justify-center">
         <div className="text-2xl">??? XP</div>

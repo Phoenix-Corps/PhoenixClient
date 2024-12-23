@@ -12,8 +12,8 @@ import { registerUser } from "@/services/walletService";
 
 import { useDashboardContext } from "@/components/context/DashboardContext";
 import { XpEarned } from "@/components/pages/dashboard/profile/XpEarned";
-import { LoadingOverlay } from "@/components/LoadingOverlay";
-import { TransactionHandler } from "@/components/TransactionHandler";
+import { LoadingOverlay } from "@/components/Page/LoadingOverlay";
+import { TransactionHandler } from "@/components/Page/TransactionHandler";
 
 import COPY_ICON from "@/app/dashboard/public/copy-icon.svg";
 

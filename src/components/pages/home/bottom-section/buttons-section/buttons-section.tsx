@@ -1,5 +1,5 @@
-import { Logo } from "@/components/Logo";
-import { Socials } from "@/components/Socials";
+import { Logo } from "@/components/Page/Logo";
+import { Socials } from "@/components/Page/Socials";
 import { ButtonYellow } from "@/components/Buttons/ButtonYellow";
 import { ButtonHollow } from "@/components/Buttons/ButtonHollow";
 

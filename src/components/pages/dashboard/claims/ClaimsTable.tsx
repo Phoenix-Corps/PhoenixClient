@@ -5,7 +5,7 @@ import { useBlockchainContext } from "@/components/context/BlockchainContext";
 import { useDashboardContext } from "@/components/context/DashboardContext";
 import { useEthersProvider } from "@/services/useEthersProvider";
 import Decimal from "decimal.js";
-import { TransactionHandler } from "@/components/TransactionHandler";
+import { TransactionHandler } from "@/components/Page/TransactionHandler";
 import { useEthersSigner } from "@/services/useEthersSigner";
 import { PoolInfo } from "@/types/types";
 

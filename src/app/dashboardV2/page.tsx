@@ -131,7 +131,7 @@ export default function Page() {
         <div className="aeroport flex items-end justify-between pt-3">
           <div className="text-base font-normal">Your current commission:</div>
           <div className="text-xl px-1">
-            {userInfo?.currentRank.paymentPercent.toFixed(0)}%
+            {userInfo?.currentRank.paymentPercent.toString()}%
           </div>
         </div>
       </div>

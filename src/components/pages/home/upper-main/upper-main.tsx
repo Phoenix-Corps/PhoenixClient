@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Header } from "@/components/Header";
+import { Header } from "@/components/Page/Header";
 
-import { ProjectsSection } from "@/components/ProjectSection";
+import { ProjectsSection } from "@/components/Project/ProjectSection";
 import { LandingSection } from "./landing-section";
 import { BlueBoxMain } from "./BlueBoxMain";
 

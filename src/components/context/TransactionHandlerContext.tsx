@@ -8,7 +8,7 @@ import {
 import {
   TransactionHandler,
   TransactionHandlerProps
-} from "../TransactionHandler";
+} from "../Page/TransactionHandler";
 
 export interface TransactionHandlerContextType {
   setTx: (

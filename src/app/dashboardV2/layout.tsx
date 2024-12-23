@@ -6,9 +6,9 @@ import { useAccount } from "wagmi";
 
 import { registerUser } from "@/services/walletService";
 
-import { Header } from "@/components/Header";
+import { Header } from "@/components/Page/Header";
 import { ButtonConnect } from "@/components/Buttons/ButtonConnect";
-import { LoadingOverlay } from "@/components/LoadingOverlay";
+import { LoadingOverlay } from "@/components/Page/LoadingOverlay";
 import { ButtonYellow } from "@/components/Buttons/ButtonYellow";
 
 import { useEthersSigner } from "@/services/useEthersSigner";

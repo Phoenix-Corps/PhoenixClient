@@ -2,6 +2,7 @@
 
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
+import { FloatingPortal } from "@floating-ui/react";
 
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { BlockchainProvider } from "@/components/context/BlockchainContext";
@@ -22,7 +23,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <DashboardProvider>
             <RainbowKitProvider>
               <TransactionHandlerProvider>
-                {children}
+                <FloatingPortal>{children}</FloatingPortal>
               </TransactionHandlerProvider>
             </RainbowKitProvider>
           </DashboardProvider>

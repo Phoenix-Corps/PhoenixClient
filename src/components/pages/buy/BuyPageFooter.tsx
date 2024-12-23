@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Socials } from "@/components/Socials";
+import { Socials } from "@/components/Page/Socials";
 
 import { PoolInfo } from "@/types/types";
 

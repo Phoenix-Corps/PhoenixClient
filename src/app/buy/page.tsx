@@ -26,11 +26,11 @@ import {
   getVoucherBalance
 } from "@/services/walletService";
 
-import { LoadingOverlay } from "@/components/LoadingOverlay";
+import { LoadingOverlay } from "@/components/Page/LoadingOverlay";
 import { BuyButton } from "@/components/pages/buy/BuyButton";
 import { SellerLinkBar } from "@/components/pages/buy/SellerLinkBar";
 import { BuyPageFooter } from "@/components/pages/buy/BuyPageFooter";
-import { Header } from "@/components/Header";
+import { Header } from "@/components/Page/Header";
 import { NumberInput } from "@/components/Inputs/NumberInputs";
 
 import { useBlockchainContext } from "@/components/context/BlockchainContext";
@@ -282,7 +282,7 @@ const BuyPageWrapper = (props: Props) => {
   return (
     <div className="min-h-screen main-air-wrapper text-white">
       <Header />
-      <div className="m-4">
+      <div className="mx-4">
         <div className="flex flex-col items-center justify-center bg-[rgba(25,96,255,0.6)] md:0 rounded-[4px] w-fit md:m-auto">
           <div className="voucher-wrapper din mb-0 flex w-full flex-wrap ">
             <div className="voucher-text-input-wrapper grow md:p-10 p-6 flex flex-col items-center">
