@@ -1,20 +1,17 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
-import { Select } from "@/components/Inputs/Select";
-import { TextInput } from "@/components/Inputs/TextInput";
-import { ButtonState } from "@/components/Buttons/ButtonState";
-
-import { useDashboardContext } from "@/components/context/DashboardContext";
+import { RecruitmentMenu } from "@/components/pages/dashboard/RecruitMenu";
 import { LoadingOverlay } from "@/components/Page/LoadingOverlay";
 
-import { useEthersProvider } from "@/services/useEthersProvider";
-import { useEthersSigner } from "@/services/useEthersSigner";
-import { getDivision, getHireRankInfo } from "@/services/walletService";
+import { useDashboardContext } from "@/components/context/DashboardContext";
 
-import { HireRank, Recruit } from "@/types/types";
+import { useEthersProvider } from "@/services/useEthersProvider";
+import { getDivision } from "@/services/walletService";
+
+import { Recruit } from "@/types/types";
 
 import { mock_division_recruits } from "@/mock/mockUtils";
 
@@ -31,7 +28,9 @@ const Item = (props: { index: number; recruit: Recruit }) => {
         {props.recruit.code}
         <div className="smallVisible">
           <Image
-            src={`/images/ranks/team/Lvl-${props.recruit.rankId}.png`}
+            src={`/images/ranks/team/Lvl-${(
+              props.recruit.rankId + 1
+            ).toString()}.png`}
             alt="Rank"
             width={32}
             height={32}
@@ -48,7 +47,9 @@ const Item = (props: { index: number; recruit: Recruit }) => {
           {props.recruit.rankName}
           <div className="smallHidden">
             <Image
-              src={`/images/ranks/team/Lvl-${props.recruit.rankId}.png`}
+              src={`/images/ranks/team/Lvl-${(
+                props.recruit.rankId + 1
+              ).toString()}.png`}
               alt="Rank"
               width={32}
               height={32}
@@ -56,64 +57,6 @@ const Item = (props: { index: number; recruit: Recruit }) => {
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-const RecruitmentMenu = () => {
-  const provider = useEthersProvider();
-  const { userInfo, walletAddress, fetchUserInfo } = useDashboardContext();
-
-  const [ranks, setRanks] = useState<HireRank[]>([]);
-
-  const getHireInfo = useCallback(async () => {
-    if (userInfo && provider) {
-      const loadedRanks = await getHireRankInfo(
-        provider,
-        userInfo.address,
-        [0, 4, 9]
-      );
-      setRanks(loadedRanks);
-    }
-  }, [userInfo, setRanks]);
-
-  useEffect(() => {
-    if (walletAddress) {
-      getHireInfo();
-      fetchUserInfo(walletAddress);
-    }
-  }, [walletAddress]);
-
-  return (
-    <div className="gridItem-container rounded p-5 mb-5 flex justify-between gap-2">
-      <div>
-        <div className="text-2xl">RECRUITMENT</div>
-        <div className="flex text-s">
-          <div>{userInfo?.currentXP.toFixed(0)}</div>
-          <div className="pl-2 opacity-60">SPENDABLE XP</div>
-        </div>
-      </div>
-
-      <Select placeholder="DESIRED RANK" options={ranks.map(r => r.name)} />
-      <TextInput
-        placeholder="NEW RECRUIT'S WALLET ADDRESS"
-        className="w-[300px]"
-      />
-
-      <div className="w-[200px] flex flex-col items-center justify-center">
-        <div className="text-2xl">??? XP</div>
-        <div className="flex text-s">
-          <div>???</div>
-          <div className="pl-2 opacity-60">VOUCHERS</div>
-        </div>
-      </div>
-
-      <ButtonState
-        enabled={true}
-        mainText="RECRUIT"
-        width={150}
-        className="!p-2"
-      />
     </div>
   );
 };
@@ -142,7 +85,11 @@ export default function Page() {
   return (
     <div className="din color_text page-container flex flex-col items-center">
       <div className="text-5xl mb-5">MY CLAIMS</div>
-      <RecruitmentMenu />
+
+      <div className="gridItem-container rounded p-5 mb-5 flex justify-between gap-5">
+        <RecruitmentMenu />
+      </div>
+
       <div className="gridItem-container rounded px-5">
         <div className="smallHidden">
           <div className="flex h-[50px] items-center py-3 text-base opacity-60">

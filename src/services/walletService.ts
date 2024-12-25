@@ -334,7 +334,7 @@ export const getDivision = async (
     return {
       code: referralCodes[index],
       address: recruit[0],
-      rankId: recruit[1],
+      rankId: parseInt(recruit[1]),
       rankName: rankNames.team[recruit[1]]
     };
   });

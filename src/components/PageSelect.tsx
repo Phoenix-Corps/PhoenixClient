@@ -2,6 +2,7 @@ import { useMemo } from "react";
 
 export type SelectPageCallback = (page: number) => void;
 
+/*
 export interface IPageSelectProps {
   pageInfo: IAPIPaginationInfo;
   onSelect?: SelectPageCallback;
@@ -33,3 +34,4 @@ export const PageSelect = (props: IPageSelectProps) => {
     </div>
   );
 };
+*/

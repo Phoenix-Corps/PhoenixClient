@@ -8,7 +8,7 @@ import { useDashboardContext } from "@/components/context/DashboardContext";
 import { useTransactionHandler } from "@/components/context/TransactionHandlerContext";
 
 import { ButtonState } from "@/components/Buttons/ButtonState";
-import { XpBar } from "@/components/pages/dashboardV2/XpBar";
+import { XpBar } from "@/components/pages/dashboard/XpBar";
 import { CopyField } from "@/components/Inputs/CopyField";
 
 import { formatAddress } from "@/utils/format";

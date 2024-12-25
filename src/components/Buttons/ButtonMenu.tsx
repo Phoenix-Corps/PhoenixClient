@@ -80,11 +80,13 @@ export const ButtonMenu: React.FC<Props> = (props: Props) => {
                   link="/claims"
                   onClick={() => setShowMenu(false)}
                 />
-                <MenuItem
-                  text="My Division"
-                  link="/division"
-                  onClick={() => setShowMenu(false)}
-                />
+                {isTeamUser && (
+                  <MenuItem
+                    text="My Division"
+                    link="/division"
+                    onClick={() => setShowMenu(false)}
+                  />
+                )}
               </ul>
             </div>
           )}

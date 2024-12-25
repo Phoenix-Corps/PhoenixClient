@@ -8,9 +8,11 @@ import Icon_Dropdown from "@public/icons/dropdown.svg";
 import styles from "./Inputs.module.css";
 
 type Props = {
+  selectedIndex?: number;
   options: string[];
   placeholder?: string;
   onSelect?: (index: number) => void;
+  className?: string;
 };
 
 export const Select: React.FC<Props> = (props: Props) => {
@@ -34,14 +36,20 @@ export const Select: React.FC<Props> = (props: Props) => {
       <div
         ref={refs.setReference}
         onClick={handleToggleDropDown}
-        className={`p-3 bg-[transparent] text-white cursor-pointer outline outline-white outline-1 rounded-tl-lg rounded-tr-lg flex justify-between items-center gap-2`}
+        className={`p-3 bg-[transparent] text-white cursor-pointer outline outline-white outline-1 rounded-tl-lg rounded-tr-lg flex justify-between items-center gap-2 ${
+          props.className || ""
+        }`}
         style={{
           borderBottomLeftRadius: isOpen ? 0 : "0.5rem",
           borderBottomRightRadius: isOpen ? 0 : "0.5rem",
           marginBottom: isOpen ? 0 : undefined
         }}
       >
-        <div className="opacity-60">{props.placeholder ?? ""}</div>
+        {props.selectedIndex !== undefined ? (
+          props.options[props.selectedIndex] || ""
+        ) : (
+          <div className="opacity-60">{props.placeholder ?? ""}</div>
+        )}
         <Icon_Dropdown style={{ marginLeft: "auto" }} />
       </div>
 
@@ -55,6 +63,7 @@ export const Select: React.FC<Props> = (props: Props) => {
             {props.options.map((text, index) => {
               return (
                 <div
+                  key={index}
                   className="p-3 hover:bg-[#3F5269] cursor-pointer flex justify-center items-center"
                   onClick={() => handleSelect(index)}
                 >
