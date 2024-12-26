@@ -2,58 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap");
+@import url("../styles/colors.css");
+@import url("../styles/font.css");
+@import url("../styles/buttons.css");
+@import url("../styles/containers.css");
+@import url("../styles/inputs.css");
 
-@font-face {
-  font-family: 'DIN Condensed Local';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("/fonts/DIN_Condensed_Bold.ttf") format("truetype");
+.rainbow-kit-connect button {
+    @apply bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out !important;
 }
 
-@font-face {
-  font-family: 'Aeroport Local';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/Aeroport_Medium.ttf") format("truetype");
+.main-air-wrapper {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(61, 105, 255, 1);
+    background-image: url("/pages/air_svg.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+
 }
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
-@import url("./home.css");
-@import url("../components/pages/home/upper-main/upper-main.css");
-@import url("../components/pages/home/benefits-main/benefits-main.css");
-@import url("../components/pages/home/community-main/community-main.css");
-@import url("../components/pages/home/bottom-section/bottom-section.css");
-
-@import url("./buy/buypage.css");
-
-
-@import url("../OLD-components/hero/hero.css");
-@import url("../OLD-components/footer/footer.css");
-@import url("../OLD-components/dropdown/dropdown.css");
-@import url("../OLD-components/heading/heading.css");
-@import url("../OLD-components/community/community.css");
-@import url("../OLD-components/representative/representative.css");
-@import url("../OLD-components/components.css");

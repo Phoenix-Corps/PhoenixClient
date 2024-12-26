@@ -1,7 +1,3 @@
-// context/BlockchainContext.tsx
-import poolToProjectMapping from "@/config/poolToProjectMapping.json";
-import { useEthersProvider } from "@/services/useEthersProvider";
-import { getPoolInfo, getPoolList, PoolInfo } from "@/services/walletService";
 import {
   createContext,
   ReactNode,
@@ -9,6 +5,13 @@ import {
   useContext,
   useState
 } from "react";
+
+import { useEthersProvider } from "@/services/useEthersProvider";
+import { getPoolInfo, getPoolList } from "@/services/walletService";
+
+import { PoolInfo } from "@/types/types";
+
+import poolToProjectMapping from "@/config/poolToProjectMapping.json";
 
 export interface BlockchainContextType {
   poolInfo: PoolInfo[];

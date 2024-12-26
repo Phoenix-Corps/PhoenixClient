@@ -1,0 +1,38 @@
+.bg-solo {
+    background-image: url("../../../public/pages/dashboardV2/bg_solo_big.png");
+    background-size: 100% 100%;
+    background-attachment: fixed;
+}
+
+.bg-team {
+    background-image: url("../../../public/pages/dashboardV2/bg_team_big.png");
+    background-size: 100% 100%;
+    background-attachment: fixed;
+}
+
+.card {
+    background: #FFFFFFCC;
+    backdrop-filter: blur(55px);
+    border-radius: 4px;
+    padding: 25px 40px;
+}
+
+@media only screen and (max-width: 760px) {
+    .bg-solo {
+        background-image: url("../../../public/pages/dashboardV2/bg_solo_medium.png");
+    }
+
+    .bg-team {
+        background-image: url("../../../public/pages/dashboardV2/bg_team_medium.png");
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .bg-solo {
+        background-image: url("../../../public/pages/dashboardV2/bg_solo_small.png");
+    }
+
+    .bg-team {
+        background-image: url("../../../public/pages/dashboardV2/bg_team_small.png");
+    }
+}

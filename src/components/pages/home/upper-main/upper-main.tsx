@@ -1,16 +1,17 @@
 import React from "react";
 
-import { BlueBoxMain } from "@/components/reusable-components/BlueBoxMain";
-import { ProjectsSection } from "@/components/reusable-components/BuyBoxReal";
-import { Logo } from "@/components/reusable-components/Logo";
+import { Header } from "@/components/Page/Header";
+
+import { ProjectsSection } from "@/components/Project/ProjectSection";
 import { LandingSection } from "./landing-section";
+import { BlueBoxMain } from "./BlueBoxMain";
+
+import "./upper-main.css";
 
 export const Main = () => {
   return (
     <div className="main-air-wrapper">
-      <div className="absolute top-10 left-10 md">
-        <Logo width={162} />
-      </div>
+      <Header />
       <div className="flex justify-center flex-col ">
         <LandingSection />
         <div className="font-title-main text-center din uppercase mt-[80px] ">

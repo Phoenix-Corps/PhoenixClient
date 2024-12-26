@@ -5,13 +5,11 @@ import { BottomSection } from "@/components/pages/home/bottom-section/bottom-sec
 
 export default function Home() {
   return (
-    <>
-      <div className="relative bg-center min-h-screen">
-        <Main />
-        <BenefitsMain />
-        <CommunityMain />
-        <BottomSection />
-      </div>
-    </>
+    <div className="relative bg-center min-h-screen">
+      <Main />
+      <BenefitsMain />
+      <CommunityMain />
+      <BottomSection />
+    </div>
   );
 }

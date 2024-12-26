@@ -1,0 +1,71 @@
+.button-front-yellow {
+    background: var(--color_accent);
+    border-width: 1px;
+    border-color: var(--color_accent);
+    line-height: 1.5;
+    color: var(--color_textAccent);
+    
+}
+.button-front-yellow SVG{
+    stroke: var(--colorT_textAccent);
+}
+
+.button-front-yellow:hover {
+    transition: all 0.3s ease;
+    filter: brightness(1.1);
+    transform: scale(1.05);
+}
+
+.button-front-hollow {
+    border-width: 1px;
+    border-color: var(--color_text);
+    line-height: 1.5;
+    color: var(--color_textAccent);
+    stroke: var(--color_textAccent);
+}
+
+.button-front-hollow SVG {
+    stroke: var(--colorT_textAccent);
+}
+
+.button-front-hollow:hover {
+    transition: all 0.3s ease;
+    filter: brightness(1.1);
+    transform: scale(1.05);
+}
+
+.main-text-button-front {
+    
+}
+
+.right-text-button-front {
+    opacity: 20%;
+}
+
+@media only screen and (max-width: 600px) {
+    .menu-button-text {
+        display: none;
+    }
+}
+
+.menu-button {
+    margin-top: 30px;
+    border-radius: 999px;
+    background: linear-gradient(84.77deg, var(--gradient_yellow1) 20.9%, var(--gradient_yellow2) 79.73%);
+}
+
+.menu-button:hover {
+    background: linear-gradient(84.77deg, var(--gradient_yellow1) 20.9%, var(--gradient_yellow2) 79.73%),
+        linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
+    background-blend-mode: overlay;
+    /* Optional: to blend the gradients as needed */
+}
+
+.menuBlurred {
+    background: #7098FFAA;
+    backdrop-filter: blur(10px);
+}
+
+.menuItem:hover {
+    background: #FFFFFF55;
+}

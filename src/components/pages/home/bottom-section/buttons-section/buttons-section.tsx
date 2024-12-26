@@ -1,7 +1,9 @@
-import { Logo } from "@/components/reusable-components/Logo";
-import { Socials } from "@/components/reusable-components/Socials";
-import { ButtonYellow } from "@/components/reusable-components/ButtonYellow";
-import { ButtonHollow } from "@/components/reusable-components/ButtonHollow";
+import { Logo } from "@/components/Page/Logo";
+import { Socials } from "@/components/Page/Socials";
+import { ButtonYellow } from "@/components/Buttons/ButtonYellow";
+import { ButtonHollow } from "@/components/Buttons/ButtonHollow";
+
+import pageConfig from "@/config/page.json";
 
 export const ButtonsSection = () => {
   return (
@@ -9,9 +11,9 @@ export const ButtonsSection = () => {
       <div className="flex flex-col w-full items-center justify-between flex-wrap pb-20 md:items-end md:flex-row">
         <Logo width={519} />
         <Socials
-          discord="https://discord.gg/f8WQJyZGy8"
-          twitter="https://x.com/PhoenixCorpsHQ"
-          telegram="https://t.me/PhoenixcorpsOfficial"
+          discord={pageConfig.socials.discord}
+          twitter={pageConfig.socials.twitter}
+          telegram={pageConfig.socials.telegram}
         />
       </div>
       <div className="flex flex-col md:flex-row w-full justify-between flex-wrap gap-10  items-center">
@@ -25,20 +27,23 @@ export const ButtonsSection = () => {
           <ButtonYellow
             width={280}
             mainText={"Project / Startup"}
-            link="https://forms.gle/SMdyUtL5EmpYqhUs9"
+            link={pageConfig.forms.projects}
             target="_blank"
             rightText={"Sign Up"}
           />
           <ButtonYellow
             width={280}
             mainText={"Manage a team"}
-            link="https://forms.gle/YeXAcFQCXRtkhiCa7"
+            link={pageConfig.forms.teamManager}
             target="_blank"
             rightText={"Apply"}
           />
         </div>
         <div className="text-[#00ffff]">
-          <ButtonHollow mainText={"READ THE DOCS"} link={"/"} />
+          <ButtonHollow
+            mainText={"READ THE DOCS"}
+            link={pageConfig.documentation}
+          />
         </div>
       </div>
     </div>

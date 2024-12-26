@@ -1,0 +1,226 @@
+.voucher-image-right {
+  display: flex;
+  flex-grow: 1;
+  min-width: 300px;
+  background-image: url("../../../public/pages/buy/voucher-bg.png");
+}
+
+.phoenix-image-token-wrapper img {
+  border-radius: 100px;
+  border: 1px solid rgba(169, 193, 239, 1)
+}
+
+.voucher-phoenix-image {
+  width: 220%;
+  height: 147%;
+
+  position: absolute;
+  background-image: url("../../../public/pages/buy/voucher-front.png");
+  background-size: cover;
+  background-position: center;
+
+  right: 1px;
+  bottom: -135px;
+  @media (max-width: 880px) {
+    right: -152px;
+    top: 0px;
+  }
+}
+
+.background-image {
+  background: rgba(127, 169, 237, 1);
+}
+
+.header-wrapper {
+  padding: 18px 34px 0;
+  justify-content: space-between;
+}
+
+.added-fade-out {
+  opacity: 1;
+  animation: fadeOut 1s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.sign-in-color {
+  padding: 6px 26px;
+  border-radius: 100px;
+  background: rgba(40, 55, 150, 1);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 1);
+  font-family: "Source Sans Pro";
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 15.08px;
+  text-align: left;
+}
+
+.border-flag {
+  width: 27px;
+  height: 27px;
+  border: 1px #ffffff solid;
+  object-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(24, 44, 69, 0.13);
+}
+
+.voucher-wrapper {
+  border-radius: 4px;
+  max-width: 1000px;
+}
+
+.voucher-text-in-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  margin-left: 35px;
+  margin-bottom: 27px;
+  gap: 16px;
+  color: rgba(255, 255, 255, 1);
+}
+
+.voucher-text-number {
+  font-size: 49px;
+}
+
+.currency-and-text {
+  flex-direction: column;
+  display: flex;
+  gap: 7px;
+}
+
+.voucher-text-text {
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 22px;
+}
+
+.buy-heading-text {
+  font-size: 51.16px;
+  font-weight: 800;
+  line-height: 44px;
+  text-align: left;
+}
+
+.buy-main-text {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 17.4px;
+  margin-top: 30px;
+  margin-bottom: 35px;
+}
+
+.buy-input-main {
+  height: 61px;
+  color: rgba(255, 255, 255, 1);
+
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 27.3px;
+
+  padding: 17px 20px;
+  background: radial-gradient(93.63% 549.7% at 2.46% 8.98%,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(196, 216, 234, 0.2) 100%);
+  border: 2px solid rgba(255, 255, 255, 1);
+  border-radius: 8px;
+}
+
+.buy-wrapper-main {
+  display: inline-block;
+  /* height: 61px; */
+}
+
+.buy-button {
+  margin-top: 30px;
+  max-width: 390px;
+
+  width: 100%;
+  height: 60px;
+  background: linear-gradient(84.77deg, #fffa6d 20.9%, #ffd061 79.73%);
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 29.56px;
+  color: rgba(40, 55, 150, 1);
+  font-size: 22.74px;
+  font-weight: 800;
+  line-height: 29.56px;
+}
+
+.buy-button:hover {
+  background: linear-gradient(84.77deg, #fffa6d 20.9%, #ffd061 79.73%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
+  background-blend-mode: overlay;
+  /* Optional: to blend the gradients as needed */
+}
+
+.code-input {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: center;
+}
+
+.text-under-code {
+  margin-top: 18px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 19.5px;
+  text-align: center;
+  opacity: 60%;
+  max-width: 542px;
+
+  @media (max-width: 880px) {
+    margin-bottom: 8px;
+  }
+}
+
+.buy-footer-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 29px;
+  margin-bottom: 28px;
+}
+
+.buy-icon-wrapper {
+  width: 50px;
+  height: 50px;
+  /* background: radial-gradient(
+    93.63% 549.7% at 2.46% 8.98%,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(196, 216, 234, 0.2) 100%
+  );
+    */
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 25px;
+  border: 0.32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.voucher-text-input-wrapper {
+  max-width: 500px;
+
+  @media (max-width: 880px) {
+    max-width: 100%;
+  }
+}

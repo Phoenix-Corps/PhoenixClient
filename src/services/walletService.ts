@@ -11,95 +11,32 @@ import erc20Abi from "../ABIs/ERC20.json";
 
 import poolToProjectMapping from "../config/poolToProjectMapping.json";
 import tokenMapping from "../config/tokenMapping.json";
-import { RoundInfo } from "@/types/types";
+import {
+  RoundInfo,
+  TokenInfo,
+  PoolInfo,
+  HireRank,
+  UserInfo,
+  ClaimInfo,
+  Recruit
+} from "@/types/types";
 
 const oneEther = new Decimal(10).pow(18);
 const paymentPercentDecimals = 5000000;
 const voucherDecimals = oneEther;
 const xpDecimals = oneEther;
 
-interface ProjectInfo {
-  id: number;
-  name: string;
-  description: string;
-  footerText: string;
-  logo: string;
-  website: string;
-  discord: string;
-  twitter: string;
-  telegram: string;
-}
-
-interface TokenInfo {
-  address: string;
-  name: string;
-  symbol: string;
-  logo: string;
-  decimals: number;
-}
-
-// TODO: use same type everywhere
-export interface PoolInfo {
-  id: number;
-  token: TokenInfo;
-  projectInfo?: ProjectInfo;
-  currentRound: {
-    id: number;
-    roundStart: number;
-    roundEnd: number;
-    voucherPrice: string;
-    goal: Decimal;
-    fundingGoal: Decimal;
-    available: Decimal;
-  };
-}
-
-interface Rank {
-  name: string;
-  level: number;
-  paymentPercent: number;
-  requiredXP?: Decimal;
-}
-
-export interface HireRank {
-  name: string;
-  id: number;
-  level: number;
-  hireCost: Decimal;
-  vouchers: number;
-}
-
-export interface UserInfo {
-  address: string;
-  referralCode: string;
-  isTeamUser: boolean;
-  currentXP: Decimal;
-  canHire: boolean;
-  currentRank: Rank;
-  nextRank?: Rank;
-}
-
-export interface ClaimInfo {
-  totalPayment: Decimal;
-  claimedPayment: Decimal;
-  claimable: Decimal;
-}
-
-export interface Recruit {
-  code: string;
-  address: string;
-  rankName: string;
-  rankId: number;
-}
+export const findToken = (address: string) => {
+  const token = (tokenMapping as { [key: string]: TokenInfo })[address];
+  return token;
+};
 
 const processPoolInfo = (pool: any, rounds: any[]) => {
   const currentRound =
     rounds.find(
       (round: RoundInfo) => new Date(round.roundEnd * 1000) > new Date()
     ) ?? rounds[rounds.length - 1];
-  const token = (tokenMapping as { [key: string]: TokenInfo })[
-    pool.paymentToken
-  ];
+  const token = findToken(pool.paymentToken);
   const orgPrice = new Decimal(currentRound.voucherPrice.toString());
   const tokenDecimals = new Decimal(10).pow(new Decimal(token.decimals));
   const price = orgPrice.div(tokenDecimals).toString();
@@ -397,7 +334,7 @@ export const getDivision = async (
     return {
       code: referralCodes[index],
       address: recruit[0],
-      rankId: recruit[1],
+      rankId: parseInt(recruit[1]),
       rankName: rankNames.team[recruit[1]]
     };
   });

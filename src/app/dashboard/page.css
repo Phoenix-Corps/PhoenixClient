@@ -1,0 +1,63 @@
+.card-container {
+    position: relative;
+    top: 100px;   
+    margin-left: 100px;
+}
+
+.card {
+    background: #FFFFFFCC;
+    backdrop-filter: blur(55px);
+    border-radius: 4px;
+    width: 610px;
+    margin-bottom: 25px;    
+    padding: 25px 40px;
+}
+
+.profile-header {
+    flex-direction: row;
+    gap: 5px;
+    align-items: flex-start;
+}
+
+.profile-badge {
+    background: var(--color_textAccent);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.badge-rank {
+    background: white;
+    border-radius: 25px;
+    height: 32px;
+}
+
+.referral-box {
+    background: #4D7C9622;
+    border-radius: 2px;
+    width: 200px;
+}
+
+@media only screen and (max-width: 800px) {
+    .card-container {
+        position: relative;
+        top: 0;
+        margin-left: 0;
+    }
+
+    .card {
+        width: 100%;
+    }
+    .referral-box {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .profile-header {
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
+    }
+}
