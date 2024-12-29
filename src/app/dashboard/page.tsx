@@ -102,7 +102,7 @@ export default function Page() {
 
   return (
     <div className="card-container din color_textAccent">
-      <div className="card">
+      <div className="card card-box">
         <div className="flex justify-between pb-5 profile-header">
           <ProfileInfo
             walletAddress={walletAddress!}

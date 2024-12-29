@@ -12,6 +12,7 @@ export type ButtonProps = {
   width?: number;
   target?: string;
   className?: string;
+  classNameOuter?: string;
 };
 
 export const ButtonBase: React.FC<ButtonProps> = ({
@@ -22,11 +23,12 @@ export const ButtonBase: React.FC<ButtonProps> = ({
   miniBox,
   width,
   target,
-  className
+  className,
+  classNameOuter
 }) => {
   const widthClass = `w-[${width ?? 300}px]`;
   return (
-    <div>
+    <div className={classNameOuter}>
       <Link href={link ?? ""} target={target}>
         <button
           className={`flex din justify-center items-center text-[28px] p-4 rounded ${widthClass} ${

@@ -17,6 +17,8 @@ import { getHireRankInfo, recruit } from "@/services/walletService";
 
 import { HireRank } from "@/types/types";
 
+import styles from "./RecruitMenu.module.css";
+
 export const RecruitmentMenu = () => {
   const provider = useEthersProvider();
   const signer = useEthersSigner();
@@ -75,8 +77,8 @@ export const RecruitmentMenu = () => {
   }, [walletAddress]);
 
   return (
-    <>
-      <div className="pr-10">
+    <div className={`flex justify-between gap-5 ${styles.recruitMenu}`}>
+      <div className={`pr-10 ${styles.header}`}>
         <div className="text-2xl">RECRUITMENT</div>
         <div className="flex text-s">
           <div>{userInfo?.currentXP.toFixed(0)}</div>
@@ -88,13 +90,13 @@ export const RecruitmentMenu = () => {
         selectedIndex={selectedRank}
         options={ranks.map(r => r.name)}
         placeholder="DESIRED RANK"
-        className="w-[200px]"
+        className={styles.selectRank}
         onSelect={setSelectedRank}
       />
       <TextInput
         value={address}
         placeholder="NEW RECRUIT'S WALLET ADDRESS"
-        className="w-[300px] grow"
+        className={`color_textAccent ${styles.walletAddress}`}
         onChange={setAddress}
       />
 
@@ -112,9 +114,10 @@ export const RecruitmentMenu = () => {
         enabled={executable}
         mainText="RECRUIT"
         width={150}
-        className="!p-2"
+        className={`!p-2 ${styles.recruitButton}`}
+        classNameOuter={styles.recruitButton}
         onClick={hire}
       />
-    </>
+    </div>
   );
 };

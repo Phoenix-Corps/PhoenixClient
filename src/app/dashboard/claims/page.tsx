@@ -12,6 +12,8 @@ import { useBlockchainContext } from "@/components/context/BlockchainContext";
 import { useEthersSigner } from "@/services/useEthersSigner";
 import { claim } from "@/services/walletService";
 
+import { mock_claim_claimInfo, mock_claim_projects } from "@/mock/mockUtils";
+
 import { ClaimInfo, PoolInfo } from "@/types/types";
 
 import "./page.css";
@@ -102,13 +104,17 @@ const Item = (props: {
   );
 };
 
-export default function Page() {
+const useData = (useMockData: boolean) => {
   const { fetchAllPoolInfo } = useBlockchainContext();
   const { fetchClaimInfo, claimInfo, userInfo } = useDashboardContext();
 
-  //const pools = useMemo(() => mock_claim_projects(), []);
-  //const claimInfo = useMemo(() => mock_claim_claimInfo().map(c => c.claim), []);
   const [pools, setPools] = useState<PoolInfo[]>([]);
+
+  const mockPools = useMemo(() => mock_claim_projects(), []);
+  const mockClaimInfo = useMemo(
+    () => mock_claim_claimInfo().map(c => c.claim),
+    []
+  );
 
   useEffect(() => {
     if (userInfo) fetchClaimInfo(userInfo.address);
@@ -117,10 +123,20 @@ export default function Page() {
       .catch((err: any) => console.error(err));
   }, [userInfo]);
 
+  return {
+    pools: useMockData ? mockPools : pools,
+    claimInfo: useMockData ? mockClaimInfo : claimInfo
+  };
+};
+
+export default function Page() {
+  const { claimInfo, pools } = useData(false);
+
   return (
-    <div className="din color_text page-container flex flex-col items-center">
+    <div className="din color_textAccent page-container flex flex-col items-center">
       <div className="text-5xl mb-5">MY CLAIMS</div>
-      <div className="gridItem-container rounded px-5">
+
+      <div className="gridItem-container card-box rounded px-5">
         <div className="smallHidden">
           <div className="flex h-[50px] items-center py-3 text-base opacity-60">
             <div className="column_project">Project</div>

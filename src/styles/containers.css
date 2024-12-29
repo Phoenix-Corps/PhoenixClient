@@ -3,6 +3,16 @@
     background: var(--color_blur);
 }
 
+.blurred-box2 {
+    background: #31315A4D;
+    backdrop-filter: blur(20px);
+}
+
+.card-box {
+    background: #FFFFFFCC;
+    backdrop-filter: blur(55px);
+}
+
 .box-divider {
     backdrop-filter: blur(55px);
     border: 1px solid var(--color_blur);    

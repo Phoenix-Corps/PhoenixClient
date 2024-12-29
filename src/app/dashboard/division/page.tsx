@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 
 import { RecruitmentMenu } from "@/components/pages/dashboard/RecruitMenu";
@@ -10,10 +10,11 @@ import { useDashboardContext } from "@/components/context/DashboardContext";
 
 import { useEthersProvider } from "@/services/useEthersProvider";
 import { getDivision } from "@/services/walletService";
-
-import { Recruit } from "@/types/types";
+import { formatAddress } from "@/utils/format";
 
 import { mock_division_recruits } from "@/mock/mockUtils";
+
+import { Recruit } from "@/types/types";
 
 import "./page.css";
 
@@ -39,7 +40,7 @@ const Item = (props: { index: number; recruit: Recruit }) => {
       </div>
       <div className="column_address flex justify-between items-center">
         <div className="smallVisible">Address</div>
-        {props.recruit.address}
+        {formatAddress(props.recruit.address)}
       </div>
       <div className="column_rank flex justify-between items-center">
         <div className="smallVisible">Rank</div>
@@ -61,14 +62,14 @@ const Item = (props: { index: number; recruit: Recruit }) => {
   );
 };
 
-export default function Page() {
-  //const recruits = useMemo(() => mock_division_recruits(), []);
-
+const useData = (useMockData: boolean) => {
   const provider = useEthersProvider();
   const { userInfo } = useDashboardContext();
 
   const [recruits, setRecruits] = useState<Recruit[]>([]);
   const [loadingRecruits, setLoadingRecruits] = useState<boolean>(false);
+
+  const mockRecruits = useMemo(() => mock_division_recruits(), []);
 
   useEffect(() => {
     const loadRecruits = async () => {
@@ -80,17 +81,26 @@ export default function Page() {
     };
 
     loadRecruits();
-  }, [userInfo, setLoadingRecruits, setRecruits]);
+  }, [userInfo]);
+
+  return {
+    loadingRecruits,
+    recruits: useMockData ? mockRecruits : recruits
+  };
+};
+
+export default function Page() {
+  const { recruits, loadingRecruits } = useData(false);
 
   return (
-    <div className="din color_text page-container flex flex-col items-center">
+    <div className="din color_textAccent page-container flex flex-col items-center">
       <div className="text-5xl mb-5">MY CLAIMS</div>
 
-      <div className="gridItem-container rounded p-5 mb-5 flex justify-between gap-5">
+      <div className="gridItem-container card-box rounded p-5 mb-5">
         <RecruitmentMenu />
       </div>
 
-      <div className="gridItem-container rounded px-5">
+      <div className="gridItem-container card-box rounded px-5">
         <div className="smallHidden">
           <div className="flex h-[50px] items-center py-3 text-base opacity-60">
             <div className="column_code">Code</div>

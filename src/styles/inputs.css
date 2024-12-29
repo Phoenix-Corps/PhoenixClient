@@ -8,13 +8,18 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-::placeholder {
-    color: var(--color_textSecondary);
+.inputPlaceholder {
+    color: var(--color_inputPlaceholder) !important;
+    opacity: 1;
+}
+
+input::placeholder {
+    color: var(--color_inputPlaceholder) !important;
     opacity: 1;
     /* Firefox */
 }
 
 ::-ms-input-placeholder {
     /* Edge 12 -18 */
-    color: var(--color_textSecondary);
+    color: var(--color_inputPlaceholder) !important;
 }

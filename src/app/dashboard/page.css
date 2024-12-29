@@ -5,8 +5,6 @@
 }
 
 .card {
-    background: #FFFFFFCC;
-    backdrop-filter: blur(55px);
     border-radius: 4px;
     width: 610px;
     margin-bottom: 25px;    

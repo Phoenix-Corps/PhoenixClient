@@ -1,0 +1,30 @@
+.selectRank {
+    width: 200px;
+}
+
+.walletAddress {
+    width: 300px;
+    flex-grow: 1;
+}
+
+@media only screen and (max-width: 1000px) {
+    .recruitMenu {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .header {
+        padding-right: 0 !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .selectRank {
+        flex-grow: 1;
+    }
+
+    .recruitButton {
+        width: 100%;
+    }
+}

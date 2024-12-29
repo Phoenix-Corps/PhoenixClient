@@ -36,19 +36,14 @@ export const Select: React.FC<Props> = (props: Props) => {
       <div
         ref={refs.setReference}
         onClick={handleToggleDropDown}
-        className={`p-3 bg-[transparent] text-white cursor-pointer outline outline-white outline-1 rounded-tl-lg rounded-tr-lg flex justify-between items-center gap-2 ${
+        className={`p-3 bg-[transparent] color_textAccent cursor-pointer outline outline-white outline-1 rounded-tl-lg rounded-lg flex justify-between items-center gap-2 ${
           props.className || ""
         }`}
-        style={{
-          borderBottomLeftRadius: isOpen ? 0 : "0.5rem",
-          borderBottomRightRadius: isOpen ? 0 : "0.5rem",
-          marginBottom: isOpen ? 0 : undefined
-        }}
       >
         {props.selectedIndex !== undefined ? (
           props.options[props.selectedIndex] || ""
         ) : (
-          <div className="opacity-60">{props.placeholder ?? ""}</div>
+          <div className="inputPlaceholder">{props.placeholder ?? ""}</div>
         )}
         <Icon_Dropdown style={{ marginLeft: "auto" }} />
       </div>
@@ -58,13 +53,13 @@ export const Select: React.FC<Props> = (props: Props) => {
           <div
             ref={refs.setFloating}
             style={floatingStyles}
-            className={`fixed top-0 left-0 w-max outline outline-white outline-1 color_accent bg-white rounded`}
+            className={`fixed din top-0 left-0 w-max outline outline-white outline-1 color_textAccent card-box rounded`}
           >
             {props.options.map((text, index) => {
               return (
                 <div
                   key={index}
-                  className="p-3 hover:bg-[#3F5269] cursor-pointer flex justify-center items-center"
+                  className="p-3 hover:bg-[#3F526933] cursor-pointer flex justify-center items-center"
                   onClick={() => handleSelect(index)}
                 >
                   {text}

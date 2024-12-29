@@ -11,8 +11,6 @@
 }
 
 .gridItem-container {
-    background: #31315A4D;
-    backdrop-filter: blur(20px);
     max-width: 1200px;
     width: 100%;
 }
