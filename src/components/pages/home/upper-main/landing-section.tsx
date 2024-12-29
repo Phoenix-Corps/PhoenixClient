@@ -18,7 +18,7 @@ export const LandingSection = () => {
         />
         <ButtonYellow
           mainText="PROJECT / START UP"
-          rightText="SIGN UP"
+          rightText="APPLY"
           link={"https://forms.gle/SMdyUtL5EmpYqhUs9"}
           target="_blank"
         />

@@ -20,7 +20,7 @@ export const ButtonsSection = () => {
         <div className="flex flex-col flex-wrap gap-5 md:flex-row items-center">
           <ButtonYellow
             width={280}
-            mainText={"Open Dashboard"}
+            mainText={"Dashboard"}
             link={"/dashboard"}
             rightText={"Sign Up"}
           />

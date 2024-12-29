@@ -1,6 +1,6 @@
-import { ButtonsSection } from "./buttons-section/buttons-section";
-import { RepCard } from "./rep-card-section/rep-card";
-import WhitepapersSection from "./whitepaper-section/whitepapers-main";
+import { ButtonsSection } from "./buttons-section";
+import { RepCard } from "./rep-card";
+import WhitepapersSection from "./whitepapers-main";
 
 import "./bottom-section.css";
 
