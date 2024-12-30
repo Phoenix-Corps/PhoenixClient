@@ -9,7 +9,7 @@ export const SocialButton = (props: { link: string; src: string }) => {
       className="w-[50px] h-[50px]"
     >
       <Image
-        alt="cursor discord"
+        alt="cursor"
         className="social-icon"
         src={props.src}
         width={50}

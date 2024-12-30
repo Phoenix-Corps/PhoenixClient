@@ -12,13 +12,16 @@ export const BuyPageFooter = (props: { poolInfo?: PoolInfo }) => {
       <footer className="w-full mx-auto flex justify-center items-center footer-background-image p-5">
         <Socials
           discord={
-            props.poolInfo?.projectInfo?.discord ?? pageConfig.socials.discord
+            props.poolInfo?.projectInfo?.socials.discord ??
+            pageConfig.socials.discord
           }
           twitter={
-            props.poolInfo?.projectInfo?.twitter ?? pageConfig.socials.twitter
+            props.poolInfo?.projectInfo?.socials.twitter ??
+            pageConfig.socials.twitter
           }
           telegram={
-            props.poolInfo?.projectInfo?.telegram ?? pageConfig.socials.telegram
+            props.poolInfo?.projectInfo?.socials.telegram ??
+            pageConfig.socials.telegram
           }
         />
       </footer>
