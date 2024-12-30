@@ -12,7 +12,7 @@ export const LandingSection = () => {
       </div>
       <div className="w-[80%] flex m-auto gap-[24px] md:mt-0 mt-4 flex-wrap justify-center">
         <ButtonYellow
-          mainText="SHINOBI&nbsp;&nbsp;&nbsp;ALLIANCE"
+          mainText="REFER TO EARN"
           rightText="SIGN UP"
           link={"/dashboard"}
         />

@@ -4,7 +4,7 @@ import { findToken } from "@/services/walletService";
 
 import { ClaimInfo, PoolInfo, Recruit } from "@/types/types";
 
-import configRanks from "@/config/rankNames.json";
+import configRanks from "@/config/ranks.json";
 
 import mockClaims from "@/mock/claims.json";
 import mockRecruits from "@/mock/recruits.json";

@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 
-import { ButtonYellow } from "@/components/Buttons/ButtonYellow";
+import { ButtonState } from "@/components/Buttons/ButtonState";
 
 import { formatDate } from "@/utils/format";
 import { PoolInfo } from "@/types/types";
@@ -37,8 +37,8 @@ export const ProjectCard: React.FC<PoolInfo> = ({
           {!!projectInfo?.logo && (
             <Image
               src={projectInfo?.logo!}
-              width={55}
-              height={63}
+              width={64}
+              height={64}
               alt="project-logo"
             />
           )}
@@ -78,7 +78,7 @@ export const ProjectCard: React.FC<PoolInfo> = ({
           </div>
         </div>
 
-        <ButtonYellow mainText="Upcoming" miniBox={true} />
+        <ButtonState enabled={false} mainText="Upcoming" miniBox={true} />
       </div>
     </div>
   );

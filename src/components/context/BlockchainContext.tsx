@@ -3,15 +3,18 @@ import {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState
 } from "react";
+
+import { useAccount } from "wagmi";
 
 import { useEthersProvider } from "@/services/useEthersProvider";
 import { getPoolInfo, getPoolList } from "@/services/walletService";
 
 import { PoolInfo } from "@/types/types";
 
-import poolToProjectMapping from "@/config/poolToProjectMapping.json";
+import configPools from "@/config/pools.json";
 
 export interface BlockchainContextType {
   poolInfo: PoolInfo[];
@@ -28,6 +31,7 @@ export const BlockchainProvider: React.FC<{ children: ReactNode }> = ({
   children
 }) => {
   const provider = useEthersProvider();
+  const acc = useAccount();
   const [poolInfoMap, setPoolInfoMap] = useState<Map<string, PoolInfo>>(
     new Map()
   );
@@ -62,14 +66,15 @@ export const BlockchainProvider: React.FC<{ children: ReactNode }> = ({
     },
     [poolInfoMap, provider]
   );
-
   const fetchAllPoolInfo = useCallback(async (): Promise<PoolInfo[]> => {
     if (!provider) {
       console.error("Provider is not available");
       return [];
     }
 
-    if (poolInfoMap.size === poolToProjectMapping.length) {
+    const chainId = await (await provider.getNetwork()).chainId;
+    const chainPools = (configPools as any)[chainId];
+    if (poolInfoMap.size === Object.keys(chainPools).length) {
       console.log("CACHE HIT FOR ALL POOLS");
       return Array.from(poolInfoMap.values());
     }
@@ -90,6 +95,8 @@ export const BlockchainProvider: React.FC<{ children: ReactNode }> = ({
       setLoading(false);
     }
   }, [provider, poolInfoMap]);
+
+  useEffect(() => setPoolInfoMap(new Map()), [acc.chainId]);
 
   return (
     <BlockchainContext.Provider

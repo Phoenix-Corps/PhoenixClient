@@ -7,17 +7,11 @@ export interface ProjectInfo {
   footerText: string;
   logo: string;
   website: string;
-  discord: string;
-  twitter: string;
-  telegram: string;
-}
-
-export interface TokenInfo {
-  address: string;
-  name: string;
-  symbol: string;
-  logo: string;
-  decimals: number;
+  socials: {
+    discord: string;
+    twitter: string;
+    telegram: string;
+  };
 }
 
 export interface PoolInfo {
@@ -82,4 +76,44 @@ export interface Recruit {
   address: string;
   rankName: string;
   rankId: number;
+}
+
+export interface ConfigChain {
+  id: number;
+  name: string;
+  logo: string;
+  coin: string;
+  contracts: {
+    launchpad: string;
+    voucherPlugin: string;
+    paymentPlugin: string;
+  };
+}
+
+export interface TokenInfoChainAddress {
+  [key: string]: string | null;
+}
+
+export interface TokenInfoChainDecimals {
+  [key: string]: number;
+}
+
+export interface TokenInfo {
+  id: string;
+  symbol: string;
+  name: string;
+  logo: string;
+  decimals: number;
+  address: string | null;
+}
+
+export interface ConfigToken {
+  id: string;
+  symbol: string;
+  name: string;
+  logo: string;
+  pythID?: string;
+  defaultDecimals: number | undefined;
+  addresses: TokenInfoChainAddress;
+  decimals: TokenInfoChainDecimals | undefined;
 }

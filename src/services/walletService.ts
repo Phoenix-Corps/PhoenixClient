@@ -1,16 +1,18 @@
 import { BigNumber, ethers } from "ethers";
 import Decimal from "decimal.js";
 
-import contracts from "../config/contracts.json";
-import rankNames from "../config/rankNames.json";
+import configChains from "../config/chains.json";
+import configTokens from "../config/tokens.json";
+import configRanks from "../config/ranks.json";
 
-import launchpadAbi from "../ABIs/Launchpad.json";
-import paymentPluginAbi from "../ABIs/PaymentPlugin.json";
-import voucherPluginAbi from "../ABIs/VoucherPlugin.json";
-import erc20Abi from "../ABIs/ERC20.json";
+import ABI_Launchpad from "../ABIs/Launchpad.json";
+import ABI_PaymentPlugin from "../ABIs/PaymentPlugin.json";
+import ABI_VoucherPlugin from "../ABIs/VoucherPlugin.json";
+import ABI_ERC20 from "../ABIs/ERC20.json";
 
-import poolToProjectMapping from "../config/poolToProjectMapping.json";
-import tokenMapping from "../config/tokenMapping.json";
+import configProjects from "../config/projects.json";
+import configPools from "../config/pools.json";
+
 import {
   RoundInfo,
   TokenInfo,
@@ -18,32 +20,106 @@ import {
   HireRank,
   UserInfo,
   ClaimInfo,
-  Recruit
+  Recruit,
+  ConfigChain,
+  ConfigToken
 } from "@/types/types";
 
 const oneEther = new Decimal(10).pow(18);
 const paymentPercentDecimals = 5000000;
 const voucherDecimals = oneEther;
 const xpDecimals = oneEther;
+const uint256_max = BigNumber.from(
+  "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+);
 
-export const findToken = (address: string) => {
-  const token = (tokenMapping as { [key: string]: TokenInfo })[address];
-  return token;
+export const getChainInfo = (id: number) => {
+  return (configChains as ConfigChain[]).find(c => c.id === id) || null;
 };
 
-const processPoolInfo = (pool: any, rounds: any[]) => {
+export const getContracts = async (
+  providerOrSigner: ethers.providers.Provider | ethers.providers.JsonRpcSigner
+) => {
+  const chainId =
+    providerOrSigner instanceof ethers.providers.Provider
+      ? (await (providerOrSigner as ethers.providers.Provider).getNetwork())
+          .chainId
+      : await (providerOrSigner as ethers.providers.JsonRpcSigner).getChainId();
+  const con = getChainInfo(chainId)!.contracts;
+  return {
+    launchpad: new ethers.Contract(
+      con.launchpad,
+      ABI_Launchpad,
+      providerOrSigner
+    ),
+    paymentPlugin: new ethers.Contract(
+      con.paymentPlugin,
+      ABI_PaymentPlugin,
+      providerOrSigner
+    ),
+    voucherPlugin: new ethers.Contract(
+      con.voucherPlugin,
+      ABI_VoucherPlugin,
+      providerOrSigner
+    )
+  };
+};
+
+export const getTokenInfo = (
+  chainId: number,
+  addressOrID: string | null
+): TokenInfo | null => {
+  const token =
+    (configTokens as any as ConfigToken[]).find(
+      t =>
+        t.addresses[chainId]?.toLowerCase() === addressOrID!.toLowerCase() ||
+        addressOrID!.toLowerCase() === t.symbol.toLowerCase()
+    ) || null;
+  if (token !== null) {
+    return {
+      id: token!.id,
+      symbol: token!.symbol,
+      name: token!.name,
+      logo: token!.logo,
+      decimals: token!.decimals?.[chainId] || token!.defaultDecimals || 18,
+      address: token!.addresses[chainId]!.toLowerCase()
+    };
+  }
+  return null;
+};
+
+export const getChainTokens = (chainId: number): TokenInfo[] => {
+  const tokens = (configTokens as any as ConfigToken[]).filter(
+    t => t.addresses[chainId] !== undefined
+  );
+  return tokens.map(t => ({
+    id: t.id,
+    symbol: t.symbol,
+    name: t.name,
+    logo: t.logo,
+    decimals: t.decimals?.[chainId] || t.defaultDecimals || 18,
+    address: t.addresses[chainId]!.toLowerCase()
+  }));
+};
+
+export const findToken = (address: string) => {
+  return getTokenInfo(8453, address)!;
+};
+
+const processPoolInfo = (chainId: number, pool: any, rounds: any[]) => {
   const currentRound =
     rounds.find(
       (round: RoundInfo) => new Date(round.roundEnd * 1000) > new Date()
     ) ?? rounds[rounds.length - 1];
-  const token = findToken(pool.paymentToken);
+  const token = getTokenInfo(chainId, pool.paymentToken)!;
   const orgPrice = new Decimal(currentRound.voucherPrice.toString());
   const tokenDecimals = new Decimal(10).pow(new Decimal(token.decimals));
   const price = orgPrice.div(tokenDecimals).toString();
   const poolInfo = {
     id: pool.id,
-    projectInfo: poolToProjectMapping.find(
-      poolInfo => poolInfo.id === pool.id.toNumber()
+    projectInfo: configProjects.find(
+      project =>
+        project.id === (configPools as any)[chainId][pool.id.toNumber()]
     ),
     token: token,
     currentRound: {
@@ -66,34 +142,25 @@ export const getPoolInfo = async (
   provider: ethers.providers.Provider,
   poolId: number
 ) => {
-  const launchpadContract = new ethers.Contract(
-    contracts.launchpad,
-    launchpadAbi,
-    provider
-  );
-  const { pool, rounds } = await launchpadContract.getPoolInfoWithRounds(
-    poolId
-  );
-
-  return processPoolInfo(pool, rounds);
+  const con = await getContracts(provider);
+  const chainId = (await provider.getNetwork()).chainId;
+  const { pool, rounds } = await con.launchpad.getPoolInfoWithRounds(poolId);
+  return processPoolInfo(chainId, pool, rounds);
 };
 
 export const getPoolList = async (provider: ethers.providers.Provider) => {
-  const launchpadContract = new ethers.Contract(
-    contracts.launchpad,
-    launchpadAbi,
-    provider
-  );
-
-  const poolPromises = poolToProjectMapping.map(pool =>
-    launchpadContract.getPoolInfoWithRounds(pool.id)
+  const con = await getContracts(provider);
+  const chainId = (await provider.getNetwork()).chainId;
+  const chainPools = (configPools as any)[chainId];
+  const poolPromises = Object.keys(chainPools).map(k =>
+    con.launchpad.getPoolInfoWithRounds(chainPools[k])
   );
 
   const poolsData = await Promise.all(poolPromises);
 
   const poolConfigList: PoolInfo[] = poolsData.map(
     ({ pool, rounds }, poolId) => {
-      return processPoolInfo(pool, rounds);
+      return processPoolInfo(chainId, pool, rounds);
     }
   );
   return poolConfigList;
@@ -104,21 +171,17 @@ export const getHireRankInfo = async (
   address: string,
   rankIds: number[]
 ): Promise<HireRank[]> => {
-  const paymentPluginContract = new ethers.Contract(
-    contracts.paymentPlugin,
-    paymentPluginAbi,
-    provider
-  );
-  const ranksPromise = paymentPluginContract.getTiers();
+  const con = await getContracts(provider);
+  const ranksPromise = con.paymentPlugin.getTiers();
   const promises = rankIds.map(rankId =>
-    paymentPluginContract.freeRecruitments(address, rankId)
+    con.paymentPlugin.freeRecruitments(address, rankId)
   );
   let results = await Promise.all(promises.concat(ranksPromise));
   const ranks = results.pop();
   return rankIds.map((rankId, index) => {
     const rank = ranks.team[rankId];
     return {
-      name: rankNames.team[rankId],
+      name: configRanks.team[rankId],
       id: rankId,
       level: rankId + 1,
       vouchers: results.at(index).toNumber(),
@@ -131,26 +194,16 @@ export const getUserInfo = async (
   provider: ethers.providers.Provider,
   address: string
 ) => {
-  const launchpadContract = new ethers.Contract(
-    contracts.launchpad,
-    launchpadAbi,
-    provider
-  );
-
-  const paymentPluginContract = new ethers.Contract(
-    contracts.paymentPlugin,
-    paymentPluginAbi,
-    provider
-  );
+  const con = await getContracts(provider);
   const [ranks, userTierInfo, referral] = await Promise.all([
-    paymentPluginContract.getTiers(),
-    paymentPluginContract.userTierInfo(address),
-    launchpadContract.userReferral(address)
+    con.paymentPlugin.getTiers(),
+    con.paymentPlugin.userTierInfo(address),
+    con.launchpad.userReferral(address)
   ]);
 
   const isTeamUser = userTierInfo.team;
   const userRanks = isTeamUser ? ranks.team : ranks.solo;
-  const rankMapping = isTeamUser ? rankNames.team : rankNames.solo;
+  const rankMapping = isTeamUser ? configRanks.team : configRanks.solo;
   const userRankId = userTierInfo.rank.toNumber();
 
   const currentRank = userRanks[userRankId];
@@ -185,26 +238,26 @@ export const getUserClaimInfo = async (
   provider: ethers.providers.Provider,
   address: string
 ) => {
-  const paymentPluginContract = new ethers.Contract(
-    contracts.paymentPlugin,
-    paymentPluginAbi,
-    provider
+  const con = await getContracts(provider);
+  const chainId = (await provider.getNetwork()).chainId;
+  const pools = Object.keys((configPools as any)[chainId]).map(p =>
+    parseInt(p)
   );
 
   let promiseList: Promise<BigInt>[] = [];
-  for (let i = 0; i < poolToProjectMapping.length; i++) {
-    const poolId = poolToProjectMapping[i].id;
+  for (let i = 0; i < pools.length; i++) {
+    const poolId = pools[i];
     promiseList = promiseList.concat([
-      paymentPluginContract.getClaimablePayment(poolId, address),
-      paymentPluginContract.getClaimedPayment(poolId, address),
-      paymentPluginContract.getTotalPayment(poolId, address)
+      con.paymentPlugin.getClaimablePayment(poolId, address),
+      con.paymentPlugin.getClaimedPayment(poolId, address),
+      con.paymentPlugin.getTotalPayment(poolId, address)
     ]);
   }
 
   const resultArray = await Promise.all(promiseList);
 
   const results: ClaimInfo[] = [];
-  for (let poolId = 0; poolId < poolToProjectMapping.length; poolId++) {
+  for (let poolId = 0; poolId < pools.length; poolId++) {
     results.push({
       claimable: new Decimal(resultArray[3 * poolId].toString()),
       claimedPayment: new Decimal(resultArray[3 * poolId + 1].toString()),
@@ -220,12 +273,8 @@ export const getVoucherBalance = async (
   poolId: number,
   address: string
 ) => {
-  const voucherContract = new ethers.Contract(
-    contracts.voucherPlugin,
-    voucherPluginAbi,
-    provider
-  );
-  const result = await voucherContract.getUserPoints(poolId, address);
+  const con = await getContracts(provider);
+  const result = await con.voucherPlugin.getUserPoints(poolId, address);
   return new Decimal(result.toString()).div(voucherDecimals);
 };
 
@@ -233,12 +282,8 @@ export const claim = async (
   signer: ethers.providers.JsonRpcSigner,
   id: number
 ) => {
-  const launchpadContract = new ethers.Contract(
-    contracts.launchpad,
-    launchpadAbi,
-    signer
-  );
-  const tx = await launchpadContract.claimPayment(id);
+  const con = await getContracts(signer);
+  const tx = await con.launchpad.claimPayment(id);
   return tx;
 };
 
@@ -249,10 +294,11 @@ export const checkApproval = async (
   amount: number
 ) => {
   const convertedAmount = new Decimal(10).pow(token.decimals).mul(amount);
-  const tokenContract = new ethers.Contract(token.address, erc20Abi, signer);
+  const tokenContract = new ethers.Contract(token.address!, ABI_ERC20, signer);
+  const con = await getContracts(signer);
   const approvedAmount = await tokenContract.allowance(
     address,
-    contracts.launchpad
+    con.launchpad.address
   );
   return new Decimal(approvedAmount.toString()).gte(convertedAmount);
 };
@@ -261,14 +307,11 @@ export const approveSpending = async (
   signer: ethers.providers.JsonRpcSigner,
   token: TokenInfo
 ) => {
-  const tokenContract = new ethers.Contract(token.address, erc20Abi, signer);
-  const tx = await tokenContract.approve(
-    contracts.launchpad,
-    BigNumber.from(
-      "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-    ),
-    { gasLimit: 1000000 }
-  );
+  const tokenContract = new ethers.Contract(token.address!, ABI_ERC20, signer);
+  const con = await getContracts(signer);
+  const tx = await tokenContract.approve(con.launchpad.address, uint256_max, {
+    gasLimit: 1000000
+  });
   return tx;
 };
 
@@ -279,14 +322,9 @@ export const buy = async (
   amount: number,
   referralCode: string
 ) => {
-  const launchpadContract = new ethers.Contract(
-    contracts.launchpad,
-    launchpadAbi,
-    signer
-  );
-
+  const con = await getContracts(signer);
   const convertedAmount = new Decimal(10).pow(token.decimals).mul(amount);
-  const tx = await launchpadContract.buy(
+  const tx = await con.launchpad.buy(
     poolId,
     BigInt(convertedAmount.toString()),
     referralCode,
@@ -296,12 +334,8 @@ export const buy = async (
 };
 
 export const upgradeRank = async (signer: ethers.providers.JsonRpcSigner) => {
-  const paymentPluginContract = new ethers.Contract(
-    contracts.paymentPlugin,
-    paymentPluginAbi,
-    signer
-  );
-  const tx = await paymentPluginContract.levelUp({ gasLimit: 1000000 });
+  const con = await getContracts(signer);
+  const tx = await con.paymentPlugin.levelUp({ gasLimit: 1000000 });
   return tx;
 };
 
@@ -311,23 +345,14 @@ export const getDivision = async (
   offset: number,
   count: number
 ) => {
-  const paymentPluginContract = new ethers.Contract(
-    contracts.paymentPlugin,
-    paymentPluginAbi,
-    provider
-  );
-  const launchpadContract = new ethers.Contract(
-    contracts.launchpad,
-    launchpadAbi,
-    provider
-  );
-  const recruits = await paymentPluginContract.batchGetRecruits(
+  const con = await getContracts(provider);
+  const recruits = await con.paymentPlugin.batchGetRecruits(
     address,
     offset,
     count
   );
   const promises = recruits.map((recruit: any) =>
-    launchpadContract.userReferral(recruit[0])
+    con.launchpad.userReferral(recruit[0])
   );
   const referralCodes = await Promise.all(promises);
   const results: Recruit[] = recruits.map((recruit: any, index: number) => {
@@ -335,7 +360,7 @@ export const getDivision = async (
       code: referralCodes[index],
       address: recruit[0],
       rankId: parseInt(recruit[1]),
-      rankName: rankNames.team[recruit[1]]
+      rankName: configRanks.team[recruit[1]]
     };
   });
 
@@ -343,12 +368,8 @@ export const getDivision = async (
 };
 
 export const registerUser = async (signer: ethers.providers.JsonRpcSigner) => {
-  const paymentPluginContract = new ethers.Contract(
-    contracts.paymentPlugin,
-    paymentPluginAbi,
-    signer
-  );
-  const tx = await paymentPluginContract.registerSolo(true);
+  const con = await getContracts(signer);
+  const tx = await con.paymentPlugin.registerSolo(true);
   return tx;
 };
 
@@ -357,13 +378,8 @@ export const recruit = async (
   rank: number,
   signer: ethers.providers.JsonRpcSigner
 ) => {
-  const paymentPluginContract = new ethers.Contract(
-    contracts.paymentPlugin,
-    paymentPluginAbi,
-    signer
-  );
-
-  const tx = await paymentPluginContract.registerRecruit(recruit, rank, true, {
+  const con = await getContracts(signer);
+  const tx = await con.paymentPlugin.registerRecruit(recruit, rank, true, {
     gasLimit: 1000000
   });
   return tx;

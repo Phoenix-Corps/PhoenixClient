@@ -1,0 +1,15 @@
+[
+  {
+    "id": 0,
+    "name": "Immutable AI Labs",
+    "logo": "/clients/Immutable_AI_Labs/logo.jpeg",
+    "description": "Immutable Labs envisions a thriving, open, AI ecosystem. It offers a decentralized AI ecosystem powered by a decentralized computing network. Immutable Labs is expanding the AI landscape with a sustainable, ethical, and decentralized ecosystem owned by the community that is far more accessible from a cost and capabilities perspective.",
+    "footerText": "Immutable Labs operates on the Green Proof of Work framework to allow all this to happen",    
+    "website": "https://immu.ai/",
+    "socials": {
+      "discord": "https://discord.com/invite/YbP84Z9P",
+      "twitter": "https://x.com/ImmutableAILabs",
+      "telegram": "https://t.me/+3QyULAAZpNU3OGQ0"
+    }
+  }
+]

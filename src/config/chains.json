@@ -1,0 +1,26 @@
+[
+    {
+        "id": 56,
+        "name": "BNB Chain",
+        "logo": "/chains/BSC.svg",
+        "coin": "BNB",
+        "contracts":
+        {
+            "launchpad": "0x708eFD59828f41E9FAca736DCc9E56AfeC25E92E",
+            "voucherPlugin": "0xb5662b5f09226e9248E8f4B5148e17719c322c2d",
+            "paymentPlugin": "0x99F81A9227d1262a83688106801D97BC16167C71"    
+        }
+    },
+    {
+        "id": 8453,
+        "name": "Base",
+        "logo": "/chains/Base.svg",
+        "coin": "ETH",
+        "contracts":
+        {
+            "launchpad": "0x708eFD59828f41E9FAca736DCc9E56AfeC25E92E",
+            "voucherPlugin": "0xb5662b5f09226e9248E8f4B5148e17719c322c2d",
+            "paymentPlugin": "0x99F81A9227d1262a83688106801D97BC16167C71"    
+        }
+    }
+]
