@@ -23,7 +23,9 @@ import {
   approveSpending,
   buy,
   checkApproval,
-  getVoucherBalance
+  getPoolRedeemInfo,
+  getVoucherBalance,
+  redeem
 } from "@/services/walletService";
 
 import { LoadingOverlay } from "@/components/Page/LoadingOverlay";
@@ -37,146 +39,215 @@ import { useBlockchainContext } from "@/components/context/BlockchainContext";
 import { useDashboardContext } from "@/components/context/DashboardContext";
 import { useTransactionHandler } from "@/components/context/TransactionHandlerContext";
 
-import { PoolInfo } from "@/types/types";
+import { PoolInfo, VoucherPluginPoolInfo } from "@/types/types";
 
 import Icon_Voucher from "@public/pages/buy/phoenix-coin.png";
 
 import "./page.css";
+import { ButtonYellow } from "@/components/Buttons/ButtonYellow";
 
 type Props = {};
 
-const BuyPageWrapper = (props: Props) => {
+const AcceptTerms = ({
+  termsAccepted,
+  countryAccepted,
+  setTermsAccepted,
+  setCountryAccepted
+}: {
+  termsAccepted: boolean;
+  countryAccepted: boolean;
+  setTermsAccepted: (v: any) => void;
+  setCountryAccepted: (v: any) => void;
+}) => {
+  return (
+    <div className="text-xs">
+      <div className="text-left flex flex-row gap-[5px] p-1">
+        <Checkbox
+          className="w-[15px] h-[15px] p-1 border border-white"
+          checked={termsAccepted}
+          required={true}
+          onCheckedChange={checked =>
+            setTermsAccepted(checked == "indeterminate" ? false : checked)
+          }
+        />
+        <div>
+          I agree to the{" "}
+          <a href="/terms.html" target="_blank">
+            <b>
+              <u>terms of agreement</u>
+            </b>
+          </a>
+          .
+        </div>
+      </div>
+      <div className="text-left flex flex-row gap-[5px] p-1">
+        <Checkbox
+          className="w-[15px] h-[15px] p-1 border border-white"
+          checked={countryAccepted}
+          required={true}
+          onCheckedChange={checked =>
+            setCountryAccepted(checked == "indeterminate" ? false : checked)
+          }
+        />
+        <div>
+          I confirm that I am not located in or associated with OFAC-sanctioned
+          countries and agree to the terms and conditions{" "}
+          <a href="/countryrestrictions.html" target="_blank">
+            <b>
+              <u>[Read More]</u>
+            </b>
+          </a>
+          .
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const RedeemArea = ({
+  poolInfo,
+  redeemInfo,
+  vouchersOwned
+}: {
+  poolInfo: PoolInfo;
+  redeemInfo: VoucherPluginPoolInfo;
+  vouchersOwned: Decimal;
+}) => {
+  const signer = useEthersSigner();
   const { setTx } = useTransactionHandler();
+
+  const amount = useMemo(
+    () =>
+      redeemInfo.totalBalance
+        .mul(vouchersOwned)
+        .div(redeemInfo.totalVoucherPoints)
+        .toNumber(),
+    [redeemInfo, vouchersOwned]
+  );
+
+  const conversionRateText = useMemo(() => {
+    if (poolInfo && poolInfo.projectInfo) {
+      const conversion = redeemInfo.totalBalance.div(
+        redeemInfo.totalVoucherPoints
+      );
+      return `1 Voucher = ${conversion.toDecimalPlaces(6).toString()} ${
+        redeemInfo.token!.symbol
+      }`;
+    } else {
+      return "Loading conversion rate...";
+    }
+  }, [poolInfo]);
+
+  const handleRedeem = useCallback(() => {
+    const runBuy = async () => {
+      if (signer) {
+        try {
+          // buy
+          const tx = redeem(signer, redeemInfo.id);
+          setTx(
+            "Waiting for Redeem transaction to be completed.",
+            "Redeem successful!",
+            tx
+          );
+          await (await tx).wait();
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    };
+
+    runBuy();
+  }, [redeemInfo]);
+
+  return (
+    <div className="relative buy-wrapper-main w-full">
+      <div className="phoenix-image-token-wrapper">
+        <NumberInput
+          tokenName={"Voucher"}
+          imageSrc={poolInfo?.projectInfo?.logo ?? Icon_Voucher.src}
+          amount={vouchersOwned.toNumber()}
+        />
+      </div>
+      <div className="h-[5px]" />
+      <NumberInput
+        tokenName={redeemInfo.token!.symbol}
+        imageSrc={redeemInfo.token!.logo}
+        amount={amount}
+      />
+
+      <div className="aeroport text-xs mt-2 h-[40px] w-full flex flex-row items-between">
+        <div>
+          <div className="text-left z-10 w-[250px]">{conversionRateText}</div>
+        </div>
+      </div>
+      <div className="w-full flex flex-row flex-wrap justify-between gap-y-2">
+        <ButtonYellow mainText="Redeem" onClick={handleRedeem} />
+      </div>
+      <div className="text-under-code text-left">
+        {poolInfo?.projectInfo?.footerText}
+      </div>
+    </div>
+  );
+};
+
+const BuyArea = ({
+  poolInfo,
+  poolId,
+  code,
+  setError,
+  setCode,
+  setBuyInProgress
+}: {
+  poolInfo: PoolInfo | undefined;
+  poolId: string;
+  code: string | null;
+  setError: (value: string) => void;
+  setCode: (value: string) => void;
+  setBuyInProgress: (value: boolean) => void;
+}) => {
+  const signer = useEthersSigner();
+  const { setTx } = useTransactionHandler();
+  const { address } = useAccount();
+
+  const [amount, setAmount] = useState<number | null>(null);
+  const [amountVouchers, setAmountVouchers] = useState<number | null>(null);
+  const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
+  const [countryAccepted, setCountryAccepted] = useState<boolean>(false);
 
   const [showWarning, setShowWarning] = useState(false);
   const [warningMessage, setWarningMessage] = useState<string>("");
 
-  const [buyInProgress, setBuyInProgress] = useState<boolean>(false);
-  const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
-  const [countryAccepted, setCountryAccepted] = useState<boolean>(false);
-
-  const [amount, setAmount] = useState<number | null>(null);
-  const [amountVouchers, setAmountVouchers] = useState<number | null>(null);
-  const [vouchersOwned, setVouchersOwned] = useState<Decimal | null>(null);
-
-  const { isConnected, address } = useAccount();
-
-  const searchParams = useSearchParams();
-  const provider = useEthersProvider();
-  const signer = useEthersSigner();
-
-  const { fetchPoolInfoById } = useBlockchainContext();
-  const { userInfo, walletAddress, fetchUserInfo } = useDashboardContext();
-
-  const initialError = useMemo(() => {
-    const poolIdValue = searchParams.get("poolId");
-    return !poolIdValue
-      ? "Error: Required URL parameters are missing or invalid."
-      : "";
-  }, [searchParams]);
-
-  const [poolId, setPoolId] = useState(searchParams.get("poolId") || "");
-  const [code, setCode] = useState(searchParams.get("code") || "");
-  const [error, setError] = useState(initialError);
-  const [currentPoolInfo, setCurrentPoolInfo] = useState<PoolInfo | undefined>(
-    undefined
-  );
+  const conversionRateText = useMemo(() => {
+    if (poolInfo && poolInfo.projectInfo) {
+      return `1 Voucher = ${poolInfo?.currentRound.voucherPrice} ${poolInfo?.token.symbol}`;
+    } else {
+      return "Loading conversion rate...";
+    }
+  }, [poolInfo]);
 
   const { data: balanceData } = useBalance({
     address,
-    token: currentPoolInfo?.token.address! as any
+    token: poolInfo?.token.address! as any
   });
   const normalizedBalance = balanceData ? parseFloat(balanceData.formatted) : 0;
 
   useEffect(() => {
-    if (walletAddress) {
-      fetchUserInfo(walletAddress);
-    }
-  }, [walletAddress]);
-
-  const urlForCopy = useMemo(() => {
-    if (userInfo?.referralCode && poolId) {
-      const { origin, pathname } = window.location;
-      const host = origin + pathname;
-      const poolIdRefCode =
-        "?poolId=" + poolId + "&code=" + userInfo.referralCode;
-      return host + poolIdRefCode;
-    } else {
-      return null;
-    }
-  }, [userInfo, currentPoolInfo]);
-
-  useEffect(() => {
-    if (provider && address && poolId && !buyInProgress) {
-      getVoucherBalance(provider, parseInt(poolId), address)
-        .then(voucherBalanceResult => {
-          setVouchersOwned(voucherBalanceResult);
-        })
-        .catch(error => {
-          console.error(error);
-          setError("Error fetching voucher information.");
-        });
-    }
-  }, [
-    buyInProgress,
-    poolId,
-    address,
-    getVoucherBalance,
-    setVouchersOwned,
-    setError
-  ]);
-
-  useEffect(() => {
-    const poolIdValue = searchParams.get("poolId");
-    const codeValue = searchParams.get("code");
-
-    setPoolId(poolIdValue || "");
-    setCode(codeValue || "");
-
-    if (!poolIdValue) {
-      setError("Error: Required URL parameters are missing or invalid.");
-    } else {
-      setError("");
-      fetchPoolInfoById(poolIdValue)
-        .then(poolData => {
-          setCurrentPoolInfo(poolData);
-        })
-        .catch(err => {
-          console.error(err);
-          setError("Error fetching pool information.");
-        });
-    }
-  }, [
-    searchParams,
-    fetchPoolInfoById,
-    setCurrentPoolInfo,
-    setError,
-    setPoolId,
-    setCode
-  ]);
-
-  useEffect(() => {
-    if (amount !== null && currentPoolInfo?.currentRound?.voucherPrice) {
+    if (amount !== null && poolInfo?.currentRound?.voucherPrice) {
       const vouchers =
-        amount /
-        parseFloat(currentPoolInfo.currentRound.voucherPrice.toString());
+        amount / parseFloat(poolInfo.currentRound.voucherPrice.toString());
       setAmountVouchers(
         Number.isFinite(vouchers) ? parseFloat(vouchers.toFixed(2)) : null
       );
     }
-  }, [amount, currentPoolInfo]);
-
+  }, [amount, poolInfo]);
   useEffect(() => {
-    if (
-      amountVouchers !== null &&
-      currentPoolInfo?.currentRound?.voucherPrice
-    ) {
+    if (amountVouchers !== null && poolInfo?.currentRound?.voucherPrice) {
       const value =
         amountVouchers *
-        parseFloat(currentPoolInfo.currentRound.voucherPrice.toString());
+        parseFloat(poolInfo.currentRound.voucherPrice.toString());
       setAmount(Number.isFinite(value) ? parseFloat(value.toFixed(2)) : null);
     }
-  }, [amountVouchers, currentPoolInfo]);
+  }, [amountVouchers, poolInfo]);
 
   const isAmountValid = () => {
     if (amount === null) return false;
@@ -213,13 +284,13 @@ const BuyPageWrapper = (props: Props) => {
           const hasApproval = await checkApproval(
             signer,
             address!,
-            currentPoolInfo!.token,
+            poolInfo!.token,
             amount!
           );
 
           if (!hasApproval) {
             // approve
-            const approveTx = approveSpending(signer, currentPoolInfo!.token);
+            const approveTx = approveSpending(signer, poolInfo!.token);
             setTx(
               "Waiting for Approve spending transation to be completed.",
               "Approve spending transation completed.",
@@ -231,8 +302,8 @@ const BuyPageWrapper = (props: Props) => {
           // buy
           const buyTx = buy(
             signer,
-            +poolId,
-            currentPoolInfo!.token,
+            parseInt(poolId),
+            poolInfo!.token,
             amount!,
             code
           );
@@ -258,18 +329,158 @@ const BuyPageWrapper = (props: Props) => {
     setTx,
     signer,
     poolId,
-    currentPoolInfo,
+    poolInfo,
     amount,
     code
   ]);
 
-  const conversionRateText = useMemo(() => {
-    if (currentPoolInfo && currentPoolInfo.projectInfo) {
-      return `1 Voucher = ${currentPoolInfo?.currentRound.voucherPrice} ${currentPoolInfo?.token.name}`;
+  return (
+    <div className="relative buy-wrapper-main w-full">
+      <NumberInput
+        tokenName={poolInfo?.token.symbol}
+        imageSrc={poolInfo?.token.logo}
+        amount={amount}
+        amountUpdated={setAmount}
+      />
+      <div className="h-[5px]" />
+      <div className="phoenix-image-token-wrapper">
+        <NumberInput
+          tokenName={"Voucher"}
+          imageSrc={poolInfo?.projectInfo?.logo ?? Icon_Voucher.src}
+          amount={amountVouchers}
+          amountUpdated={setAmountVouchers}
+        />
+      </div>
+      <div className="aeroport text-xs mt-2 h-[40px] w-full flex flex-row items-between">
+        <div>
+          <div className="text-left z-10 w-[250px]">{conversionRateText}</div>
+        </div>
+        <div className="text-red-300 text-right">
+          {showWarning ? warningMessage : ""}
+        </div>
+      </div>
+      <div className="w-full flex flex-row flex-wrap justify-between gap-y-2">
+        <div className="md:w-auto w-full">
+          <input
+            className="buy-input-main code-input mt-0 text-white placeholder-white/50 w-full"
+            value={code ?? ""}
+            placeholder="Referral Code"
+            onChange={(e: any) => setCode(e.target.value || null)}
+          />
+        </div>
+        <BuyButton onClick={handleSubmit} />
+      </div>
+      <AcceptTerms
+        termsAccepted={termsAccepted}
+        countryAccepted={countryAccepted}
+        setCountryAccepted={setCountryAccepted}
+        setTermsAccepted={setTermsAccepted}
+      />
+      <div className="text-under-code text-left">
+        {poolInfo?.projectInfo?.footerText}
+      </div>
+    </div>
+  );
+};
+
+const BuyPageWrapper = (props: Props) => {
+  const provider = useEthersProvider();
+  const { isConnected, address } = useAccount();
+  const searchParams = useSearchParams();
+  const { fetchPoolInfoById } = useBlockchainContext();
+  const { userInfo, walletAddress, fetchUserInfo } = useDashboardContext();
+
+  const initialError = useMemo(() => {
+    const poolIdValue = searchParams.get("poolId");
+    return !poolIdValue
+      ? "Error: Required URL parameters are missing or invalid."
+      : "";
+  }, [searchParams]);
+
+  const [vouchersOwned, setVouchersOwned] = useState<Decimal | null>(null);
+  const [buyInProgress, setBuyInProgress] = useState<boolean>(false);
+  const [poolId, setPoolId] = useState(searchParams.get("poolId") || "");
+  const [code, setCode] = useState(searchParams.get("code") || "");
+  const [error, setError] = useState(initialError);
+  const [currentPoolInfo, setCurrentPoolInfo] = useState<PoolInfo | undefined>(
+    undefined
+  );
+  const [redeemInfo, setRedeemInfo] = useState<VoucherPluginPoolInfo | null>(
+    null
+  );
+
+  const redeemable = useMemo(() => !!redeemInfo?.token, [redeemInfo]);
+  const urlForCopy = useMemo(() => {
+    if (userInfo?.referralCode && poolId) {
+      const { origin, pathname } = window.location;
+      const host = origin + pathname;
+      const poolIdRefCode =
+        "?poolId=" + poolId + "&code=" + userInfo.referralCode;
+      return host + poolIdRefCode;
     } else {
-      return "Loading conversion rate...";
+      return null;
     }
-  }, [currentPoolInfo]);
+  }, [userInfo, currentPoolInfo]);
+
+  useEffect(() => {
+    if (walletAddress) fetchUserInfo(walletAddress);
+  }, [walletAddress]);
+  useEffect(() => {
+    if (provider && address && poolId && !buyInProgress) {
+      getVoucherBalance(provider, parseInt(poolId), address)
+        .then(voucherBalanceResult => setVouchersOwned(voucherBalanceResult))
+        .catch(error => {
+          console.error(error);
+          setError("Error fetching voucher information.");
+        });
+    }
+  }, [
+    buyInProgress,
+    poolId,
+    address,
+    provider,
+    getVoucherBalance,
+    setVouchersOwned,
+    setError
+  ]);
+  useEffect(() => {
+    if (provider && address && poolId) {
+      getPoolRedeemInfo(provider, parseInt(poolId))
+        .then(v => setRedeemInfo(v))
+        .catch(error => {
+          console.error(error);
+          setError("Error fetching redeem information.");
+        });
+    }
+  }, [provider, poolId, address, setRedeemInfo, setError]);
+  useEffect(() => {
+    const poolIdValue = searchParams.get("poolId");
+    const codeValue = searchParams.get("code");
+
+    setPoolId(poolIdValue || "");
+    setCode(codeValue || "");
+
+    if (!poolIdValue) {
+      setError("Error: Required URL parameters are missing or invalid.");
+    } else {
+      setError("");
+      fetchPoolInfoById(poolIdValue)
+        .then(poolData => {
+          setCurrentPoolInfo(poolData);
+        })
+        .catch(err => {
+          console.error(err);
+          setError("Error fetching pool information.");
+        });
+    }
+  }, [
+    searchParams,
+    fetchPoolInfoById,
+    setCurrentPoolInfo,
+    setError,
+    setPoolId,
+    setCode
+  ]);
 
   if (error) {
     return (
@@ -311,97 +522,22 @@ const BuyPageWrapper = (props: Props) => {
                   "Loading description..."}
               </div>
               {isConnected ? (
-                <div className="relative buy-wrapper-main w-full">
-                  <NumberInput
-                    tokenName={currentPoolInfo?.token.symbol}
-                    imageSrc={currentPoolInfo?.token.logo}
-                    amount={amount}
-                    amountUpdated={setAmount}
+                redeemable ? (
+                  <RedeemArea
+                    poolInfo={currentPoolInfo!}
+                    redeemInfo={redeemInfo!}
+                    vouchersOwned={vouchersOwned!}
                   />
-                  <div className="h-[5px]" />
-                  <div className="phoenix-image-token-wrapper">
-                    <NumberInput
-                      tokenName={"Voucher"}
-                      imageSrc={
-                        currentPoolInfo?.projectInfo?.logo ?? Icon_Voucher.src
-                      }
-                      amount={amountVouchers}
-                      amountUpdated={setAmountVouchers}
-                    />
-                  </div>
-                  <div className="aeroport text-xs mt-2 h-[40px] w-full flex flex-row items-between">
-                    <div>
-                      <div className="text-left z-10 w-[250px]">
-                        {conversionRateText}
-                      </div>
-                    </div>
-                    <div className="text-red-300 text-right">
-                      {showWarning ? warningMessage : ""}
-                    </div>
-                  </div>
-                  <div className="w-full flex flex-row flex-wrap justify-between gap-y-2">
-                    <div className="md:w-auto w-full">
-                      <input
-                        className="buy-input-main code-input mt-0 text-white placeholder-white/50 w-full"
-                        value={code ?? ""}
-                        placeholder="Referral Code"
-                        onChange={(e: any) => setCode(e.target.value || null)}
-                      />
-                    </div>
-                    <>
-                      <BuyButton onClick={handleSubmit} />
-                    </>
-                  </div>
-                  <div className="text-xs">
-                    <div className="text-left flex flex-row gap-[5px] p-1">
-                      <Checkbox
-                        className="w-[15px] h-[15px] p-1 border border-white"
-                        checked={termsAccepted}
-                        required={true}
-                        onCheckedChange={checked =>
-                          setTermsAccepted(
-                            checked == "indeterminate" ? false : checked
-                          )
-                        }
-                      />
-                      <div>
-                        I agree to the{" "}
-                        <a href="/terms.html" target="_blank">
-                          <b>
-                            <u>terms of agreement</u>
-                          </b>
-                        </a>
-                        .
-                      </div>
-                    </div>
-                    <div className="text-left flex flex-row gap-[5px] p-1">
-                      <Checkbox
-                        className="w-[15px] h-[15px] p-1 border border-white"
-                        checked={countryAccepted}
-                        required={true}
-                        onCheckedChange={checked =>
-                          setCountryAccepted(
-                            checked == "indeterminate" ? false : checked
-                          )
-                        }
-                      />
-                      <div>
-                        I confirm that I am not located in or associated with
-                        OFAC-sanctioned countries and agree to the terms and
-                        conditions{" "}
-                        <a href="/countryrestrictions.html" target="_blank">
-                          <b>
-                            <u>[Read More]</u>
-                          </b>
-                        </a>
-                        .
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-under-code text-left">
-                    {currentPoolInfo?.projectInfo?.footerText}
-                  </div>
-                </div>
+                ) : (
+                  <BuyArea
+                    poolInfo={currentPoolInfo}
+                    poolId={poolId}
+                    code={code}
+                    setError={setError}
+                    setCode={setCode}
+                    setBuyInProgress={setBuyInProgress}
+                  />
+                )
               ) : (
                 <div className="text-center items-center flex flex-col justify-center">
                   <p className="mb-4">Connect your wallet to continue</p>
@@ -428,7 +564,9 @@ const BuyPageWrapper = (props: Props) => {
             </div>
           </div>
         </div>
-        {isConnected && <>{urlForCopy && <SellerLinkBar url={urlForCopy} />}</>}
+        {isConnected && !redeemable && urlForCopy && (
+          <SellerLinkBar url={urlForCopy} />
+        )}
         <BuyPageFooter poolInfo={currentPoolInfo} />
         <LoadingOverlay isLoading={buyInProgress} />
       </div>

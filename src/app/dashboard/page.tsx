@@ -135,7 +135,7 @@ export default function Page() {
           </div>
         </div>
       </div>
-      <div className="card flex flex-col items-center">
+      <div className="card card-box flex flex-col items-center">
         <div className="text-center">My code</div>
         <CopyField
           value={userInfo?.referralCode!}

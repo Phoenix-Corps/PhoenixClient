@@ -4,7 +4,7 @@ type Props = {
   amount?: number | null;
   tokenName?: string;
   imageSrc?: string;
-  amountUpdated: (amount: number | null) => void;
+  amountUpdated?: (amount: number | null) => void;
 };
 
 export const NumberInput: React.FC<Props> = (props: Props) => {
@@ -14,7 +14,7 @@ export const NumberInput: React.FC<Props> = (props: Props) => {
         className="flex-1 bg-transparent text-white text-lg font-bold placeholder-white/50 focus:outline-none px-4"
         value={props.amount?.toString() || ""}
         placeholder="0.00"
-        onChange={(e: any) => props.amountUpdated(e.target.value || null)}
+        onChange={(e: any) => props.amountUpdated?.(e.target.value || null)}
       />
       {props.imageSrc ? (
         <>

@@ -29,6 +29,13 @@ export interface PoolInfo {
   };
 }
 
+export interface VoucherPluginPoolInfo {
+  id: number;
+  token: TokenInfo | null;
+  totalVoucherPoints: Decimal;
+  totalBalance: Decimal;
+}
+
 export interface RoundInfo {
   goal: string;
   voucherPrice: string;

@@ -22,7 +22,8 @@ import {
   ClaimInfo,
   Recruit,
   ConfigChain,
-  ConfigToken
+  ConfigToken,
+  VoucherPluginPoolInfo
 } from "@/types/types";
 
 const oneEther = new Decimal(10).pow(18);
@@ -136,6 +137,29 @@ const processPoolInfo = (chainId: number, pool: any, rounds: any[]) => {
   };
 
   return poolInfo;
+};
+
+export const getPoolRedeemInfo = async (
+  provider: ethers.providers.Provider,
+  poolId: number
+): Promise<VoucherPluginPoolInfo> => {
+  const con = await getContracts(provider);
+  const chainId = (await provider.getNetwork()).chainId;
+  const data = await con.voucherPlugin.poolInfo(poolId);
+  const tokenInfo = getTokenInfo(chainId, data.redeemToken);
+  return {
+    id: poolId,
+    token: tokenInfo,
+    totalVoucherPoints: new Decimal(data.totalVoucherPoints.toString()).div(
+      new Decimal(10).pow(new Decimal(18))
+    ),
+    totalBalance:
+      tokenInfo === null
+        ? new Decimal(0)
+        : new Decimal(data.totalBalance.toString()).div(
+            new Decimal(10).pow(new Decimal(tokenInfo.decimals))
+          )
+  };
 };
 
 export const getPoolInfo = async (
@@ -330,6 +354,15 @@ export const buy = async (
     referralCode,
     { gasLimit: 1000000 }
   );
+  return tx;
+};
+
+export const redeem = async (
+  signer: ethers.providers.JsonRpcSigner,
+  poolId: number
+) => {
+  const con = await getContracts(signer);
+  const tx = await con.launchpad.redeemVouchers(poolId, { gasLimit: 1000000 });
   return tx;
 };
 
