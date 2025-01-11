@@ -1,14 +1,14 @@
 import { providers } from "ethers";
 import { useMemo } from "react";
 import type { Chain, Client, Transport } from "viem";
-import { Config, useClient } from "wagmi";
+import { Config, useAccount, useClient } from "wagmi";
 
 function clientToProvider(client: Client<Transport, Chain>) {
   const { chain, transport } = client;
   const network = {
-    chainId: chain.id,
-    name: chain.name,
-    ensAddress: chain.contracts?.ensRegistry?.address
+    chainId: client.chain.id,
+    name: client.chain.name,
+    ensAddress: client.chain.contracts?.ensRegistry?.address
   };
   if (transport.type === "fallback")
     return new providers.FallbackProvider(
@@ -23,10 +23,12 @@ function clientToProvider(client: Client<Transport, Chain>) {
 export function useEthersProvider({
   chainId
 }: { chainId?: number | undefined } = {}) {
-  const client = useClient<Config>({ chainId });
+  const acc = useAccount();
+
+  const clientChainId = useMemo(() => chainId || acc.chainId, [acc, chainId]);
+  const client = useClient<Config>({ chainId: clientChainId });
+
   return useMemo(() => {
-    if (client) {
-      return clientToProvider(client);
-    }
+    if (client) return clientToProvider(client);
   }, [client]);
 }

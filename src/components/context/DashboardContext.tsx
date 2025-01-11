@@ -56,29 +56,32 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
     [provider, claimInfo]
   );
 
-  const resetClaimInfo = useCallback(async (address: string) => {
-    if (!provider) {
-      console.error("Provider is not available");
-      return [];
-    }
-    setLoadingClaimInfo(true);
-    try {
-      const data = await getUserClaimInfo(provider, address);
-      console.log("NOT FROM CACHE", claimInfo);
-      console.log("CLAIM INFO", data);
-      setClaimInfo(data);
-      return data;
-    } catch (error) {
-      console.error("Error fetching user info:", error);
-      throw error;
-    } finally {
-      setLoadingClaimInfo(false);
-    }
-  }, []);
+  const resetClaimInfo = useCallback(
+    async (address: string) => {
+      if (!provider) {
+        console.error("Provider is not available");
+        return [];
+      }
+      setLoadingClaimInfo(true);
+      try {
+        const data = await getUserClaimInfo(provider, address);
+        console.log("NOT FROM CACHE", claimInfo);
+        console.log("CLAIM INFO", data);
+        setClaimInfo(data);
+        return data;
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+        throw error;
+      } finally {
+        setLoadingClaimInfo(false);
+      }
+    },
+    [provider]
+  );
 
   const disconnectUserInfo = useCallback((): void => {
     setUserInfo(null);
-  }, []);
+  }, [provider]);
 
   const fetchUserInfo = useCallback(
     async (address: string): Promise<UserInfo | null> => {
@@ -137,7 +140,7 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
         setLoadingDashboard(false);
       }
     },
-    []
+    [provider]
   );
 
   return (
