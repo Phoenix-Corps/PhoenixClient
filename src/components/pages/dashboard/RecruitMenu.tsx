@@ -13,7 +13,7 @@ import { useTransactionHandler } from "@/components/context/TransactionHandlerCo
 
 import { useEthersProvider } from "@/services/useEthersProvider";
 import { useEthersSigner } from "@/services/useEthersSigner";
-import { getHireRankInfo, recruit } from "@/services/walletService";
+import { recruit } from "@/services/walletService";
 
 import { HireRank } from "@/types/types";
 
@@ -22,7 +22,8 @@ import styles from "./RecruitMenu.module.css";
 export const RecruitmentMenu = () => {
   const provider = useEthersProvider();
   const signer = useEthersSigner();
-  const { userInfo, walletAddress, fetchUserInfo } = useDashboardContext();
+  const { userInfo, walletAddress, fetchUserInfo, getRankHireInfo } =
+    useDashboardContext();
   const { setTx } = useTransactionHandler();
 
   const [ranks, setRanks] = useState<HireRank[]>([]);
@@ -52,11 +53,7 @@ export const RecruitmentMenu = () => {
 
   const getHireInfo = useCallback(async () => {
     if (userInfo && provider) {
-      const loadedRanks = await getHireRankInfo(
-        provider,
-        userInfo.address,
-        [0, 4, 9]
-      );
+      const loadedRanks = await getRankHireInfo(userInfo.address, [0, 4, 9]);
       setRanks(loadedRanks);
     }
   }, [userInfo, setRanks]);

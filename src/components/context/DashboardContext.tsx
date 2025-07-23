@@ -15,7 +15,7 @@ import {
 } from "@/services/walletService";
 import { useEthersProvider } from "@/services/useEthersProvider";
 
-import { UserInfo, ClaimInfo } from "@/types/types";
+import { UserInfo, ClaimInfo, HireRank } from "@/types/types";
 
 export interface DashboardContextType {
   userInfo: UserInfo | null;
@@ -26,6 +26,7 @@ export interface DashboardContextType {
   disconnectUserInfo: () => void;
   fetchClaimInfo: (address: string) => Promise<ClaimInfo[] | null>;
   resetClaimInfo: (address: string) => Promise<ClaimInfo[] | null>;
+  getRankHireInfo: (address: string, ranks: number[]) => Promise<HireRank[]>;
   loadingDashboard: boolean;
   loadingClaimInfo: boolean;
 }
@@ -97,7 +98,7 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
   );
 
   const getRankHireInfo = useCallback(
-    async (address: string, ranks: [number]): Promise<any> => {
+    async (address: string, ranks: number[]): Promise<HireRank[]> => {
       if (!provider) {
         console.error("Provider is not available");
         return [];
@@ -155,7 +156,8 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({
         resetUserInfo,
         disconnectUserInfo,
         fetchClaimInfo,
-        resetClaimInfo
+        resetClaimInfo,
+        getRankHireInfo
       }}
     >
       {children}
